@@ -1,0 +1,3579 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SMART RESTRO PRO</title>
+
+<style>
+:root{
+--bg:#101010;
+--panel:#191919;
+--panel2:#202020;
+--gold:#d6ad55;
+--gold2:#f0d48b;
+--cream:#f5eedf;
+--muted:#a99f8d;
+--line:#34302a;
+--green:#56c596;
+--red:#ed7777;
+--blue:#7da9df;
+}
+
+*{box-sizing:border-box}
+
+body{
+margin:0;
+background:var(--bg);
+color:var(--cream);
+font:14px/1.45 Inter,system-ui,Arial,sans-serif
+}
+
+button,input,select,textarea{font:inherit}
+button{cursor:pointer;border:0}
+
+.app{display:flex;min-height:100vh}
+
+.sidebar{
+width:245px;
+background:#090909;
+border-right:1px solid var(--line);
+padding:22px 14px;
+position:fixed;
+inset:0 auto 0 0;
+overflow:auto;
+z-index:5
+}
+
+.brand{
+padding:4px 10px 24px;
+border-bottom:1px solid var(--line);
+margin-bottom:18px
+}
+
+.brand strong{
+display:block;
+font-size:20px;
+letter-spacing:1.5px;
+color:var(--gold2)
+}
+
+.brand small{
+color:var(--muted);
+letter-spacing:2px;
+font-size:9px
+}
+
+.navlabel{
+font-size:10px;
+color:#827967;
+letter-spacing:1.5px;
+padding:13px 11px 6px
+}
+
+.nav button{
+width:100%;
+text-align:left;
+color:#cfc5b3;
+background:transparent;
+padding:11px 12px;
+border-radius:9px;
+margin:2px 0;
+display:flex;
+gap:11px;
+align-items:center
+}
+
+.nav button:hover,
+.nav button.active{
+background:linear-gradient(90deg,#3b2d16,#211c14);
+color:var(--gold2)
+}
+
+.nav .ico{width:20px;text-align:center}
+
+.main{
+margin-left:245px;
+width:calc(100% - 245px);
+padding:24px 30px 50px
+}
+
+.topbar{
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:25px;
+gap:15px
+}
+
+.crumb{color:var(--muted);font-size:12px}
+
+.topbar h1{
+font-size:25px;
+margin:2px 0;
+color:var(--cream)
+}
+
+.top-actions{
+display:flex;
+gap:10px;
+align-items:center
+}
+
+.badge{
+border:1px solid #5c4926;
+color:var(--gold2);
+padding:7px 11px;
+border-radius:30px;
+font-size:11px
+}
+
+.btn{
+padding:10px 14px;
+border-radius:8px;
+background:var(--gold);
+color:#17120a;
+font-weight:700
+}
+
+.btn:hover{background:var(--gold2)}
+
+.btn.secondary{
+background:#292621;
+color:var(--cream);
+border:1px solid var(--line)
+}
+
+.btn.danger{
+background:#512929;
+color:#ffdada
+}
+
+.btn.small{padding:6px 9px;font-size:12px}
+
+.grid{display:grid;gap:15px}
+
+.stats{
+grid-template-columns:repeat(4,minmax(0,1fr));
+margin-bottom:18px
+}
+
+.card{
+background:var(--panel);
+border:1px solid var(--line);
+border-radius:13px;
+padding:17px;
+min-width:0
+}
+
+.stat-title{color:var(--muted);font-size:12px}
+
+.stat-value{
+font-size:25px;
+font-weight:750;
+margin:8px 0 3px;
+color:var(--gold2)
+}
+
+.stat-note{font-size:11px;color:var(--muted)}
+
+.cols{grid-template-columns:1.35fr 1fr}
+
+.section-head{
+display:flex;
+justify-content:space-between;
+align-items:center;
+gap:10px;
+margin:5px 0 14px
+}
+
+.section-head h2{font-size:17px;margin:0}
+
+.muted{color:var(--muted)}
+
+.table-wrap{overflow:auto}
+
+table{
+width:100%;
+border-collapse:collapse;
+min-width:560px
+}
+
+th,td{
+text-align:left;
+padding:11px 9px;
+border-bottom:1px solid var(--line);
+font-size:12px
+}
+
+th{color:var(--muted);font-weight:600}
+td{color:#eee5d6}
+
+.pill{
+padding:4px 8px;
+border-radius:30px;
+background:#30291c;
+color:var(--gold2);
+font-size:10px;
+white-space:nowrap
+}
+
+.pill.green{background:#18382d;color:#8fe0bb}
+.pill.red{background:#422525;color:#ffaaaa}
+.pill.blue{background:#1d2d40;color:#a9c9f3}
+
+.page{display:none}
+.page.active{display:block}
+
+.form-grid{
+display:grid;
+grid-template-columns:repeat(2,minmax(0,1fr));
+gap:12px
+}
+
+.field{display:flex;flex-direction:column;gap:5px}
+.field.full{grid-column:1/-1}
+
+.field label{
+font-size:11px;
+color:var(--muted)
+}
+
+input,select,textarea{
+width:100%;
+background:#101010;
+color:var(--cream);
+border:1px solid #403a30;
+border-radius:7px;
+padding:10px;
+outline:none
+}
+
+input:focus,select:focus,textarea:focus{
+border-color:var(--gold)
+}
+
+.toolbar{
+display:flex;
+gap:9px;
+flex-wrap:wrap;
+margin:12px 0
+}
+
+.inline{
+display:flex;
+gap:8px;
+align-items:center;
+flex-wrap:wrap
+}
+
+.inline input,.inline select{
+width:auto;
+min-width:130px
+}
+
+.empty{
+padding:28px;
+text-align:center;
+color:var(--muted)
+}
+
+.menu-grid{
+grid-template-columns:repeat(3,minmax(0,1fr))
+}
+
+.food{
+background:var(--panel2);
+border:1px solid var(--line);
+padding:14px;
+border-radius:11px
+}
+
+.food h3{font-size:14px;margin:0 0 5px}
+
+.food .price{
+color:var(--gold2);
+font-size:17px;
+font-weight:700
+}
+
+.food small{color:var(--muted)}
+.food button{margin-top:10px}
+
+.order-layout{
+display:grid;
+grid-template-columns:1.2fr .8fr;
+gap:15px
+}
+
+.cartline{
+display:flex;
+justify-content:space-between;
+gap:8px;
+padding:9px 0;
+border-bottom:1px solid var(--line)
+}
+
+.cartline small{color:var(--muted)}
+
+.totalrow{
+display:flex;
+justify-content:space-between;
+padding:7px 0
+}
+
+.totalrow.grand{
+font-size:19px;
+color:var(--gold2);
+font-weight:800;
+border-top:1px solid var(--line);
+margin-top:8px;
+padding-top:13px
+}
+
+.notice{
+border:1px solid #5a4827;
+background:#292315;
+color:#ead49d;
+padding:11px;
+border-radius:8px;
+font-size:12px;
+margin-bottom:14px
+}
+
+.mobile-head{display:none}
+.right{text-align:right}
+.hidden{display:none!important}
+
+@media(max-width:1050px){
+.stats{grid-template-columns:repeat(2,1fr)}
+.menu-grid{grid-template-columns:repeat(2,1fr)}
+}
+
+@media(max-width:760px){
+.sidebar{width:72px;padding:15px 8px}
+.brand{padding:4px 4px 18px}
+.brand strong{font-size:0}
+.brand strong:after{content:"SR";font-size:20px}
+.brand small,.navlabel,.nav button span:not(.ico){display:none}
+.nav button{justify-content:center;padding:12px 5px}
+.nav .ico{font-size:18px}
+.main{
+margin-left:72px;
+width:calc(100% - 72px);
+padding:18px 13px 40px
+}
+.topbar{align-items:flex-start}
+.topbar h1{font-size:21px}
+.badge{display:none}
+.cols,.order-layout{grid-template-columns:1fr}
+.stats{gap:9px}
+.stat-value{font-size:21px}
+.menu-grid{grid-template-columns:1fr 1fr}
+.form-grid{grid-template-columns:1fr}
+.field.full{grid-column:auto}
+}
+
+@media(max-width:420px){
+.menu-grid{grid-template-columns:1fr}
+.top-actions .btn{padding:8px;font-size:11px}
+}
+
+@media print{
+.sidebar,.topbar,.no-print{display:none!important}
+.main{margin:0;width:100%;padding:0}
+.card{background:white;color:black;border:1px solid #ccc}
+.page{display:none!important}
+#page-pos{display:block!important}
+body{background:white;color:black}
+}
+</style>
+</head>
+
+<body>
+
+<div class="app">
+
+<aside class="sidebar">
+
+<div class="brand">
+<strong>SMART RESTRO</strong>
+<small>PRO • RESTAURANT ERP</small>
+</div>
+
+<nav class="nav">
+
+<div class="navlabel">OVERVIEW</div>
+
+<button class="active" data-page="dashboard">
+<span class="ico">▦</span><span>Dashboard</span>
+</button>
+
+<button data-page="profile">
+<span class="ico">♜</span><span>Restaurant Profile</span>
+</button>
+
+<div class="navlabel">RESTAURANT</div>
+
+<button data-page="menu">
+<span class="ico">♨</span><span>Menu Management</span>
+</button>
+
+<button data-page="tables">
+<span class="ico">▤</span><span>Tables</span>
+</button>
+
+<button data-page="pos">
+<span class="ico">▣</span><span>POS Billing</span>
+</button>
+
+<button data-page="kitchen">
+<span class="ico">♨</span><span>Kitchen / KOT</span>
+</button>
+
+<button data-page="orders">
+<span class="ico">☷</span><span>Orders</span>
+</button>
+
+<div class="navlabel">BUSINESS</div>
+
+<button data-page="inventory">
+<span class="ico">▧</span><span>Inventory</span>
+</button>
+
+<button data-page="purchase">
+<span class="ico">＋</span><span>Purchases</span>
+</button>
+
+<button data-page="customers">
+<span class="ico">♙</span><span>Customers</span>
+</button>
+
+<button data-page="suppliers">
+<span class="ico">♧</span><span>Suppliers</span>
+</button>
+
+<button data-page="staff">
+<span class="ico">♟</span><span>Staff</span>
+</button>
+
+<button data-page="expenses">
+<span class="ico">₹</span><span>Expenses</span>
+</button>
+
+<div class="navlabel">ANALYTICS & DATA</div>
+
+<button data-page="reports">
+<span class="ico">▥</span><span>Reports</span>
+</button>
+
+<button data-page="branches">
+<span class="ico">⌂</span><span>Branches</span>
+</button>
+
+<button data-page="backup">
+<span class="ico">⤓</span><span>Backup & Restore</span>
+</button>
+
+</nav>
+</aside>
+
+<main class="main">
+
+<header class="topbar">
+<div>
+<div class="crumb">
+RESTAURANT MANAGEMENT /
+<span id="crumb">DASHBOARD</span>
+</div>
+<h1 id="pageTitle">Dashboard</h1>
+</div>
+
+<div class="top-actions">
+<span class="badge">✦ LUXURY EDITION</span>
+<button class="btn secondary" onclick="showPage('pos')">
+＋ New Order
+</button>
+</div>
+</header>
+
+<!-- DASHBOARD -->
+
+<section class="page active" id="page-dashboard">
+
+<div class="notice">
+Welcome to SMART RESTRO PRO. Start by setting up your restaurant profile and adding menu items. Your information is saved in this browser.
+</div>
+
+<div class="grid stats">
+
+<div class="card">
+<div class="stat-title">TODAY'S REVENUE</div>
+<div class="stat-value" id="dashRevenue">₹0.00</div>
+<div class="stat-note">Completed orders</div>
+</div>
+
+<div class="card">
+<div class="stat-title">TOTAL ORDERS</div>
+<div class="stat-value" id="dashOrders">0</div>
+<div class="stat-note">All recorded orders</div>
+</div>
+
+<div class="card">
+<div class="stat-title">TODAY'S EXPENSES</div>
+<div class="stat-value" id="dashExpenses">₹0.00</div>
+<div class="stat-note">Recorded expenses</div>
+</div>
+
+<div class="card">
+<div class="stat-title">ESTIMATED NET</div>
+<div class="stat-value" id="dashProfit">₹0.00</div>
+<div class="stat-note">Revenue less expenses</div>
+</div>
+
+</div>
+
+<div class="grid cols">
+
+<div class="card">
+<div class="section-head">
+<h2>Recent Orders</h2>
+<button class="btn small secondary" onclick="showPage('orders')">
+View all
+</button>
+</div>
+<div id="recentOrders"></div>
+</div>
+
+<div class="card">
+<div class="section-head">
+<h2>Restaurant Snapshot</h2>
+</div>
+
+<div class="totalrow">
+<span class="muted">Restaurant</span>
+<b id="snapName">Not configured</b>
+</div>
+
+<div class="totalrow">
+<span class="muted">Menu items</span>
+<b id="snapMenu">0</b>
+</div>
+
+<div class="totalrow">
+<span class="muted">Tables</span>
+<b id="snapTables">0</b>
+</div>
+
+<div class="totalrow">
+<span class="muted">Inventory items</span>
+<b id="snapInventory">0</b>
+</div>
+
+<div class="totalrow">
+<span class="muted">Open kitchen orders</span>
+<b id="snapKitchen">0</b>
+</div>
+
+</div>
+</div>
+</section>
+
+<!-- RESTAURANT PROFILE -->
+
+<section class="page" id="page-profile">
+
+<div class="card">
+
+<div class="section-head">
+<h2>Restaurant Information</h2>
+<span class="pill">Business setup</span>
+</div>
+
+<form id="profileForm" class="form-grid">
+
+<div class="field">
+<label>Restaurant Name</label>
+<input id="pName" required placeholder="e.g. Royal Spice Restaurant">
+</div>
+
+<div class="field">
+<label>Owner Name</label>
+<input id="pOwner" placeholder="Owner / proprietor">
+</div>
+
+<div class="field">
+<label>Phone Number</label>
+<input id="pPhone" placeholder="Contact number">
+</div>
+
+<div class="field">
+<label>Email</label>
+<input id="pEmail" type="email" placeholder="name@example.com">
+</div>
+
+<div class="field">
+<label>GSTIN (optional)</label>
+<input id="pGst" placeholder="15-character GSTIN">
+</div>
+
+<div class="field">
+<label>FSSAI Licence No. (optional)</label>
+<input id="pFssai" placeholder="FSSAI number">
+</div>
+
+<div class="field">
+<label>Default GST rate (%)</label>
+<select id="pTax">
+<option value="0">0%</option>
+<option value="5" selected>5%</option>
+<option value="12">12%</option>
+<option value="18">18%</option>
+</select>
+</div>
+
+<div class="field">
+<label>Restaurant type</label>
+<select id="pType">
+<option>Restaurant</option>
+<option>Café</option>
+<option>Hotel</option>
+<option>Food Court</option>
+<option>Cloud Kitchen</option>
+</select>
+</div>
+
+<div class="field full">
+<label>Address</label>
+<textarea id="pAddress" rows="2" placeholder="Full business address"></textarea>
+</div>
+
+<div class="field full">
+<button class="btn" type="submit">Save Restaurant Profile</button>
+</div>
+
+</form>
+</div>
+</section>
+
+<!-- MENU MANAGEMENT -->
+
+<section class="page" id="page-menu">
+
+<div class="card">
+
+<div class="section-head">
+<h2>Add / Update Menu Item</h2>
+<span class="pill">Food catalogue</span>
+</div>
+
+<form id="menuForm" class="form-grid">
+
+<input type="hidden" id="mId">
+
+<div class="field">
+<label>Food Item Name</label>
+<input id="mName" required placeholder="e.g. Paneer Butter Masala">
+</div>
+
+<div class="field">
+<label>Category</label>
+<select id="mCategory">
+<option>Starters</option>
+<option>Main Course</option>
+<option>Biryani & Rice</option>
+<option>Breads</option>
+<option>Beverages</option>
+<option>Desserts</option>
+<option>Snacks</option>
+<option>Other</option>
+</select>
+</div>
+
+<div class="field">
+<label>Selling Price (₹)</label>
+<input id="mPrice" type="number" min="0" step=".01" required>
+</div>
+
+<div class="field">
+<label>GST Rate (%)</label>
+<select id="mTax">
+<option>0</option>
+<option selected>5</option>
+<option>12</option>
+<option>18</option>
+</select>
+</div>
+
+<div class="field">
+<label>Food / Menu Code</label>
+<input id="mCode" placeholder="Optional code">
+</div>
+
+<div class="field">
+<label>Availability</label>
+<select id="mAvailable">
+<option value="yes">Available</option>
+<option value="no">Unavailable</option>
+</select>
+</div>
+
+<div class="field full">
+<label>Description</label>
+<input id="mDesc" placeholder="Short description">
+</div>
+
+<div class="field full inline">
+<button class="btn" type="submit">Save Menu Item</button>
+<button class="btn secondary" type="button" onclick="resetMenuForm()">Clear</button>
+</div>
+
+</form>
+</div>
+
+<div class="card" style="margin-top:15px">
+
+<div class="section-head">
+<h2>Menu Catalogue</h2>
+<input id="menuSearch" placeholder="Search food..." style="max-width:220px">
+</div>
+
+<div id="menuList" class="grid menu-grid"></div>
+
+</div>
+</section>
+
+<!-- TABLE MANAGEMENT -->
+
+<section class="page" id="page-tables">
+
+<div class="card">
+
+<div class="section-head">
+<h2>Table Management</h2>
+<button class="btn" onclick="addTable()">＋ Add Table</button>
+</div>
+
+<p class="muted">
+Track dine-in table availability. Choose a table while creating a dine-in order.
+</p>
+
+<div id="tableList" class="grid menu-grid"></div>
+
+</div>
+</section>
+
+<!-- POS BILLING -->
+
+<section class="page" id="page-pos">
+
+<div class="order-layout">
+
+<div class="card">
+
+<div class="section-head">
+<h2>Create New Order</h2>
+<span class="pill">Point of Sale</span>
+</div>
+
+<div class="form-grid">
+
+<div class="field">
+<label>Order Type</label>
+<select id="orderType">
+<option>Dine-in</option>
+<option>Takeaway</option>
+<option>Delivery</option>
+</select>
+</div>
+
+<div class="field" id="tableField">
+<label>Select Table</label>
+<select id="orderTable"></select>
+</div>
+
+<div class="field">
+<label>Customer Name</label>
+<input id="orderCustomer" placeholder="Customer name">
+</div>
+
+<div class="field">
+<label>Customer Phone</label>
+<input id="orderPhone" placeholder="Phone number">
+</div>
+
+<div class="field">
+<label>Payment Method</label>
+<select id="orderPayment">
+<option>Cash</option>
+<option>UPI</option>
+<option>Card</option>
+<option>Bank Transfer</option>
+<option>Credit</option>
+</select>
+</div>
+
+<div class="field">
+<label>Discount (₹)</label>
+<input id="orderDiscount" type="number" min="0" value="0">
+</div>
+
+</div>
+
+<div class="section-head" style="margin-top:20px">
+<h2>Select Food Items</h2>
+<input id="posSearch" placeholder="Search menu..." style="max-width:170px">
+</div>
+
+<div id="posMenu" class="grid menu-grid"></div>
+
+</div>
+
+<div class="card">
+
+<div class="section-head">
+<h2>Order Summary</h2>
+<span class="pill">Current Cart</span>
+</div>
+
+<div id="cartItems">
+<div class="empty">No items added yet.</div>
+</div>
+
+<div class="totalrow">
+<span>Subtotal</span>
+<b id="cartSubtotal">₹0.00</b>
+</div>
+
+<div class="totalrow">
+<span>GST</span>
+<b id="cartTax">₹0.00</b>
+</div>
+
+<div class="totalrow">
+<span>Discount</span>
+<b id="cartDiscount">₹0.00</b>
+</div>
+
+<div class="totalrow grand">
+<span>Grand Total</span>
+<b id="cartGrand">₹0.00</b>
+</div>
+
+<button class="btn" style="width:100%;margin-top:16px"
+onclick="placeOrder()">✓ Generate Bill</button>
+
+<button class="btn secondary" style="width:100%;margin-top:9px"
+onclick="clearCart()">Clear Cart</button>
+
+</div>
+</div>
+</section>
+
+<!-- KITCHEN / KOT -->
+
+<section class="page" id="page-kitchen">
+
+<div class="card">
+
+<div class="section-head">
+<h2>Kitchen Order Tickets</h2>
+<span class="pill">Kitchen display</span>
+</div>
+
+<p class="muted">
+Track orders from new to completed. Update the status as the kitchen prepares each order.
+</p>
+
+<div id="kitchenList"></div>
+
+</div>
+</section>
+
+<!-- ORDERS -->
+
+<section class="page" id="page-orders">
+
+<div class="card">
+
+<div class="section-head">
+<h2>Order Register</h2>
+<button class="btn secondary" onclick="exportOrders()">Export CSV</button>
+</div>
+
+<div class="toolbar">
+<input id="orderSearch" placeholder="Search order / customer...">
+<select id="orderFilter">
+<option value="all">All Orders</option>
+<option>New</option>
+<option>Preparing</option>
+<option>Ready</option>
+<option>Completed</option>
+</select>
+</div>
+
+<div id="ordersList"></div>
+
+</div>
+</section>
+
+<!-- INVENTORY -->
+
+<section class="page" id="page-inventory">
+
+<div class="card">
+
+<div class="section-head">
+<h2>Add Inventory Item</h2>
+<span class="pill">Stock management</span>
+</div>
+
+<form id="inventoryForm" class="form-grid">
+
+<input type="hidden" id="iId">
+
+<div class="field">
+<label>Ingredient / Item Name</label>
+<input id="iName" required placeholder="e.g. Basmati Rice">
+</div>
+
+<div class="field">
+<label>Item Code</label>
+<input id="iCode" placeholder="INV001">
+</div>
+
+<div class="field">
+<label>Unit</label>
+<select id="iUnit">
+<option>Kg</option>
+<option>Gram</option>
+<option>Litre</option>
+<option>ML</option>
+<option>Piece</option>
+<option>Packet</option>
+<option>Box</option>
+</select>
+</div>
+
+<div class="field">
+<label>Available Quantity</label>
+<input id="iQty" type="number" min="0" step=".01" value="0">
+</div>
+
+<div class="field">
+<label>Cost per Unit (₹)</label>
+<input id="iCost" type="number" min="0" step=".01" value="0">
+</div>
+
+<div class="field">
+<label>Low Stock Alert Quantity</label>
+<input id="iMin" type="number" min="0" step=".01" value="5">
+</div>
+
+<div class="field full inline">
+<button class="btn" type="submit">Save Inventory Item</button>
+<button class="btn secondary" type="button" onclick="resetInventoryForm()">Clear</button>
+</div>
+
+</form>
+
+</div>
+
+<div class="card" style="margin-top:15px">
+
+<div class="section-head">
+<h2>Inventory Register</h2>
+<input id="inventorySearch" placeholder="Search inventory..." style="max-width:200px">
+</div>
+
+<div id="inventoryList"></div>
+
+</div>
+</section>
+
+<!-- PURCHASES -->
+
+<section class="page" id="page-purchase">
+
+<div class="card">
+
+<div class="section-head">
+<h2>Record Purchase</h2>
+<span class="pill">Stock inward</span>
+</div>
+
+<form id="purchaseForm" class="form-grid">
+
+<div class="field">
+<label>Purchase Date</label>
+<input id="buyDate" type="date" required>
+</div>
+
+<div class="field">
+<label>Inventory Item</label>
+<select id="buyItem" required></select>
+</div>
+
+<div class="field">
+<label>Supplier Name</label>
+<input id="buySupplier" placeholder="Supplier name">
+</div>
+
+<div class="field">
+<label>Quantity Purchased</label>
+<input id="buyQty" type="number" min=".01" step=".01" required>
+</div>
+
+<div class="field">
+<label>Cost per Unit (₹)</label>
+<input id="buyCost" type="number" min="0" step=".01" required>
+</div>
+
+<div class="field">
+<label>Invoice Number</label>
+<input id="buyInvoice" placeholder="Invoice number">
+</div>
+
+<div class="field full">
+<button class="btn" type="submit">Save Purchase & Update Stock</button>
+</div>
+
+</form>
+
+</div>
+
+<div class="card" style="margin-top:15px">
+<div class="section-head">
+<h2>Purchase History</h2>
+</div>
+<div id="purchaseList"></div>
+</div>
+
+</section>
+
+<!-- CUSTOMERS -->
+
+<section class="page" id="page-customers">
+
+<div class="card">
+
+<div class="section-head">
+<h2>Customer Directory</h2>
+<span class="pill">Customer records</span>
+</div>
+
+<p class="muted">
+Customer details are collected from recorded orders.
+</p>
+
+<div id="customerList"></div>
+
+</div>
+</section>
+
+<!-- SUPPLIERS -->
+
+<section class="page" id="page-suppliers">
+
+<div class="card">
+
+<div class="section-head">
+<h2>Add Supplier</h2>
+</div>
+
+<form id="supplierForm" class="form-grid">
+
+<input type="hidden" id="sId">
+
+<div class="field">
+<label>Supplier Name</label>
+<input id="sName" required>
+</div>
+
+<div class="field">
+<label>Phone Number</label>
+<input id="sPhone">
+</div>
+
+<div class="field">
+<label>Email</label>
+<input id="sEmail" type="email">
+</div>
+
+<div class="field">
+<label>GSTIN (optional)</label>
+<input id="sGst">
+</div>
+
+<div class="field full">
+<label>Address</label>
+<textarea id="sAddress" rows="2"></textarea>
+</div>
+
+<div class="field full inline">
+<button class="btn" type="submit">Save Supplier</button>
+<button class="btn secondary" type="button" onclick="resetSupplierForm()">Clear</button>
+</div>
+
+</form>
+
+</div>
+
+<div class="card" style="margin-top:15px">
+<div class="section-head">
+<h2>Supplier Register</h2>
+</div>
+<div id="supplierList"></div>
+</div>
+
+</section>
+
+<!-- STAFF -->
+
+<section class="page" id="page-staff">
+
+<div class="card">
+
+<div class="section-head">
+<h2>Add Staff Member</h2>
+</div>
+
+<form id="staffForm" class="form-grid">
+
+<input type="hidden" id="stId">
+
+<div class="field">
+<label>Staff Name</label>
+<input id="stName" required>
+</div>
+
+<div class="field">
+<label>Job Role</label>
+<select id="stRole">
+<option>Manager</option>
+<option>Chef</option>
+<option>Assistant Chef</option>
+<option>Waiter</option>
+<option>Cashier</option>
+<option>Delivery Staff</option>
+<option>Cleaner</option>
+<option>Other</option>
+</select>
+</div>
+
+<div class="field">
+<label>Phone Number</label>
+<input id="stPhone">
+</div>
+
+<div class="field">
+<label>Monthly Salary (₹)</label>
+<input id="stSalary" type="number" min="0" value="0">
+</div>
+
+<div class="field full">
+<label>Joining Date</label>
+<input id="stJoin" type="date">
+</div>
+
+<div class="field full inline">
+<button class="btn" type="submit">Save Staff Member</button>
+<button class="btn secondary" type="button" onclick="resetStaffForm()">Clear</button>
+</div>
+
+</form>
+
+</div>
+
+<div class="card" style="margin-top:15px">
+<div class="section-head">
+<h2>Staff Register</h2>
+</div>
+<div id="staffList"></div>
+</div>
+
+</section>
+
+<!-- EXPENSES -->
+
+<section class="page" id="page-expenses">
+
+<div class="card">
+
+<div class="section-head">
+<h2>Record Business Expense</h2>
+<span class="pill">Expense register</span>
+</div>
+
+<form id="expenseForm" class="form-grid">
+
+<div class="field">
+<label>Expense Date</label>
+<input id="eDate" type="date" required>
+</div>
+
+<div class="field">
+<label>Expense Category</label>
+<select id="eCategory">
+<option>Food Supplies</option>
+<option>Electricity</option>
+<option>Water</option>
+<option>Rent</option>
+<option>Salary</option>
+<option>Transportation</option>
+<option>Maintenance</option>
+<option>Packaging</option>
+<option>Marketing</option>
+<option>Other</option>
+</select>
+</div>
+
+<div class="field">
+<label>Description</label>
+<input id="eDescription" required placeholder="Expense details">
+</div>
+
+<div class="field">
+<label>Amount (₹)</label>
+<input id="eAmount" type="number" min=".01" step=".01" required>
+</div>
+
+<div class="field">
+<label>Payment Method</label>
+<select id="ePayment">
+<option>Cash</option>
+<option>UPI</option>
+<option>Card</option>
+<option>Bank Transfer</option>
+</select>
+</div>
+
+<div class="field">
+<label>Reference Number</label>
+<input id="eReference" placeholder="Optional">
+</div>
+
+<div class="field full">
+<button class="btn" type="submit">Save Expense</button>
+</div>
+
+</form>
+
+</div>
+
+<div class="card" style="margin-top:15px">
+
+<div class="section-head">
+<h2>Expense History</h2>
+</div>
+
+<div id="expenseList"></div>
+
+</div>
+
+</section>
+
+<!-- END OF PART 2 --><!-- POS BILLING -->
+
+<section class="page" id="page-pos">
+
+<div class="order-layout">
+
+<div class="card">
+
+<div class="section-head">
+<h2>Create New Order</h2>
+<span class="pill">Point of Sale</span>
+</div>
+
+<div class="form-grid">
+
+<div class="field">
+<label>Order Type</label>
+<select id="orderType">
+<option>Dine-in</option>
+<option>Takeaway</option>
+<option>Delivery</option>
+</select>
+</div>
+
+<div class="field" id="tableField">
+<label>Select Table</label>
+<select id="orderTable"></select>
+</div>
+
+<div class="field">
+<label>Customer Name</label>
+<input id="orderCustomer" placeholder="Customer name">
+</div>
+
+<div class="field">
+<label>Customer Phone</label>
+<input id="orderPhone" placeholder="Phone number">
+</div>
+
+<div class="field">
+<label>Payment Method</label>
+<select id="orderPayment">
+<option>Cash</option>
+<option>UPI</option>
+<option>Card</option>
+<option>Bank Transfer</option>
+<option>Credit</option>
+</select>
+</div>
+
+<div class="field">
+<label>Discount (₹)</label>
+<input id="orderDiscount" type="number" min="0" value="0">
+</div>
+
+</div>
+
+<div class="section-head" style="margin-top:20px">
+<h2>Select Food Items</h2>
+<input id="posSearch" placeholder="Search menu..." style="max-width:170px">
+</div>
+
+<div id="posMenu" class="grid menu-grid"></div>
+
+</div>
+
+<div class="card">
+
+<div class="section-head">
+<h2>Order Summary</h2>
+<span class="pill">Current Cart</span>
+</div>
+
+<div id="cartItems">
+<div class="empty">No items added yet.</div>
+</div>
+
+<div class="totalrow">
+<span>Subtotal</span>
+<b id="cartSubtotal">₹0.00</b>
+</div>
+
+<div class="totalrow">
+<span>GST</span>
+<b id="cartTax">₹0.00</b>
+</div>
+
+<div class="totalrow">
+<span>Discount</span>
+<b id="cartDiscount">₹0.00</b>
+</div>
+
+<div class="totalrow grand">
+<span>Grand Total</span>
+<b id="cartGrand">₹0.00</b>
+</div>
+
+<button class="btn" style="width:100%;margin-top:16px"
+onclick="placeOrder()">✓ Generate Bill</button>
+
+<button class="btn secondary" style="width:100%;margin-top:9px"
+onclick="clearCart()">Clear Cart</button>
+
+</div>
+</div>
+</section>
+
+<!-- KITCHEN / KOT -->
+
+<section class="page" id="page-kitchen">
+
+<div class="card">
+
+<div class="section-head">
+<h2>Kitchen Order Tickets</h2>
+<span class="pill">Kitchen display</span>
+</div>
+
+<p class="muted">
+Track orders from new to completed. Update the status as the kitchen prepares each order.
+</p>
+
+<div id="kitchenList"></div>
+
+</div>
+</section>
+
+<!-- ORDERS -->
+
+<section class="page" id="page-orders">
+
+<div class="card">
+
+<div class="section-head">
+<h2>Order Register</h2>
+<button class="btn secondary" onclick="exportOrders()">Export CSV</button>
+</div>
+
+<div class="toolbar">
+<input id="orderSearch" placeholder="Search order / customer...">
+<select id="orderFilter">
+<option value="all">All Orders</option>
+<option>New</option>
+<option>Preparing</option>
+<option>Ready</option>
+<option>Completed</option>
+</select>
+</div>
+
+<div id="ordersList"></div>
+
+</div>
+</section>
+
+<!-- INVENTORY -->
+
+<section class="page" id="page-inventory">
+
+<div class="card">
+
+<div class="section-head">
+<h2>Add Inventory Item</h2>
+<span class="pill">Stock management</span>
+</div>
+
+<form id="inventoryForm" class="form-grid">
+
+<input type="hidden" id="iId">
+
+<div class="field">
+<label>Ingredient / Item Name</label>
+<input id="iName" required placeholder="e.g. Basmati Rice">
+</div>
+
+<div class="field">
+<label>Item Code</label>
+<input id="iCode" placeholder="INV001">
+</div>
+
+<div class="field">
+<label>Unit</label>
+<select id="iUnit">
+<option>Kg</option>
+<option>Gram</option>
+<option>Litre</option>
+<option>ML</option>
+<option>Piece</option>
+<option>Packet</option>
+<option>Box</option>
+</select>
+</div>
+
+<div class="field">
+<label>Available Quantity</label>
+<input id="iQty" type="number" min="0" step=".01" value="0">
+</div>
+
+<div class="field">
+<label>Cost per Unit (₹)</label>
+<input id="iCost" type="number" min="0" step=".01" value="0">
+</div>
+
+<div class="field">
+<label>Low Stock Alert Quantity</label>
+<input id="iMin" type="number" min="0" step=".01" value="5">
+</div>
+
+<div class="field full inline">
+<button class="btn" type="submit">Save Inventory Item</button>
+<button class="btn secondary" type="button" onclick="resetInventoryForm()">Clear</button>
+</div>
+
+</form>
+
+</div>
+
+<div class="card" style="margin-top:15px">
+
+<div class="section-head">
+<h2>Inventory Register</h2>
+<input id="inventorySearch" placeholder="Search inventory..." style="max-width:200px">
+</div>
+
+<div id="inventoryList"></div>
+
+</div>
+</section>
+
+<!-- PURCHASES -->
+
+<section class="page" id="page-purchase">
+
+<div class="card">
+
+<div class="section-head">
+<h2>Record Purchase</h2>
+<span class="pill">Stock inward</span>
+</div>
+
+<form id="purchaseForm" class="form-grid">
+
+<div class="field">
+<label>Purchase Date</label>
+<input id="buyDate" type="date" required>
+</div>
+
+<div class="field">
+<label>Inventory Item</label>
+<select id="buyItem" required></select>
+</div>
+
+<div class="field">
+<label>Supplier Name</label>
+<input id="buySupplier" placeholder="Supplier name">
+</div>
+
+<div class="field">
+<label>Quantity Purchased</label>
+<input id="buyQty" type="number" min=".01" step=".01" required>
+</div>
+
+<div class="field">
+<label>Cost per Unit (₹)</label>
+<input id="buyCost" type="number" min="0" step=".01" required>
+</div>
+
+<div class="field">
+<label>Invoice Number</label>
+<input id="buyInvoice" placeholder="Invoice number">
+</div>
+
+<div class="field full">
+<button class="btn" type="submit">Save Purchase & Update Stock</button>
+</div>
+
+</form>
+
+</div>
+
+<div class="card" style="margin-top:15px">
+<div class="section-head">
+<h2>Purchase History</h2>
+</div>
+<div id="purchaseList"></div>
+</div>
+
+</section>
+
+<!-- CUSTOMERS -->
+
+<section class="page" id="page-customers">
+
+<div class="card">
+
+<div class="section-head">
+<h2>Customer Directory</h2>
+<span class="pill">Customer records</span>
+</div>
+
+<p class="muted">
+Customer details are collected from recorded orders.
+</p>
+
+<div id="customerList"></div>
+
+</div>
+</section>
+
+<!-- SUPPLIERS -->
+
+<section class="page" id="page-suppliers">
+
+<div class="card">
+
+<div class="section-head">
+<h2>Add Supplier</h2>
+</div>
+
+<form id="supplierForm" class="form-grid">
+
+<input type="hidden" id="sId">
+
+<div class="field">
+<label>Supplier Name</label>
+<input id="sName" required>
+</div>
+
+<div class="field">
+<label>Phone Number</label>
+<input id="sPhone">
+</div>
+
+<div class="field">
+<label>Email</label>
+<input id="sEmail" type="email">
+</div>
+
+<div class="field">
+<label>GSTIN (optional)</label>
+<input id="sGst">
+</div>
+
+<div class="field full">
+<label>Address</label>
+<textarea id="sAddress" rows="2"></textarea>
+</div>
+
+<div class="field full inline">
+<button class="btn" type="submit">Save Supplier</button>
+<button class="btn secondary" type="button" onclick="resetSupplierForm()">Clear</button>
+</div>
+
+</form>
+
+</div>
+
+<div class="card" style="margin-top:15px">
+<div class="section-head">
+<h2>Supplier Register</h2>
+</div>
+<div id="supplierList"></div>
+</div>
+
+</section>
+
+<!-- STAFF -->
+
+<section class="page" id="page-staff">
+
+<div class="card">
+
+<div class="section-head">
+<h2>Add Staff Member</h2>
+</div>
+
+<form id="staffForm" class="form-grid">
+
+<input type="hidden" id="stId">
+
+<div class="field">
+<label>Staff Name</label>
+<input id="stName" required>
+</div>
+
+<div class="field">
+<label>Job Role</label>
+<select id="stRole">
+<option>Manager</option>
+<option>Chef</option>
+<option>Assistant Chef</option>
+<option>Waiter</option>
+<option>Cashier</option>
+<option>Delivery Staff</option>
+<option>Cleaner</option>
+<option>Other</option>
+</select>
+</div>
+
+<div class="field">
+<label>Phone Number</label>
+<input id="stPhone">
+</div>
+
+<div class="field">
+<label>Monthly Salary (₹)</label>
+<input id="stSalary" type="number" min="0" value="0">
+</div>
+
+<div class="field full">
+<label>Joining Date</label>
+<input id="stJoin" type="date">
+</div>
+
+<div class="field full inline">
+<button class="btn" type="submit">Save Staff Member</button>
+<button class="btn secondary" type="button" onclick="resetStaffForm()">Clear</button>
+</div>
+
+</form>
+
+</div>
+
+<div class="card" style="margin-top:15px">
+<div class="section-head">
+<h2>Staff Register</h2>
+</div>
+<div id="staffList"></div>
+</div>
+
+</section>
+
+<!-- EXPENSES -->
+
+<section class="page" id="page-expenses">
+
+<div class="card">
+
+<div class="section-head">
+<h2>Record Business Expense</h2>
+<span class="pill">Expense register</span>
+</div>
+
+<form id="expenseForm" class="form-grid">
+
+<div class="field">
+<label>Expense Date</label>
+<input id="eDate" type="date" required>
+</div>
+
+<div class="field">
+<label>Expense Category</label>
+<select id="eCategory">
+<option>Food Supplies</option>
+<option>Electricity</option>
+<option>Water</option>
+<option>Rent</option>
+<option>Salary</option>
+<option>Transportation</option>
+<option>Maintenance</option>
+<option>Packaging</option>
+<option>Marketing</option>
+<option>Other</option>
+</select>
+</div>
+
+<div class="field">
+<label>Description</label>
+<input id="eDescription" required placeholder="Expense details">
+</div>
+
+<div class="field">
+<label>Amount (₹)</label>
+<input id="eAmount" type="number" min=".01" step=".01" required>
+</div>
+
+<div class="field">
+<label>Payment Method</label>
+<select id="ePayment">
+<option>Cash</option>
+<option>UPI</option>
+<option>Card</option>
+<option>Bank Transfer</option>
+</select>
+</div>
+
+<div class="field">
+<label>Reference Number</label>
+<input id="eReference" placeholder="Optional">
+</div>
+
+<div class="field full">
+<button class="btn" type="submit">Save Expense</button>
+</div>
+
+</form>
+
+</div>
+
+<div class="card" style="margin-top:15px">
+
+<div class="section-head">
+<h2>Expense History</h2>
+</div>
+
+<div id="expenseList"></div>
+
+</div>
+
+</section>
+<!-- REPORTS -->
+
+<section class="page" id="page-reports">
+
+<div class="grid stats">
+
+<div class="card">
+<div class="stat-title">TOTAL SALES</div>
+<div class="stat-value" id="reportSales">₹0</div>
+</div>
+
+<div class="card">
+<div class="stat-title">TOTAL EXPENSES</div>
+<div class="stat-value" id="reportExpenses">₹0</div>
+</div>
+
+<div class="card">
+<div class="stat-title">TOTAL ORDERS</div>
+<div class="stat-value" id="reportOrders">0</div>
+</div>
+
+<div class="card">
+<div class="stat-title">COMPLETED ORDERS</div>
+<div class="stat-value" id="reportCompleted">0</div>
+</div>
+
+</div>
+
+<div class="card">
+<div class="section-head">
+<h2>Business Performance</h2>
+<button class="btn secondary" onclick="exportReport()">Export Report</button>
+</div>
+
+<div id="reportDetails"></div>
+</div>
+
+</section>
+
+<!-- BRANCHES -->
+
+<section class="page" id="page-branches">
+
+<div class="card">
+
+<div class="section-head">
+<h2>Branch Management</h2>
+</div>
+
+<form id="branchForm" class="form-grid">
+
+<div class="field">
+<label>Branch Name</label>
+<input id="bName" required>
+</div>
+
+<div class="field">
+<label>Branch Location</label>
+<input id="bLocation" required>
+</div>
+
+<div class="field">
+<label>Manager Name</label>
+<input id="bManager">
+</div>
+
+<div class="field">
+<label>Contact Number</label>
+<input id="bPhone">
+</div>
+
+<div class="field full">
+<button class="btn">Add Branch</button>
+</div>
+
+</form>
+
+</div>
+
+<div class="card" style="margin-top:15px">
+<h2>Branch Register</h2>
+<div id="branchList"></div>
+</div>
+
+</section>
+
+<!-- BACKUP AND RESTORE -->
+
+<section class="page" id="page-backup">
+
+<div class="card">
+
+<h2>Data Management</h2>
+
+<div class="notice">
+Your restaurant records are stored in this browser using local storage. Download regular backups to protect your information.
+</div>
+
+<div class="toolbar">
+
+<button class="btn" onclick="downloadBackup()">
+Download Full Backup
+</button>
+
+<button class="btn secondary" onclick="document.getElementById('restoreFile').click()">
+Restore Backup
+</button>
+
+<input type="file" id="restoreFile" accept=".json" hidden>
+
+</div>
+
+<hr style="border-color:var(--line)">
+
+<h3>Storage Information</h3>
+
+<div class="totalrow">
+<span>Menu Items</span>
+<b id="backupMenu">0</b>
+</div>
+
+<div class="totalrow">
+<span>Orders</span>
+<b id="backupOrders">0</b>
+</div>
+
+<div class="totalrow">
+<span>Inventory Items</span>
+<b id="backupInventory">0</b>
+</div>
+
+<div class="totalrow">
+<span>Expenses</span>
+<b id="backupExpenses">0</b>
+</div>
+
+<div class="totalrow">
+<span>Customers</span>
+<b id="backupCustomers">0</b>
+</div>
+
+<div style="margin-top:20px">
+<button class="btn danger" onclick="deleteAllData()">
+Delete All Restaurant Data
+</button>
+</div>
+
+</div>
+</section>
+
+</main>
+</div>
+
+<script>
+
+/* ==================================
+   SMART RESTRO PRO
+   MAIN DATABASE
+================================== */
+
+const KEY = "SMART_RESTRO_PRO_DATABASE";
+
+const defaults = {
+profile:{},
+menu:[],
+tables:[],
+orders:[],
+inventory:[],
+purchases:[],
+expenses:[],
+suppliers:[],
+staff:[],
+branches:[]
+};
+
+function loadData(){
+try{
+const saved=JSON.parse(localStorage.getItem(KEY));
+
+if(!saved || typeof saved!=="object") return structuredClone(defaults);
+
+return {...structuredClone(defaults),...saved};
+
+}catch(e){
+return structuredClone(defaults);
+}
+}
+
+let db=loadData();
+let cart=[];
+
+function save(){
+try{
+localStorage.setItem(KEY,JSON.stringify(db));
+}catch(e){
+alert("Storage is full. Download a backup and remove unnecessary records.");
+}
+}
+
+function id(){
+return Date.now().toString(36)+Math.random().toString(36).slice(2,7);
+}
+
+function money(n){
+return "₹"+Number(n||0).toLocaleString("en-IN",{
+minimumFractionDigits:2,
+maximumFractionDigits:2
+});
+}
+
+function today(){
+return new Date().toISOString().slice(0,10);
+}
+
+function safe(value){
+return String(value??"").replace(/[&<>"']/g,c=>({
+"&":"&amp;",
+"<":"&lt;",
+">":"&gt;",
+'"':"&quot;",
+"'":"&#39;"
+}[c]));
+}
+
+function get(id){
+return document.getElementById(id);
+}
+
+function value(id){
+return get(id).value.trim();
+}
+
+function setValue(id,v){
+get(id).value=v??"";
+}
+
+function sum(arr,key){
+return arr.reduce((a,b)=>a+Number(b[key]||0),0);
+}
+
+function tableHTML(headers,rows){
+if(!rows.length){
+return '<div class="empty">No records available.</div>';
+}
+
+return `
+<div class="table-wrap">
+<table>
+<thead><tr>
+${headers.map(h=>`<th>${h}</th>`).join("")}
+</tr></thead>
+<tbody>${rows.join("")}</tbody>
+</table>
+</div>`;
+}
+
+/* ==================================
+   NAVIGATION
+================================== */
+
+function showPage(name){
+
+document.querySelectorAll(".page").forEach(p=>{
+p.classList.remove("active");
+});
+
+document.querySelectorAll(".nav button").forEach(b=>{
+b.classList.remove("active");
+});
+
+const page=get("page-"+name);
+
+if(!page)return;
+
+page.classList.add("active");
+
+const button=document.querySelector(`[data-page="${name}"]`);
+
+if(button)button.classList.add("active");
+
+const titles={
+dashboard:"Dashboard",
+profile:"Restaurant Profile",
+menu:"Menu Management",
+tables:"Table Management",
+pos:"POS Billing",
+kitchen:"Kitchen / KOT",
+orders:"Order Management",
+inventory:"Inventory Management",
+purchase:"Purchase Management",
+customers:"Customer Management",
+suppliers:"Supplier Management",
+staff:"Staff Management",
+expenses:"Expense Management",
+reports:"Business Reports",
+branches:"Branch Management",
+backup:"Backup & Restore"
+};
+
+get("pageTitle").textContent=titles[name]||name;
+get("crumb").textContent=name.toUpperCase();
+
+renderAll();
+}
+
+document.querySelectorAll(".nav button").forEach(button=>{
+button.addEventListener("click",()=>{
+showPage(button.dataset.page);
+});
+});
+
+/* ==================================
+   RESTAURANT PROFILE
+================================== */
+
+get("profileForm").addEventListener("submit",e=>{
+e.preventDefault();
+
+db.profile={
+name:value("pName"),
+owner:value("pOwner"),
+phone:value("pPhone"),
+email:value("pEmail"),
+gst:value("pGst"),
+fssai:value("pFssai"),
+tax:Number(value("pTax")),
+type:value("pType"),
+address:value("pAddress")
+};
+
+save();
+renderAll();
+
+alert("Restaurant profile saved successfully!");
+});
+
+function renderProfile(){
+
+const p=db.profile;
+
+setValue("pName",p.name);
+setValue("pOwner",p.owner);
+setValue("pPhone",p.phone);
+setValue("pEmail",p.email);
+setValue("pGst",p.gst);
+setValue("pFssai",p.fssai);
+setValue("pTax",p.tax??5);
+setValue("pType",p.type||"Restaurant");
+setValue("pAddress",p.address);
+}
+
+/* ==================================
+   MENU MANAGEMENT
+================================== */
+
+get("menuForm").addEventListener("submit",e=>{
+e.preventDefault();
+
+const item={
+id:value("mId")||id(),
+name:value("mName"),
+category:value("mCategory"),
+price:Number(value("mPrice")),
+tax:Number(value("mTax")),
+code:value("mCode"),
+available:value("mAvailable"),
+description:value("mDesc")
+};
+
+const index=db.menu.findIndex(x=>x.id===item.id);
+
+if(index>=0){
+db.menu[index]=item;
+}else{
+db.menu.push(item);
+}
+
+save();
+resetMenuForm();
+renderAll();
+
+alert("Menu item saved!");
+});
+
+function resetMenuForm(){
+get("menuForm").reset();
+setValue("mId","");
+}
+
+function editMenu(itemId){
+
+const x=db.menu.find(a=>a.id===itemId);
+if(!x)return;
+
+setValue("mId",x.id);
+setValue("mName",x.name);
+setValue("mCategory",x.category);
+setValue("mPrice",x.price);
+setValue("mTax",x.tax);
+setValue("mCode",x.code);
+setValue("mAvailable",x.available);
+setValue("mDesc",x.description);
+
+showPage("menu");
+}
+
+function deleteMenu(itemId){
+
+if(!confirm("Delete this menu item?"))return;
+
+db.menu=db.menu.filter(x=>x.id!==itemId);
+save();
+renderAll();
+}
+
+function renderMenu(){
+
+const search=(get("menuSearch")?.value||"").toLowerCase();
+
+const items=db.menu.filter(x=>
+x.name.toLowerCase().includes(search)||
+x.category.toLowerCase().includes(search)
+);
+
+get("menuList").innerHTML=items.map(x=>`
+
+<div class="food">
+
+<h3>${safe(x.name)}</h3>
+<small>${safe(x.category)} • ${safe(x.code)}</small>
+
+<div class="price">${money(x.price)}</div>
+
+<small>GST: ${x.tax}%</small><br>
+
+<span class="pill ${x.available==="yes"?"green":"red"}">
+${x.available==="yes"?"Available":"Unavailable"}
+</span>
+
+<div class="toolbar">
+
+<button class="btn small" onclick="editMenu('${x.id}')">Edit</button>
+
+<button class="btn small secondary" onclick="deleteMenu('${x.id}')">Delete</button>
+
+</div>
+
+</div>
+
+`).join("")||'<div class="empty">No menu items added.</div>';
+
+}
+
+/* ==================================
+   TABLE MANAGEMENT
+================================== */
+
+function addTable(){
+
+const name=prompt("Enter table number or name:");
+
+if(!name||!name.trim())return;
+
+if(db.tables.some(t=>t.name.toLowerCase()===name.trim().toLowerCase())){
+alert("This table already exists.");
+return;
+}
+
+db.tables.push({
+id:id(),
+name:name.trim(),
+status:"Available"
+});
+
+save();
+renderAll();
+}
+
+function changeTable(tableId){
+
+const t=db.tables.find(x=>x.id===tableId);
+if(!t)return;
+
+t.status=t.status==="Available"?"Occupied":"Available";
+
+save();
+renderAll();
+}
+
+function deleteTable(tableId){
+
+if(!confirm("Delete this table?"))return;
+
+db.tables=db.tables.filter(t=>t.id!==tableId);
+
+save();
+renderAll();
+}
+
+function renderTables(){
+
+get("tableList").innerHTML=db.tables.map(t=>`
+
+<div class="food">
+
+<h3>${safe(t.name)}</h3>
+
+<span class="pill ${t.status==="Available"?"green":"red"}">
+${t.status}
+</span>
+
+<div class="toolbar">
+
+<button class="btn small" onclick="changeTable('${t.id}')">
+Change Status
+</button>
+
+<button class="btn small secondary" onclick="deleteTable('${t.id}')">
+Delete
+</button>
+
+</div>
+
+</div>
+
+`).join("")||'<div class="empty">Add your first restaurant table.</div>';
+
+get("orderTable").innerHTML=
+'<option value="">Select Table</option>'+
+db.tables.map(t=>
+`<option value="${t.id}">${safe(t.name)} (${t.status})</option>`
+).join("");
+
+}
+
+/* ==================================
+   POS BILLING
+================================== */
+
+function renderPosMenu(){
+
+const search=(get("posSearch").value||"").toLowerCase();
+
+const items=db.menu.filter(x=>
+x.available==="yes"&&
+x.name.toLowerCase().includes(search)
+);
+
+get("posMenu").innerHTML=items.map(x=>`
+
+<div class="food">
+
+<h3>${safe(x.name)}</h3>
+
+<small>${safe(x.category)}</small>
+
+<div class="price">${money(x.price)}</div>
+
+<button class="btn small" onclick="addCart('${x.id}')">
+＋ Add
+</button>
+
+</div>
+
+`).join("")||'<div class="empty">No available menu items.</div>';
+
+}
+
+function addCart(itemId){
+
+const item=db.menu.find(x=>x.id===itemId);
+
+if(!item)return;
+
+const existing=cart.find(x=>x.id===itemId);
+
+if(existing){
+existing.qty++;
+}else{
+cart.push({
+id:item.id,
+name:item.name,
+price:item.price,
+tax:item.tax,
+qty:1
+});
+}
+
+renderCart();
+}
+
+function updateCart(itemId,change){
+
+const item=cart.find(x=>x.id===itemId);
+if(!item)return;
+
+item.qty+=change;
+
+if(item.qty<=0){
+cart=cart.filter(x=>x.id!==itemId);
+}
+
+renderCart();
+}
+
+function clearCart(){
+cart=[];
+renderCart();
+}
+
+function getCartTotals(){
+
+let subtotal=0;
+let tax=0;
+
+cart.forEach(x=>{
+const amount=x.price*x.qty;
+subtotal+=amount;
+tax+=amount*x.tax/100;
+});
+
+const discount=Math.min(
+Math.max(0,Number(get("orderDiscount").value)||0),
+subtotal+tax
+);
+
+return{
+subtotal,
+tax,
+discount,
+grand:subtotal+tax-discount
+};
+}
+
+function renderCart(){
+
+const el=get("cartItems");
+
+el.innerHTML=cart.map(x=>`
+
+<div class="cartline">
+
+<div>
+<b>${safe(x.name)}</b><br>
+<small>${money(x.price)} × ${x.qty}</small>
+</div>
+
+<div class="inline">
+
+<button class="btn small secondary" onclick="updateCart('${x.id}',-1)">−</button>
+
+<b>${x.qty}</b>
+
+<button class="btn small secondary" onclick="updateCart('${x.id}',1)">＋</button>
+
+</div>
+
+</div>
+
+`).join("")||'<div class="empty">No items added yet.</div>';
+
+const t=getCartTotals();
+
+get("cartSubtotal").textContent=money(t.subtotal);
+get("cartTax").textContent=money(t.tax);
+get("cartDiscount").textContent=money(t.discount);
+get("cartGrand").textContent=money(t.grand);
+
+}
+
+get("orderDiscount").addEventListener("input",renderCart);
+
+get("orderType").addEventListener("change",()=>{
+get("tableField").style.display=
+get("orderType").value==="Dine-in"?"flex":"none";
+});
+
+function placeOrder(){
+
+if(!cart.length){
+alert("Please add food items first.");
+return;
+}
+
+const type=value("orderType");
+const tableId=value("orderTable");
+
+if(type==="Dine-in"&&!tableId){
+alert("Please select a table.");
+return;
+}
+
+if(type==="Dine-in"){
+
+const table=db.tables.find(t=>t.id===tableId);
+
+if(!table||table.status!=="Available"){
+alert("This table is not available.");
+return;
+}
+}
+
+const t=getCartTotals();
+
+if(t.grand<=0){
+alert("Please check the order total.");
+return;
+}
+
+const order={
+id:id(),
+number:"ORD-"+Date.now().toString().slice(-7),
+date:new Date().toISOString(),
+customer:value("orderCustomer")||"Walk-in Customer",
+phone:value("orderPhone"),
+type,
+tableId:type==="Dine-in"?tableId:"",
+tableName:type==="Dine-in"?
+db.tables.find(t=>t.id===tableId).name:"",
+payment:value("orderPayment"),
+items:JSON.parse(JSON.stringify(cart)),
+subtotal:t.subtotal,
+tax:t.tax,
+discount:t.discount,
+total:t.grand,
+status:"New"
+};
+
+db.orders.push(order);
+
+if(type==="Dine-in"){
+const table=db.tables.find(t=>t.id===tableId);
+table.status="Occupied";
+}
+
+save();
+
+cart=[];
+get("orderCustomer").value="";
+get("orderPhone").value="";
+get("orderDiscount").value=0;
+
+renderAll();
+
+showPage("orders");
+
+alert("Order generated successfully! Order No: "+order.number);
+
+}
+
+/* ==================================
+   ORDERS & KITCHEN
+================================== */
+
+function updateOrderStatus(orderId,status){
+
+const order=db.orders.find(x=>x.id===orderId);
+if(!order)return;
+
+order.status=status;
+
+if(status==="Completed"&&order.tableId){
+
+const table=db.tables.find(t=>t.id===order.tableId);
+
+if(table)table.status="Available";
+
+}
+
+save();
+renderAll();
+}
+
+function deleteOrder(orderId){
+
+if(!confirm("Delete this order?"))return;
+
+db.orders=db.orders.filter(x=>x.id!==orderId);
+
+save();
+renderAll();
+}
+
+function renderOrders(){
+
+const search=(get("orderSearch")?.value||"").toLowerCase();
+const filter=get("orderFilter")?.value||"all";
+
+const list=db.orders.filter(o=>
+(filter==="all"||o.status===filter)&&
+(o.number.toLowerCase().includes(search)||
+o.customer.toLowerCase().includes(search))
+).slice().reverse();
+
+get("ordersList").innerHTML=tableHTML(
+["Order","Date","Customer","Type","Payment","Total","Status","Actions"],
+list.map(o=>`
+
+<tr>
+
+<td>${safe(o.number)}</td>
+<td>${new Date(o.date).toLocaleDateString("en-IN")}</td>
+<td>${safe(o.customer)}</td>
+<td>${safe(o.type)}</td>
+<td>${safe(o.payment)}</td>
+<td>${money(o.total)}</td>
+
+<td><span class="pill">${safe(o.status)}</span></td>
+
+<td>
+<select onchange="updateOrderStatus('${o.id}',this.value)">
+${["New","Preparing","Ready","Completed"].map(s=>
+`<option ${o.status===s?"selected":""}>${s}</option>`
+).join("")}
+</select>
+
+<button class="btn small secondary" onclick="printBill('${o.id}')">Bill</button>
+
+<button class="btn small danger" onclick="deleteOrder('${o.id}')">Delete</button>
+</td>
+
+</tr>
+
+`)
+);
+
+}
+
+function renderKitchen(){
+const list=db.orders.filter(o=>o.status!=="Completed").slice().reverse();
+
+get("kitchenList").innerHTML=list.map(o=>`
+
+<div class="food" style="margin-bottom:12px">
+
+<div class="section-head">
+<h3>${safe(o.number)}</h3>
+<span class="pill">${safe(o.status)}</span>
+</div>
+
+<p>
+Customer: ${safe(o.customer)}<br>
+Order Type: ${safe(o.type)}<br>
+Table: ${safe(o.tableName||"N/A")}
+</p>
+
+${o.items.map(x=>`
+<div class="totalrow">
+<span>${safe(x.name)}</span>
+<b>× ${x.qty}</b>
+</div>
+`).join("")}
+
+<div class="toolbar">
+
+<button class="btn small" onclick="updateOrderStatus('${o.id}','Preparing')">Preparing</button>
+
+<button class="btn small" onclick="updateOrderStatus('${o.id}','Ready')">Ready</button>
+
+<button class="btn small secondary" onclick="updateOrderStatus('${o.id}','Completed')">Complete</button>
+
+</div>
+
+</div>
+
+`).join("")||'<div class="empty">No pending kitchen orders.</div>';
+
+}
+
+/* ==================================
+   PRINT BILL
+================================== */
+
+function printBill(orderId){
+
+const o=db.orders.find(x=>x.id===orderId);
+if(!o)return;
+
+const p=db.profile;
+
+const bill=window.open("","_blank","width=700,height=750");
+
+if(!bill){
+alert("Please allow pop-ups to print the bill.");
+return;
+}
+
+bill.document.write(`
+
+<!DOCTYPE html>
+<html>
+<head>
+<title>Restaurant Invoice</title>
+
+<style>
+body{
+font-family:Arial;
+padding:25px;
+color:#222;
+}
+h1{text-align:center}
+.center{text-align:center}
+table{width:100%;border-collapse:collapse;margin-top:20px}
+th,td{padding:9px;border-bottom:1px solid #ddd;text-align:left}
+.total{text-align:right;margin-top:20px}
+</style>
+
+</head>
+
+<body>
+
+<h1>${safe(p.name||"SMART RESTRO PRO")}</h1>
+
+<p class="center">${safe(p.address||"")}</p>
+
+<p class="center">
+Phone: ${safe(p.phone||"")}<br>
+GSTIN: ${safe(p.gst||"")}
+</p>
+
+<hr>
+
+<h3>INVOICE</h3>
+
+<p>
+Invoice: ${safe(o.number)}<br>
+Date: ${new Date(o.date).toLocaleString("en-IN")}<br>
+Customer: ${safe(o.customer)}<br>
+Phone: ${safe(o.phone)}<br>
+Payment: ${safe(o.payment)}
+</p>
+
+<table>
+<tr>
+<th>Item</th>
+<th>Qty</th>
+<th>Price</th>
+<th>Amount</th>
+</tr>
+
+${o.items.map(x=>`
+<tr>
+<td>${safe(x.name)}</td>
+<td>${x.qty}</td>
+<td>${money(x.price)}</td>
+<td>${money(x.price*x.qty)}</td>
+</tr>
+`).join("")}
+
+</table>
+
+<div class="total">
+
+<p>Subtotal: ${money(o.subtotal)}</p>
+<p>GST: ${money(o.tax)}</p>
+<p>Discount: ${money(o.discount)}</p>
+
+<h2>Grand Total: ${money(o.total)}</h2>
+
+</div>
+
+<hr>
+
+<p class="center">Thank you for dining with us!</p>
+
+<script>
+window.onload=function(){
+window.print();
+};
+<\/script>
+
+</body>
+</html>
+
+`);
+
+bill.document.close();
+
+}
+
+/* ==================================
+   INVENTORY
+================================== */
+
+get("inventoryForm").addEventListener("submit",e=>{
+e.preventDefault();
+
+const item={
+id:value("iId")||id(),
+name:value("iName"),
+code:value("iCode"),
+unit:value("iUnit"),
+qty:Number(value("iQty")),
+cost:Number(value("iCost")),
+min:Number(value("iMin"))
+};
+
+const index=db.inventory.findIndex(x=>x.id===item.id);
+
+if(index>=0){
+db.inventory[index]=item;
+}else{
+db.inventory.push(item);
+}
+
+save();
+resetInventoryForm();
+renderAll();
+
+alert("Inventory saved!");
+});
+
+function resetInventoryForm(){
+get("inventoryForm").reset();
+setValue("iId","");
+setValue("iQty",0);
+setValue("iCost",0);
+setValue("iMin",5);
+}
+
+function editInventory(itemId){
+
+const x=db.inventory.find(i=>i.id===itemId);
+if(!x)return;
+
+setValue("iId",x.id);
+setValue("iName",x.name);
+setValue("iCode",x.code);
+setValue("iUnit",x.unit);
+setValue("iQty",x.qty);
+setValue("iCost",x.cost);
+setValue("iMin",x.min);
+
+showPage("inventory");
+}
+
+function deleteInventory(itemId){
+
+if(!confirm("Delete inventory item?"))return;
+
+db.inventory=db.inventory.filter(x=>x.id!==itemId);
+
+save();
+renderAll();
+}
+
+function renderInventory(){
+
+const search=(get("inventorySearch").value||"").toLowerCase();
+
+const items=db.inventory.filter(x=>
+x.name.toLowerCase().includes(search)
+);
+
+get("inventoryList").innerHTML=tableHTML(
+["Item","Code","Quantity","Cost","Stock Status","Actions"],
+items.map(x=>`
+
+<tr>
+
+<td>${safe(x.name)}</td>
+<td>${safe(x.code)}</td>
+<td>${x.qty} ${safe(x.unit)}</td>
+<td>${money(x.cost)}</td>
+
+<td>
+<span class="pill ${x.qty<=x.min?"red":"green"}">
+${x.qty<=x.min?"Low Stock":"In Stock"}
+</span>
+</td>
+
+<td>
+<button class="btn small" onclick="editInventory('${x.id}')">Edit</button>
+<button class="btn small danger" onclick="deleteInventory('${x.id}')">Delete</button>
+</td>
+
+</tr>
+
+`)
+);
+
+get("buyItem").innerHTML=
+'<option value="">Select Inventory Item</option>'+
+db.inventory.map(x=>
+`<option value="${x.id}">${safe(x.name)}</option>`
+).join("");
+
+}
+
+/* ==================================
+   PURCHASE MANAGEMENT
+================================== */
+
+get("purchaseForm").addEventListener("submit",e=>{
+e.preventDefault();
+
+const item=db.inventory.find(x=>x.id===value("buyItem"));
+
+if(!item){
+alert("Select a valid inventory item.");
+return;
+}
+
+const qty=Number(value("buyQty"));
+const cost=Number(value("buyCost"));
+
+if(qty<=0||cost<0){
+alert("Enter valid purchase details.");
+return;
+}
+
+item.qty+=qty;
+item.cost=cost;
+
+db.purchases.push({
+id:id(),
+date:value("buyDate"),
+item:item.name,
+supplier:value("buySupplier"),
+qty,
+unit:item.unit,
+cost,
+invoice:value("buyInvoice"),
+total:qty*cost
+});
+
+save();
+get("purchaseForm").reset();
+setValue("buyDate",today());
+
+renderAll();
+
+alert("Purchase recorded and stock updated!");
+
+});
+
+function renderPurchases(){
+
+get("purchaseList").innerHTML=tableHTML(
+["Date","Item","Supplier","Quantity","Unit Cost","Total","Invoice"],
+db.purchases.slice().reverse().map(x=>`
+
+<tr>
+<td>${safe(x.date)}</td>
+<td>${safe(x.item)}</td>
+<td>${safe(x.supplier)}</td>
+<td>${x.qty} ${safe(x.unit)}</td>
+<td>${money(x.cost)}</td>
+<td>${money(x.total)}</td>
+<td>${safe(x.invoice)}</td>
+</tr>
+
+`)
+);
+
+}
+
+/* ==================================
+   CUSTOMER MANAGEMENT
+================================== */
+
+function renderCustomers(){
+
+const customers={};
+
+db.orders.forEach(o=>{
+
+const phone=o.phone||"No phone";
+
+if(!customers[phone]){
+customers[phone]={
+name:o.customer,
+phone,
+orders:0,
+spent:0
+};
+}
+
+customers[phone].orders++;
+customers[phone].spent+=o.total;
+
+});
+
+get("customerList").innerHTML=tableHTML(
+["Customer","Phone","Orders","Total Spending"],
+Object.values(customers).map(c=>`
+
+<tr>
+<td>${safe(c.name)}</td>
+<td>${safe(c.phone)}</td>
+<td>${c.orders}</td>
+<td>${money(c.spent)}</td>
+</tr>
+
+`)
+);
+
+}
+
+/* ==================================
+   SUPPLIERS
+================================== */
+
+get("supplierForm").addEventListener("submit",e=>{
+e.preventDefault();
+
+const s={
+id:value("sId")||id(),
+name:value("sName"),
+phone:value("sPhone"),
+email:value("sEmail"),
+gst:value("sGst"),
+address:value("sAddress")
+};
+
+const index=db.suppliers.findIndex(x=>x.id===s.id);
+
+if(index>=0){
+db.suppliers[index]=s;
+}else{
+db.suppliers.push(s);
+}
+
+save();
+resetSupplierForm();
+renderAll();
+
+});
+
+function resetSupplierForm(){
+get("supplierForm").reset();
+setValue("sId","");
+}
+
+function editSupplier(sid){
+
+const s=db.suppliers.find(x=>x.id===sid);
+if(!s)return;
+
+setValue("sId",s.id);
+setValue("sName",s.name);
+setValue("sPhone",s.phone);
+setValue("sEmail",s.email);
+setValue("sGst",s.gst);
+setValue("sAddress",s.address);
+
+showPage("suppliers");
+}
+
+function deleteSupplier(sid){
+
+if(!confirm("Delete supplier?"))return;
+
+db.suppliers=db.suppliers.filter(x=>x.id!==sid);
+
+save();
+renderAll();
+}
+
+function renderSuppliers(){
+
+get("supplierList").innerHTML=tableHTML(
+["Supplier","Phone","Email","GSTIN","Actions"],
+db.suppliers.map(s=>`
+
+<tr>
+<td>${safe(s.name)}</td>
+<td>${safe(s.phone)}</td>
+<td>${safe(s.email)}</td>
+<td>${safe(s.gst)}</td>
+
+<td>
+<button class="btn small" onclick="editSupplier('${s.id}')">Edit</button>
+<button class="btn small danger" onclick="deleteSupplier('${s.id}')">Delete</button>
+</td>
+</tr>
+
+`)
+);
+
+}
+
+/* ==================================
+   STAFF MANAGEMENT
+================================== */
+
+get("staffForm").addEventListener("submit",e=>{
+e.preventDefault();
+
+const s={
+id:value("stId")||id(),
+name:value("stName"),
+role:value("stRole"),
+phone:value("stPhone"),
+salary:Number(value("stSalary")),
+join:value("stJoin")
+};
+
+const index=db.staff.findIndex(x=>x.id===s.id);
+
+if(index>=0){
+db.staff[index]=s;
+}else{
+db.staff.push(s);
+}
+
+save();
+resetStaffForm();
+renderAll();
+
+});
+
+function resetStaffForm(){
+get("staffForm").reset();
+setValue("stId","");
+setValue("stSalary",0);
+}
+
+function editStaff(sid){
+
+const s=db.staff.find(x=>x.id===sid);
+if(!s)return;
+
+setValue("stId",s.id);
+setValue("stName",s.name);
+setValue("stRole",s.role);
+setValue("stPhone",s.phone);
+setValue("stSalary",s.salary);
+setValue("stJoin",s.join);
+
+showPage("staff");
+}
+
+function deleteStaff(sid){
+
+if(!confirm("Delete this staff member?"))return;
+
+db.staff=db.staff.filter(x=>x.id!==sid);
+
+save();
+renderAll();
+}
+
+function renderStaff(){
+
+get("staffList").innerHTML=tableHTML(
+["Name","Role","Phone","Salary","Joining Date","Actions"],
+db.staff.map(s=>`
+
+<tr>
+<td>${safe(s.name)}</td>
+<td>${safe(s.role)}</td>
+<td>${safe(s.phone)}</td>
+<td>${money(s.salary)}</td>
+<td>${safe(s.join)}</td>
+
+<td>
+<button class="btn small" onclick="editStaff('${s.id}')">Edit</button>
+<button class="btn small danger" onclick="deleteStaff('${s.id}')">Delete</button>
+</td>
+</tr>
+
+`)
+);
+
+}
+
+/* ==================================
+   EXPENSE MANAGEMENT
+================================== */
+
+get("expenseForm").addEventListener("submit",e=>{
+e.preventDefault();
+
+const amount=Number(value("eAmount"));
+
+if(amount<=0){
+alert("Enter a valid expense amount.");
+return;
+}
+
+db.expenses.push({
+id:id(),
+date:value("eDate"),
+category:value("eCategory"),
+description:value("eDescription"),
+amount,
+payment:value("ePayment"),
+reference:value("eReference")
+});
+
+save();
+
+get("expenseForm").reset();
+setValue("eDate",today());
+
+renderAll();
+
+alert("Expense recorded successfully!");
+
+});
+
+function deleteExpense(eid){
+
+if(!confirm("Delete this expense record?"))return;
+
+db.expenses=db.expenses.filter(x=>x.id!==eid);
+
+save();
+renderAll();
+}
+
+function renderExpenses(){
+
+get("expenseList").innerHTML=tableHTML(
+["Date","Category","Description","Payment","Amount","Actions"],
+db.expenses.slice().reverse().map(x=>`
+
+<tr>
+<td>${safe(x.date)}</td>
+<td>${safe(x.category)}</td>
+<td>${safe(x.description)}</td>
+<td>${safe(x.payment)}</td>
+<td>${money(x.amount)}</td>
+
+<td>
+<button class="btn small danger" onclick="deleteExpense('${x.id}')">Delete</button>
+</td>
+</tr>
+
+`)
+);
+
+}
+
+/* ==================================
+   BRANCH MANAGEMENT
+================================== */
+
+get("branchForm").addEventListener("submit",e=>{
+e.preventDefault();
+
+db.branches.push({
+id:id(),
+name:value("bName"),
+location:value("bLocation"),
+manager:value("bManager"),
+phone:value("bPhone")
+});
+
+save();
+
+get("branchForm").reset();
+
+renderAll();
+
+alert("Branch added successfully!");
+
+});
+
+function deleteBranch(bid){
+
+if(!confirm("Delete this branch?"))return;
+
+db.branches=db.branches.filter(x=>x.id!==bid);
+
+save();
+renderAll();
+}
+
+function renderBranches(){
+
+get("branchList").innerHTML=tableHTML(
+["Branch","Location","Manager","Contact","Actions"],
+db.branches.map(b=>`
+
+<tr>
+<td>${safe(b.name)}</td>
+<td>${safe(b.location)}</td>
+<td>${safe(b.manager)}</td>
+<td>${safe(b.phone)}</td>
+
+<td>
+<button class="btn small danger" onclick="deleteBranch('${b.id}')">Delete</button>
+</td>
+
+</tr>
+
+`)
+);
+
+}
+
+/* ==================================
+   DASHBOARD
+================================== */
+
+function renderDashboard(){
+
+const date=today();
+
+const orders=db.orders.filter(o=>
+o.date.slice(0,10)===date
+);
+
+const expenses=db.expenses.filter(e=>e.date===date);
+
+const revenue=sum(
+orders.filter(o=>o.status==="Completed"),
+"total"
+);
+
+const expenseTotal=sum(expenses,"amount");
+
+get("dashRevenue").textContent=money(revenue);
+get("dashOrders").textContent=orders.length;
+get("dashExpenses").textContent=money(expenseTotal);
+get("dashProfit").textContent=money(revenue-expenseTotal);
+
+get("snapName").textContent=db.profile.name||"Not configured";
+get("snapMenu").textContent=db.menu.length;
+get("snapTables").textContent=db.tables.length;
+get("snapInventory").textContent=db.inventory.length;
+
+get("snapKitchen").textContent=
+db.orders.filter(o=>o.status!=="Completed").length;
+
+get("recentOrders").innerHTML=tableHTML(
+["Order","Customer","Amount","Status"],
+db.orders.slice(-5).reverse().map(o=>`
+
+<tr>
+<td>${safe(o.number)}</td>
+<td>${safe(o.customer)}</td>
+<td>${money(o.total)}</td>
+<td><span class="pill">${safe(o.status)}</span></td>
+</tr>
+
+`)
+);
+
+}
+
+/* ==================================
+   BUSINESS REPORTS
+================================== */
+
+function renderReports(){
+
+const completed=db.orders.filter(o=>o.status==="Completed");
+
+const sales=sum(completed,"total");
+const expenses=sum(db.expenses,"amount");
+
+get("reportSales").textContent=money(sales);
+get("reportExpenses").textContent=money(expenses);
+get("reportOrders").textContent=db.orders.length;
+get("reportCompleted").textContent=completed.length;
+
+get("reportDetails").innerHTML=`
+
+<div class="totalrow">
+<span>Total Completed Sales</span>
+<b>${money(sales)}</b>
+</div>
+
+<div class="totalrow">
+<span>Total Business Expenses</span>
+<b>${money(expenses)}</b>
+</div>
+
+<div class="totalrow">
+<span>Estimated Net Amount</span>
+<b>${money(sales-expenses)}</b>
+</div>
+
+<div class="totalrow">
+<span>Total GST Recorded on Orders</span>
+<b>${money(sum(completed,"tax"))}</b>
+</div>
+
+<div class="totalrow">
+<span>Total Discounts</span>
+<b>${money(sum(completed,"discount"))}</b>
+</div>
+
+`;
+
+}
+
+function exportReport(){
+
+const rows=[
+["Metric","Amount"],
+["Total Sales",sum(db.orders.filter(o=>o.status==="Completed"),"total")],
+["Expenses",sum(db.expenses,"amount")],
+["Estimated Net",sum(db.orders.filter(o=>o.status==="Completed"),"total")-sum(db.expenses,"amount")],
+["Total Orders",db.orders.length]
+];
+
+downloadCSV("restaurant-report.csv",rows);
+
+}
+
+/* ==================================
+   CSV EXPORT
+================================== */
+
+function downloadCSV(filename,rows){
+
+const csv=rows.map(row=>
+row.map(v=>'"'+String(v??"").replace(/"/g,'""')+'"').join(",")
+).join("\n");
+
+const blob=new Blob(["\uFEFF"+csv],{
+type:"text/csv;charset=utf-8;"
+});
+
+const url=URL.createObjectURL(blob);
+
+const a=document.createElement("a");
+a.href=url;
+a.download=filename;
+
+document.body.appendChild(a);
+a.click();
+a.remove();
+
+URL.revokeObjectURL(url);
+
+}
+
+function exportOrders(){
+
+const rows=[
+["Order No","Date","Customer","Phone","Type","Payment","Subtotal","GST","Discount","Total","Status"],
+...db.orders.map(o=>[
+o.number,o.date,o.customer,o.phone,o.type,o.payment,
+o.subtotal,o.tax,o.discount,o.total,o.status
+])
+];
+
+downloadCSV("restaurant-orders.csv",rows);
+
+}
+
+/* ==================================
+   BACKUP & RESTORE
+================================== */
+
+function downloadBackup(){
+
+const blob=new Blob(
+[JSON.stringify(db,null,2)],
+{type:"application/json"}
+);
+
+const url=URL.createObjectURL(blob);
+
+const a=document.createElement("a");
+a.href=url;
+a.download="SMART-RESTRO-BACKUP-"+today()+".json";
+
+document.body.appendChild(a);
+a.click();
+a.remove();
+
+URL.revokeObjectURL(url);
+
+}
+
+get("restoreFile").addEventListener("change",async e=>{
+
+const file=e.target.files[0];
+
+if(!file)return;
+
+try{
+
+const restored=JSON.parse(await file.text());
+
+const required=[
+"profile","menu","tables","orders",
+"inventory","purchases","expenses",
+"suppliers","staff","branches"
+];
+
+if(!restored||typeof restored!=="object"||
+!required.every(k=>k in restored)||
+!required.slice(1).every(k=>Array.isArray(restored[k]))){
+throw new Error("Invalid backup format");
+}
+
+if(!confirm("Restore backup? This will replace current restaurant records.")){
+e.target.value="";
+return;
+}
+
+db={...structuredClone(defaults),...restored};
+
+save();
+renderAll();
+
+alert("Backup restored successfully!");
+
+}catch(err){
+
+alert("Unable to restore. Please select a valid SMART RESTRO backup.");
+
+}
+
+e.target.value="";
+
+});
+
+function deleteAllData(){
+
+const answer=prompt(
+"Type DELETE to permanently clear all restaurant records from this browser."
+);
+
+if(answer!=="DELETE")return;
+
+localStorage.removeItem(KEY);
+
+db=structuredClone(defaults);
+cart=[];
+
+renderAll();
+
+alert("Restaurant data cleared.");
+
+}
+
+/* ==================================
+   GLOBAL SEARCH EVENTS
+================================== */
+
+get("menuSearch").addEventListener("input",renderMenu);
+
+get("posSearch").addEventListener("input",renderPosMenu);
+
+get("orderSearch").addEventListener("input",renderOrders);
+
+get("orderFilter").addEventListener("change",renderOrders);
+
+get("inventorySearch").addEventListener("input",renderInventory);
+
+/* ==================================
+   MAIN RENDER FUNCTION
+================================== */
+
+function renderAll(){
+
+renderProfile();
+renderMenu();
+renderTables();
+renderPosMenu();
+renderCart();
+renderOrders();
+renderKitchen();
+renderInventory();
+renderPurchases();
+renderCustomers();
+renderSuppliers();
+renderStaff();
+renderExpenses();
+renderBranches();
+renderDashboard();
+renderReports();
+
+get("backupMenu").textContent=db.menu.length;
+get("backupOrders").textContent=db.orders.length;
+get("backupInventory").textContent=db.inventory.length;
+get("backupExpenses").textContent=db.expenses.length;
+get("backupCustomers").textContent=
+new Set(db.orders.map(o=>o.phone||o.customer)).size;
+
+}
+
+/* ==================================
+   INITIALISE WEBSITE
+================================== */
+
+setValue("buyDate",today());
+setValue("eDate",today());
+
+renderAll();
+
+console.log("SMART RESTRO PRO loaded successfully!");
+
+</script>
+
+</body>
+</html>
