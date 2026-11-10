@@ -1,392 +1,493 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>SMART RESTRO PRO</title>
 
 <style>
-:root{
---bg:#101010;
---panel:#191919;
---panel2:#202020;
---gold:#d6ad55;
---gold2:#f0d48b;
---cream:#f5eedf;
---muted:#a99f8d;
---line:#34302a;
---green:#56c596;
---red:#ed7777;
---blue:#7da9df;
+
+:root {
+    --bg: #101010;
+    --panel: #191919;
+    --panel2: #222222;
+    --gold: #d6ad55;
+    --gold2: #f0d48b;
+    --cream: #f5eedf;
+    --muted: #a8a8a8;
+    --green: #35b879;
+    --red: #e45d5d;
+    --blue: #5799e8;
+    --border: #333333;
 }
 
-*{box-sizing:border-box}
-
-body{
-margin:0;
-background:var(--bg);
-color:var(--cream);
-font:14px/1.45 Inter,system-ui,Arial,sans-serif
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
 }
 
-button,input,select,textarea{font:inherit}
-button{cursor:pointer;border:0}
-
-.app{display:flex;min-height:100vh}
-
-.sidebar{
-width:245px;
-background:#090909;
-border-right:1px solid var(--line);
-padding:22px 14px;
-position:fixed;
-inset:0 auto 0 0;
-overflow:auto;
-z-index:5
+body {
+    background: var(--bg);
+    color: var(--cream);
 }
 
-.brand{
-padding:4px 10px 24px;
-border-bottom:1px solid var(--line);
-margin-bottom:18px
+button, input, select, textarea {
+    font: inherit;
 }
 
-.brand strong{
-display:block;
-font-size:20px;
-letter-spacing:1.5px;
-color:var(--gold2)
+button {
+    cursor: pointer;
+    border: none;
 }
 
-.brand small{
-color:var(--muted);
-letter-spacing:2px;
-font-size:9px
+.app {
+    display: flex;
+    min-height: 100vh;
 }
 
-.navlabel{
-font-size:10px;
-color:#827967;
-letter-spacing:1.5px;
-padding:13px 11px 6px
+/* SIDEBAR */
+
+.sidebar {
+    width: 245px;
+    background: #151515;
+    border-right: 1px solid var(--border);
+    padding: 20px 14px;
+    position: fixed;
+    height: 100vh;
+    overflow-y: auto;
 }
 
-.nav button{
-width:100%;
-text-align:left;
-color:#cfc5b3;
-background:transparent;
-padding:11px 12px;
-border-radius:9px;
-margin:2px 0;
-display:flex;
-gap:11px;
-align-items:center
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 5px 8px 25px;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 20px;
 }
 
-.nav button:hover,
-.nav button.active{
-background:linear-gradient(90deg,#3b2d16,#211c14);
-color:var(--gold2)
+.brand-logo {
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    background: var(--gold);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    color: #111;
+    font-size: 24px;
+    font-weight: bold;
 }
 
-.nav .ico{width:20px;text-align:center}
-
-.main{
-margin-left:245px;
-width:calc(100% - 245px);
-padding:24px 30px 50px
+.brand-logo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
 }
 
-.topbar{
-display:flex;
-justify-content:space-between;
-align-items:center;
-margin-bottom:25px;
-gap:15px
+.brand h2 {
+    color: var(--gold);
+    font-size: 17px;
 }
 
-.crumb{color:var(--muted);font-size:12px}
-
-.topbar h1{
-font-size:25px;
-margin:2px 0;
-color:var(--cream)
+.brand p {
+    color: var(--muted);
+    font-size: 10px;
+    margin-top: 4px;
 }
 
-.top-actions{
-display:flex;
-gap:10px;
-align-items:center
+.nav-title {
+    color: #777;
+    font-size: 10px;
+    font-weight: bold;
+    margin: 20px 10px 9px;
+    letter-spacing: 1px;
 }
 
-.badge{
-border:1px solid #5c4926;
-color:var(--gold2);
-padding:7px 11px;
-border-radius:30px;
-font-size:11px
+.nav-btn {
+    width: 100%;
+    background: transparent;
+    color: #bbb;
+    padding: 12px;
+    text-align: left;
+    border-radius: 9px;
+    margin: 3px 0;
+    font-size: 13px;
+    transition: .2s;
 }
 
-.btn{
-padding:10px 14px;
-border-radius:8px;
-background:var(--gold);
-color:#17120a;
-font-weight:700
+.nav-btn:hover,
+.nav-btn.active {
+    background: #30291c;
+    color: var(--gold2);
 }
 
-.btn:hover{background:var(--gold2)}
+/* MAIN */
 
-.btn.secondary{
-background:#292621;
-color:var(--cream);
-border:1px solid var(--line)
+.main {
+    margin-left: 245px;
+    width: calc(100% - 245px);
+    min-width: 0;
 }
 
-.btn.danger{
-background:#512929;
-color:#ffdada
+.topbar {
+    height: 75px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 15px 25px;
+    background: #151515;
+    position: sticky;
+    top: 0;
+    z-index: 10;
 }
 
-.btn.small{padding:6px 9px;font-size:12px}
-
-.grid{display:grid;gap:15px}
-
-.stats{
-grid-template-columns:repeat(4,minmax(0,1fr));
-margin-bottom:18px
+.topbar h2 {
+    font-size: 19px;
 }
 
-.card{
-background:var(--panel);
-border:1px solid var(--line);
-border-radius:13px;
-padding:17px;
-min-width:0
+.topbar small {
+    color: var(--muted);
 }
 
-.stat-title{color:var(--muted);font-size:12px}
-
-.stat-value{
-font-size:25px;
-font-weight:750;
-margin:8px 0 3px;
-color:var(--gold2)
+.status {
+    background: #183b2b;
+    color: #56d99b;
+    padding: 8px 12px;
+    border-radius: 20px;
+    font-size: 11px;
 }
 
-.stat-note{font-size:11px;color:var(--muted)}
+/* CONTENT */
 
-.cols{grid-template-columns:1.35fr 1fr}
-
-.section-head{
-display:flex;
-justify-content:space-between;
-align-items:center;
-gap:10px;
-margin:5px 0 14px
+.content {
+    padding: 25px;
 }
 
-.section-head h2{font-size:17px;margin:0}
-
-.muted{color:var(--muted)}
-
-.table-wrap{overflow:auto}
-
-table{
-width:100%;
-border-collapse:collapse;
-min-width:560px
+.page {
+    display: none;
 }
 
-th,td{
-text-align:left;
-padding:11px 9px;
-border-bottom:1px solid var(--line);
-font-size:12px
+.page.active {
+    display: block;
 }
 
-th{color:var(--muted);font-weight:600}
-td{color:#eee5d6}
-
-.pill{
-padding:4px 8px;
-border-radius:30px;
-background:#30291c;
-color:var(--gold2);
-font-size:10px;
-white-space:nowrap
+.page-heading {
+    margin-bottom: 22px;
 }
 
-.pill.green{background:#18382d;color:#8fe0bb}
-.pill.red{background:#422525;color:#ffaaaa}
-.pill.blue{background:#1d2d40;color:#a9c9f3}
-
-.page{display:none}
-.page.active{display:block}
-
-.form-grid{
-display:grid;
-grid-template-columns:repeat(2,minmax(0,1fr));
-gap:12px
+.page-heading h2 {
+    color: var(--gold2);
+    font-size: 24px;
 }
 
-.field{display:flex;flex-direction:column;gap:5px}
-.field.full{grid-column:1/-1}
-
-.field label{
-font-size:11px;
-color:var(--muted)
+.page-heading p {
+    color: var(--muted);
+    font-size: 13px;
+    margin-top: 7px;
 }
 
-input,select,textarea{
-width:100%;
-background:#101010;
-color:var(--cream);
-border:1px solid #403a30;
-border-radius:7px;
-padding:10px;
-outline:none
+/* CARDS */
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 15px;
 }
 
-input:focus,select:focus,textarea:focus{
-border-color:var(--gold)
+.card {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 13px;
+    padding: 19px;
+    margin-bottom: 18px;
 }
 
-.toolbar{
-display:flex;
-gap:9px;
-flex-wrap:wrap;
-margin:12px 0
+.stat-card {
+    border-left: 3px solid var(--gold);
 }
 
-.inline{
-display:flex;
-gap:8px;
-align-items:center;
-flex-wrap:wrap
+.stat-card p {
+    color: var(--muted);
+    font-size: 12px;
 }
 
-.inline input,.inline select{
-width:auto;
-min-width:130px
+.stat-card h2 {
+    margin-top: 12px;
+    font-size: 25px;
+    color: var(--gold2);
 }
 
-.empty{
-padding:28px;
-text-align:center;
-color:var(--muted)
+.section-title {
+    font-size: 17px;
+    color: var(--gold2);
+    margin-bottom: 17px;
 }
 
-.menu-grid{
-grid-template-columns:repeat(3,minmax(0,1fr))
+/* FORMS */
+
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
 }
 
-.food{
-background:var(--panel2);
-border:1px solid var(--line);
-padding:14px;
-border-radius:11px
+.form-group {
+    margin-bottom: 15px;
 }
 
-.food h3{font-size:14px;margin:0 0 5px}
-
-.food .price{
-color:var(--gold2);
-font-size:17px;
-font-weight:700
+.form-group label {
+    display: block;
+    color: #bbb;
+    font-size: 12px;
+    margin-bottom: 7px;
 }
 
-.food small{color:var(--muted)}
-.food button{margin-top:10px}
-
-.order-layout{
-display:grid;
-grid-template-columns:1.2fr .8fr;
-gap:15px
+.form-group input,
+.form-group select,
+.form-group textarea {
+    width: 100%;
+    background: #111;
+    border: 1px solid var(--border);
+    color: white;
+    padding: 12px;
+    border-radius: 8px;
+    outline: none;
 }
 
-.cartline{
-display:flex;
-justify-content:space-between;
-gap:8px;
-padding:9px 0;
-border-bottom:1px solid var(--line)
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+    border-color: var(--gold);
 }
 
-.cartline small{color:var(--muted)}
+/* BUTTONS */
 
-.totalrow{
-display:flex;
-justify-content:space-between;
-padding:7px 0
+.btn {
+    padding: 11px 17px;
+    border-radius: 8px;
+    font-size: 12px;
+    font-weight: bold;
+    margin: 4px 3px 4px 0;
 }
 
-.totalrow.grand{
-font-size:19px;
-color:var(--gold2);
-font-weight:800;
-border-top:1px solid var(--line);
-margin-top:8px;
-padding-top:13px
+.btn-gold {
+    background: var(--gold);
+    color: #111;
 }
 
-.notice{
-border:1px solid #5a4827;
-background:#292315;
-color:#ead49d;
-padding:11px;
-border-radius:8px;
-font-size:12px;
-margin-bottom:14px
+.btn-dark {
+    background: #303030;
+    color: white;
 }
 
-.mobile-head{display:none}
-.right{text-align:right}
-.hidden{display:none!important}
-
-@media(max-width:1050px){
-.stats{grid-template-columns:repeat(2,1fr)}
-.menu-grid{grid-template-columns:repeat(2,1fr)}
+.btn-red {
+    background: #542626;
+    color: #ffaaaa;
 }
 
-@media(max-width:760px){
-.sidebar{width:72px;padding:15px 8px}
-.brand{padding:4px 4px 18px}
-.brand strong{font-size:0}
-.brand strong:after{content:"SR";font-size:20px}
-.brand small,.navlabel,.nav button span:not(.ico){display:none}
-.nav button{justify-content:center;padding:12px 5px}
-.nav .ico{font-size:18px}
-.main{
-margin-left:72px;
-width:calc(100% - 72px);
-padding:18px 13px 40px
-}
-.topbar{align-items:flex-start}
-.topbar h1{font-size:21px}
-.badge{display:none}
-.cols,.order-layout{grid-template-columns:1fr}
-.stats{gap:9px}
-.stat-value{font-size:21px}
-.menu-grid{grid-template-columns:1fr 1fr}
-.form-grid{grid-template-columns:1fr}
-.field.full{grid-column:auto}
+.btn-green {
+    background: #174b34;
+    color: #77e6a8;
 }
 
-@media(max-width:420px){
-.menu-grid{grid-template-columns:1fr}
-.top-actions .btn{padding:8px;font-size:11px}
+/* TABLE */
+
+.table-wrap {
+    width: 100%;
+    overflow-x: auto;
 }
 
-@media print{
-.sidebar,.topbar,.no-print{display:none!important}
-.main{margin:0;width:100%;padding:0}
-.card{background:white;color:black;border:1px solid #ccc}
-.page{display:none!important}
-#page-pos{display:block!important}
-body{background:white;color:black}
+table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 600px;
 }
+
+th, td {
+    text-align: left;
+    padding: 13px 10px;
+    border-bottom: 1px solid var(--border);
+    font-size: 12px;
+}
+
+th {
+    color: var(--gold);
+    background: #222;
+}
+
+td {
+    color: #ddd;
+}
+
+/* IMAGE UPLOAD */
+
+.image-upload {
+    border: 1px dashed #76623b;
+    background: #171717;
+    border-radius: 12px;
+    padding: 18px;
+    text-align: center;
+}
+
+.image-upload input {
+    width: 100%;
+    margin-top: 12px;
+    color: var(--muted);
+}
+
+.image-preview {
+    width: 110px;
+    height: 110px;
+    border-radius: 12px;
+    object-fit: cover;
+    background: #292929;
+    border: 1px solid var(--border);
+    display: none;
+    margin: 10px auto;
+}
+
+.logo-preview {
+    width: 120px;
+    height: 120px;
+    border-radius: 18px;
+    object-fit: contain;
+    background: #292929;
+    padding: 5px;
+    border: 1px solid var(--gold);
+    display: none;
+    margin: 10px 0;
+}
+
+.product-image {
+    width: 55px;
+    height: 55px;
+    object-fit: cover;
+    border-radius: 9px;
+    background: #292929;
+}
+
+/* PRODUCT CARDS */
+
+.product-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+}
+
+.product-card {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.product-card img {
+    width: 100%;
+    height: 145px;
+    object-fit: cover;
+    background: #292929;
+}
+
+.product-info {
+    padding: 13px;
+}
+
+.product-info h3 {
+    font-size: 14px;
+    color: var(--gold2);
+}
+
+.product-info p {
+    color: var(--muted);
+    font-size: 11px;
+    margin-top: 7px;
+}
+
+/* RESPONSIVE */
+
+@media(max-width: 900px) {
+    .grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .product-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media(max-width: 650px) {
+
+    .sidebar {
+        width: 68px;
+        padding: 12px 7px;
+    }
+
+    .brand {
+        justify-content: center;
+        padding: 5px 0 15px;
+    }
+
+    .brand > div:last-child,
+    .nav-title {
+        display: none;
+    }
+
+    .nav-btn {
+        font-size: 0;
+        text-align: center;
+        padding: 14px 4px;
+    }
+
+    .nav-btn span {
+        font-size: 19px;
+    }
+
+    .main {
+        margin-left: 68px;
+        width: calc(100% - 68px);
+    }
+
+    .content {
+        padding: 14px;
+    }
+
+    .topbar {
+        padding: 12px;
+    }
+
+    .topbar h2 {
+        font-size: 15px;
+    }
+
+    .grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
+    }
+
+    .form-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .product-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
+    }
+
+    .stat-card {
+        padding: 12px;
+    }
+
+    .stat-card h2 {
+        font-size: 19px;
+    }
+}
+
 </style>
 </head>
 
@@ -394,3184 +495,3202 @@ body{background:white;color:black}
 
 <div class="app">
 
+<!-- SIDEBAR -->
+
 <aside class="sidebar">
 
-<div class="brand">
-<strong>SMART RESTRO</strong>
-<small>PRO • RESTAURANT ERP</small>
-</div>
+    <div class="brand">
 
-<nav class="nav">
+        <div class="brand-logo" id="sidebarLogo">
+            🍽️
+        </div>
 
-<div class="navlabel">OVERVIEW</div>
+        <div>
+            <h2>SMART RESTRO</h2>
+            <p>PRO RESTAURANT SYSTEM</p>
+        </div>
 
-<button class="active" data-page="dashboard">
-<span class="ico">▦</span><span>Dashboard</span>
-</button>
+    </div>
 
-<button data-page="profile">
-<span class="ico">♜</span><span>Restaurant Profile</span>
-</button>
+    <div class="nav-title">MAIN MENU</div>
 
-<div class="navlabel">RESTAURANT</div>
+    <button class="nav-btn active" onclick="showPage('dashboard',this)">
+        <span>📊</span> Dashboard
+    </button>
 
-<button data-page="menu">
-<span class="ico">♨</span><span>Menu Management</span>
-</button>
+    <button class="nav-btn" onclick="showPage('restaurant',this)">
+        <span>🏪</span> Restaurant Profile
+    </button>
 
-<button data-page="tables">
-<span class="ico">▤</span><span>Tables</span>
-</button>
+    <button class="nav-btn" onclick="showPage('menu',this)">
+        <span>🍔</span> Food Menu
+    </button>
 
-<button data-page="pos">
-<span class="ico">▣</span><span>POS Billing</span>
-</button>
+    <button class="nav-btn" onclick="showPage('tables',this)">
+        <span>🪑</span> Tables
+    </button>
 
-<button data-page="kitchen">
-<span class="ico">♨</span><span>Kitchen / KOT</span>
-</button>
+    <div class="nav-title">OPERATIONS</div>
 
-<button data-page="orders">
-<span class="ico">☷</span><span>Orders</span>
-</button>
+    <button class="nav-btn" onclick="showPage('pos',this)">
+        <span>🛒</span> POS Billing
+    </button>
 
-<div class="navlabel">BUSINESS</div>
+    <button class="nav-btn" onclick="showPage('kitchen',this)">
+        <span>👨‍🍳</span> Kitchen KOT
+    </button>
 
-<button data-page="inventory">
-<span class="ico">▧</span><span>Inventory</span>
-</button>
+    <button class="nav-btn" onclick="showPage('orders',this)">
+        <span>📋</span> Orders
+    </button>
 
-<button data-page="purchase">
-<span class="ico">＋</span><span>Purchases</span>
-</button>
+    <button class="nav-btn" onclick="showPage('inventory',this)">
+        <span>📦</span> Inventory
+    </button>
 
-<button data-page="customers">
-<span class="ico">♙</span><span>Customers</span>
-</button>
+    <button class="nav-btn" onclick="showPage('purchases',this)">
+        <span>🚚</span> Purchases
+    </button>
 
-<button data-page="suppliers">
-<span class="ico">♧</span><span>Suppliers</span>
-</button>
+    <div class="nav-title">MANAGEMENT</div>
 
-<button data-page="staff">
-<span class="ico">♟</span><span>Staff</span>
-</button>
+    <button class="nav-btn" onclick="showPage('customers',this)">
+        <span>👥</span> Customers
+    </button>
 
-<button data-page="expenses">
-<span class="ico">₹</span><span>Expenses</span>
-</button>
+    <button class="nav-btn" onclick="showPage('suppliers',this)">
+        <span>🏭</span> Suppliers
+    </button>
 
-<div class="navlabel">ANALYTICS & DATA</div>
+    <button class="nav-btn" onclick="showPage('staff',this)">
+        <span>👨‍💼</span> Staff
+    </button>
 
-<button data-page="reports">
-<span class="ico">▥</span><span>Reports</span>
-</button>
+    <button class="nav-btn" onclick="showPage('expenses',this)">
+        <span>💸</span> Expenses
+    </button>
 
-<button data-page="branches">
-<span class="ico">⌂</span><span>Branches</span>
-</button>
+    <div class="nav-title">BUSINESS</div>
 
-<button data-page="backup">
-<span class="ico">⤓</span><span>Backup & Restore</span>
-</button>
+    <button class="nav-btn" onclick="showPage('reports',this)">
+        <span>📈</span> Reports
+    </button>
 
-</nav>
+    <button class="nav-btn" onclick="showPage('branches',this)">
+        <span>🏢</span> Branches
+    </button>
+
+    <button class="nav-btn" onclick="showPage('backup',this)">
+        <span>💾</span> Backup
+    </button>
+
 </aside>
+
+
+<!-- MAIN CONTENT -->
 
 <main class="main">
 
 <header class="topbar">
-<div>
-<div class="crumb">
-RESTAURANT MANAGEMENT /
-<span id="crumb">DASHBOARD</span>
-</div>
-<h1 id="pageTitle">Dashboard</h1>
-</div>
 
-<div class="top-actions">
-<span class="badge">✦ LUXURY EDITION</span>
-<button class="btn secondary" onclick="showPage('pos')">
-＋ New Order
-</button>
-</div>
+    <div>
+        <h2 id="pageTitle">Dashboard</h2>
+        <small id="restaurantHeader">Welcome to SMART RESTRO PRO</small>
+    </div>
+
+    <div class="status">
+        ● SYSTEM ACTIVE
+    </div>
+
 </header>
+
+<div class="content">
+
 
 <!-- DASHBOARD -->
 
 <section class="page active" id="page-dashboard">
 
-<div class="notice">
-Welcome to SMART RESTRO PRO. Start by setting up your restaurant profile and adding menu items. Your information is saved in this browser.
-</div>
+    <div class="page-heading">
+        <h2>Restaurant Dashboard</h2>
+        <p>Manage your restaurant business from one place.</p>
+    </div>
 
-<div class="grid stats">
+    <div class="grid">
 
-<div class="card">
-<div class="stat-title">TODAY'S REVENUE</div>
-<div class="stat-value" id="dashRevenue">₹0.00</div>
-<div class="stat-note">Completed orders</div>
-</div>
+        <div class="card stat-card">
+            <p>Today's Sales</p>
+            <h2 id="dashSales">₹0.00</h2>
+        </div>
 
-<div class="card">
-<div class="stat-title">TOTAL ORDERS</div>
-<div class="stat-value" id="dashOrders">0</div>
-<div class="stat-note">All recorded orders</div>
-</div>
+        <div class="card stat-card">
+            <p>Total Orders</p>
+            <h2 id="dashOrders">0</h2>
+        </div>
 
-<div class="card">
-<div class="stat-title">TODAY'S EXPENSES</div>
-<div class="stat-value" id="dashExpenses">₹0.00</div>
-<div class="stat-note">Recorded expenses</div>
-</div>
+        <div class="card stat-card">
+            <p>Menu Items</p>
+            <h2 id="dashMenu">0</h2>
+        </div>
 
-<div class="card">
-<div class="stat-title">ESTIMATED NET</div>
-<div class="stat-value" id="dashProfit">₹0.00</div>
-<div class="stat-note">Revenue less expenses</div>
-</div>
+        <div class="card stat-card">
+            <p>Total Expenses</p>
+            <h2 id="dashExpenses">₹0.00</h2>
+        </div>
 
-</div>
+    </div>
 
-<div class="grid cols">
+    <div class="card">
+        <h3 class="section-title">Welcome to SMART RESTRO PRO</h3>
+        <p style="color:#aaa;line-height:1.8;font-size:13px;">
+            Your complete restaurant management solution.
+            Manage food items, product images, restaurant details,
+            billing, kitchen orders, inventory, expenses and reports.
+        </p>
+    </div>
 
-<div class="card">
-<div class="section-head">
-<h2>Recent Orders</h2>
-<button class="btn small secondary" onclick="showPage('orders')">
-View all
-</button>
-</div>
-<div id="recentOrders"></div>
-</div>
+    <div class="card">
+        <h3 class="section-title">Quick Access</h3>
 
-<div class="card">
-<div class="section-head">
-<h2>Restaurant Snapshot</h2>
-</div>
+        <button class="btn btn-gold"
+        onclick="showPage('pos')">＋ New Order</button>
 
-<div class="totalrow">
-<span class="muted">Restaurant</span>
-<b id="snapName">Not configured</b>
-</div>
+        <button class="btn btn-dark"
+        onclick="showPage('menu')">🍔 Manage Menu</button>
 
-<div class="totalrow">
-<span class="muted">Menu items</span>
-<b id="snapMenu">0</b>
-</div>
+        <button class="btn btn-dark"
+        onclick="showPage('restaurant')">🏪 Restaurant Profile</button>
 
-<div class="totalrow">
-<span class="muted">Tables</span>
-<b id="snapTables">0</b>
-</div>
+    </div>
 
-<div class="totalrow">
-<span class="muted">Inventory items</span>
-<b id="snapInventory">0</b>
-</div>
-
-<div class="totalrow">
-<span class="muted">Open kitchen orders</span>
-<b id="snapKitchen">0</b>
-</div>
-
-</div>
-</div>
 </section>
+
 
 <!-- RESTAURANT PROFILE -->
 
-<section class="page" id="page-profile">
+<section class="page" id="page-restaurant">
 
-<div class="card">
+    <div class="page-heading">
+        <h2>Restaurant Profile</h2>
+        <p>Set up your restaurant information and upload its logo.</p>
+    </div>
 
-<div class="section-head">
-<h2>Restaurant Information</h2>
-<span class="pill">Business setup</span>
-</div>
+    <div class="card">
 
-<form id="profileForm" class="form-grid">
+        <h3 class="section-title">Restaurant Logo</h3>
 
-<div class="field">
-<label>Restaurant Name</label>
-<input id="pName" required placeholder="e.g. Royal Spice Restaurant">
-</div>
+        <div class="image-upload">
 
-<div class="field">
-<label>Owner Name</label>
-<input id="pOwner" placeholder="Owner / proprietor">
-</div>
+            <img id="restaurantLogoPreview"
+            class="logo-preview" alt="Restaurant logo preview">
 
-<div class="field">
-<label>Phone Number</label>
-<input id="pPhone" placeholder="Contact number">
-</div>
+            <p style="color:#aaa;font-size:12px;">
+                Upload your restaurant logo
+            </p>
 
-<div class="field">
-<label>Email</label>
-<input id="pEmail" type="email" placeholder="name@example.com">
-</div>
+            <input type="file"
+            id="restaurantLogoInput"
+            accept="image/png,image/jpeg,image/webp">
 
-<div class="field">
-<label>GSTIN (optional)</label>
-<input id="pGst" placeholder="15-character GSTIN">
-</div>
+        </div>
 
-<div class="field">
-<label>FSSAI Licence No. (optional)</label>
-<input id="pFssai" placeholder="FSSAI number">
-</div>
+    </div>
 
-<div class="field">
-<label>Default GST rate (%)</label>
-<select id="pTax">
-<option value="0">0%</option>
-<option value="5" selected>5%</option>
-<option value="12">12%</option>
-<option value="18">18%</option>
-</select>
-</div>
+    <div class="card">
 
-<div class="field">
-<label>Restaurant type</label>
-<select id="pType">
-<option>Restaurant</option>
-<option>Café</option>
-<option>Hotel</option>
-<option>Food Court</option>
-<option>Cloud Kitchen</option>
-</select>
-</div>
+        <h3 class="section-title">Restaurant Information</h3>
 
-<div class="field full">
-<label>Address</label>
-<textarea id="pAddress" rows="2" placeholder="Full business address"></textarea>
-</div>
+        <div class="form-grid">
 
-<div class="field full">
-<button class="btn" type="submit">Save Restaurant Profile</button>
-</div>
+            <div class="form-group">
+                <label>Restaurant Name</label>
+                <input id="restaurantName"
+                placeholder="Enter restaurant name">
+            </div>
 
-</form>
-</div>
+            <div class="form-group">
+                <label>Owner Name</label>
+                <input id="ownerName"
+                placeholder="Enter owner name">
+            </div>
+
+            <div class="form-group">
+                <label>Phone Number</label>
+                <input id="restaurantPhone"
+                type="tel"
+                placeholder="Enter phone number">
+            </div>
+
+            <div class="form-group">
+                <label>Email Address</label>
+                <input id="restaurantEmail"
+                type="email"
+                placeholder="Enter email">
+            </div>
+
+            <div class="form-group">
+                <label>GSTIN</label>
+                <input id="restaurantGST"
+                placeholder="Enter GSTIN (if applicable)">
+            </div>
+
+            <div class="form-group">
+                <label>Business Type</label>
+                <select id="restaurantType">
+                    <option>Restaurant</option>
+                    <option>Fast Food</option>
+                    <option>Cafe</option>
+                    <option>Bakery</option>
+                    <option>Hotel</option>
+                    <option>Food Court</option>
+                    <option>Sweet Shop</option>
+                </select>
+            </div>
+
+        </div>
+
+        <div class="form-group">
+            <label>Restaurant Address</label>
+            <textarea id="restaurantAddress"
+            rows="3"
+            placeholder="Enter complete address"></textarea>
+        </div>
+
+        <button class="btn btn-gold"
+        onclick="saveRestaurant()">SAVE RESTAURANT DETAILS</button>
+
+    </div>
+
 </section>
 
-<!-- MENU MANAGEMENT -->
+
+<!-- FOOD MENU -->
 
 <section class="page" id="page-menu">
 
-<div class="card">
+    <div class="page-heading">
+        <h2>Food Menu Management</h2>
+        <p>Add food items with images, prices and GST rates.</p>
+    </div>
 
-<div class="section-head">
-<h2>Add / Update Menu Item</h2>
-<span class="pill">Food catalogue</span>
-</div>
+    <div class="card">
 
-<form id="menuForm" class="form-grid">
+        <h3 class="section-title">Add New Food Item</h3>
 
-<input type="hidden" id="mId">
+        <div class="form-group">
 
-<div class="field">
-<label>Food Item Name</label>
-<input id="mName" required placeholder="e.g. Paneer Butter Masala">
-</div>
+            <label>Food Product Image</label>
 
-<div class="field">
-<label>Category</label>
-<select id="mCategory">
-<option>Starters</option>
-<option>Main Course</option>
-<option>Biryani & Rice</option>
-<option>Breads</option>
-<option>Beverages</option>
-<option>Desserts</option>
-<option>Snacks</option>
-<option>Other</option>
-</select>
-</div>
+            <div class="image-upload">
 
-<div class="field">
-<label>Selling Price (₹)</label>
-<input id="mPrice" type="number" min="0" step=".01" required>
-</div>
+                <img id="productImagePreview"
+                class="image-preview"
+                alt="Food image preview">
 
-<div class="field">
-<label>GST Rate (%)</label>
-<select id="mTax">
-<option>0</option>
-<option selected>5</option>
-<option>12</option>
-<option>18</option>
-</select>
-</div>
+                <p style="color:#aaa;font-size:12px;">
+                    Upload a food product photo
+                </p>
 
-<div class="field">
-<label>Food / Menu Code</label>
-<input id="mCode" placeholder="Optional code">
-</div>
+                <input type="file"
+                id="productImageInput"
+                accept="image/png,image/jpeg,image/webp">
 
-<div class="field">
-<label>Availability</label>
-<select id="mAvailable">
-<option value="yes">Available</option>
-<option value="no">Unavailable</option>
-</select>
-</div>
+            </div>
 
-<div class="field full">
-<label>Description</label>
-<input id="mDesc" placeholder="Short description">
-</div>
+        </div>
 
-<div class="field full inline">
-<button class="btn" type="submit">Save Menu Item</button>
-<button class="btn secondary" type="button" onclick="resetMenuForm()">Clear</button>
-</div>
+        <div class="form-grid">
 
-</form>
-</div>
+            <div class="form-group">
+                <label>Food Name</label>
+                <input id="foodName"
+                placeholder="Example: Paneer Butter Masala">
+            </div>
 
-<div class="card" style="margin-top:15px">
+            <div class="form-group">
+                <label>Food Code</label>
+                <input id="foodCode"
+                placeholder="Example: FD001">
+            </div>
 
-<div class="section-head">
-<h2>Menu Catalogue</h2>
-<input id="menuSearch" placeholder="Search food..." style="max-width:220px">
-</div>
+            <div class="form-group">
+                <label>Category</label>
+                <select id="foodCategory">
+                    <option>Starters</option>
+                    <option>South Indian</option>
+                    <option>North Indian</option>
+                    <option>Chinese</option>
+                    <option>Fast Food</option>
+                    <option>Main Course</option>
+                    <option>Breads</option>
+                    <option>Desserts</option>
+                    <option>Beverages</option>
+                    <option>Snacks</option>
+                </select>
+            </div>
 
-<div id="menuList" class="grid menu-grid"></div>
+            <div class="form-group">
+                <label>Food Price (₹)</label>
+                <input id="foodPrice"
+                type="number"
+                min="0"
+                placeholder="Enter selling price">
+            </div>
 
-</div>
+            <div class="form-group">
+                <label>Food Cost (₹)</label>
+                <input id="foodCost"
+                type="number"
+                min="0"
+                placeholder="Enter preparation cost">
+            </div>
+
+            <div class="form-group">
+                <label>GST Rate</label>
+                <select id="foodGST">
+                    <option value="0">0%</option>
+                    <option value="5" selected>5%</option>
+                    <option value="12">12%</option>
+                    <option value="18">18%</option>
+                    <option value="28">28%</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Available Quantity</label>
+                <input id="foodStock"
+                type="number"
+                min="0"
+                placeholder="Enter quantity">
+            </div>
+
+            <div class="form-group">
+                <label>Food Availability</label>
+                <select id="foodAvailability">
+                    <option value="Available">Available</option>
+                    <option value="Unavailable">Unavailable</option>
+                </select>
+            </div>
+
+        </div>
+
+        <div class="form-group">
+            <label>Food Description</label>
+            <textarea id="foodDescription"
+            rows="3"
+            placeholder="Describe your food item"></textarea>
+        </div>
+
+        <button class="btn btn-gold"
+        onclick="addFood()">＋ ADD FOOD ITEM</button>
+
+        <button class="btn btn-dark"
+        onclick="clearFoodForm()">CLEAR FORM</button>
+
+    </div>
+
+    <div class="card">
+
+        <h3 class="section-title">Your Food Products</h3>
+
+        <div class="form-group">
+            <input id="menuSearch"
+            placeholder="🔍 Search food products..."
+            oninput="renderMenu()">
+        </div>
+
+        <div class="product-grid" id="productGrid">
+
+            <p style="color:#aaa;">
+                No food items added yet.
+            </p>
+
+        </div>
+
+    </div>
+
 </section>
-
 <!-- TABLE MANAGEMENT -->
 
 <section class="page" id="page-tables">
 
-<div class="card">
+    <div class="page-heading">
+        <h2>Table Management</h2>
+        <p>Manage restaurant seating and table availability.</p>
+    </div>
 
-<div class="section-head">
-<h2>Table Management</h2>
-<button class="btn" onclick="addTable()">＋ Add Table</button>
-</div>
+    <div class="card">
+        <h3 class="section-title">Add Restaurant Table</h3>
 
-<p class="muted">
-Track dine-in table availability. Choose a table while creating a dine-in order.
-</p>
+        <div class="form-grid">
 
-<div id="tableList" class="grid menu-grid"></div>
+            <div class="form-group">
+                <label>Table Number</label>
+                <input id="tableNumber" placeholder="Example: T01">
+            </div>
 
-</div>
+            <div class="form-group">
+                <label>Seating Capacity</label>
+                <input id="tableCapacity" type="number" min="1"
+                placeholder="Number of seats">
+            </div>
+
+        </div>
+
+        <button class="btn btn-gold" onclick="addTable()">
+            ＋ ADD TABLE
+        </button>
+    </div>
+
+    <div class="card">
+        <h3 class="section-title">Restaurant Tables</h3>
+
+        <div class="table-wrap">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Table</th>
+                        <th>Capacity</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody id="tableList"></tbody>
+            </table>
+        </div>
+    </div>
+
 </section>
+
 
 <!-- POS BILLING -->
 
 <section class="page" id="page-pos">
 
-<div class="order-layout">
+    <div class="page-heading">
+        <h2>POS Billing</h2>
+        <p>Create customer orders and generate restaurant bills.</p>
+    </div>
 
-<div class="card">
+    <div class="card">
 
-<div class="section-head">
-<h2>Create New Order</h2>
-<span class="pill">Point of Sale</span>
-</div>
+        <h3 class="section-title">Order Information</h3>
 
-<div class="form-grid">
+        <div class="form-grid">
 
-<div class="field">
-<label>Order Type</label>
-<select id="orderType">
-<option>Dine-in</option>
-<option>Takeaway</option>
-<option>Delivery</option>
-</select>
-</div>
+            <div class="form-group">
+                <label>Customer Name</label>
+                <input id="posCustomer" placeholder="Customer name">
+            </div>
 
-<div class="field" id="tableField">
-<label>Select Table</label>
-<select id="orderTable"></select>
-</div>
+            <div class="form-group">
+                <label>Customer Phone</label>
+                <input id="posPhone" type="tel"
+                placeholder="Phone number">
+            </div>
 
-<div class="field">
-<label>Customer Name</label>
-<input id="orderCustomer" placeholder="Customer name">
-</div>
+            <div class="form-group">
+                <label>Order Type</label>
+                <select id="posOrderType">
+                    <option>Dine In</option>
+                    <option>Takeaway</option>
+                    <option>Delivery</option>
+                </select>
+            </div>
 
-<div class="field">
-<label>Customer Phone</label>
-<input id="orderPhone" placeholder="Phone number">
-</div>
+            <div class="form-group">
+                <label>Table Number</label>
+                <select id="posTable">
+                    <option value="">Select table</option>
+                </select>
+            </div>
 
-<div class="field">
-<label>Payment Method</label>
-<select id="orderPayment">
-<option>Cash</option>
-<option>UPI</option>
-<option>Card</option>
-<option>Bank Transfer</option>
-<option>Credit</option>
-</select>
-</div>
+            <div class="form-group">
+                <label>Payment Method</label>
+                <select id="posPayment">
+                    <option>Cash</option>
+                    <option>UPI</option>
+                    <option>Google Pay</option>
+                    <option>PhonePe</option>
+                    <option>Paytm</option>
+                    <option>Card</option>
+                    <option>Bank Transfer</option>
+                    <option>Credit</option>
+                </select>
+            </div>
 
-<div class="field">
-<label>Discount (₹)</label>
-<input id="orderDiscount" type="number" min="0" value="0">
-</div>
+            <div class="form-group">
+                <label>GST Type</label>
+                <select id="posGSTType">
+                    <option value="inclusive">Price Inclusive of GST</option>
+                    <option value="exclusive">Price Exclusive of GST</option>
+                </select>
+            </div>
 
-</div>
+            <div class="form-group">
+                <label>Discount (₹)</label>
+                <input id="posDiscount" type="number"
+                min="0" value="0">
+            </div>
 
-<div class="section-head" style="margin-top:20px">
-<h2>Select Food Items</h2>
-<input id="posSearch" placeholder="Search menu..." style="max-width:170px">
-</div>
+        </div>
 
-<div id="posMenu" class="grid menu-grid"></div>
+    </div>
 
-</div>
+    <div class="card">
 
-<div class="card">
+        <h3 class="section-title">Select Food Items</h3>
 
-<div class="section-head">
-<h2>Order Summary</h2>
-<span class="pill">Current Cart</span>
-</div>
+        <div class="form-group">
+            <input id="posSearch"
+            placeholder="🔍 Search food..."
+            oninput="renderPosMenu()">
+        </div>
 
-<div id="cartItems">
-<div class="empty">No items added yet.</div>
-</div>
+        <div class="product-grid" id="posMenuGrid"></div>
 
-<div class="totalrow">
-<span>Subtotal</span>
-<b id="cartSubtotal">₹0.00</b>
-</div>
+    </div>
 
-<div class="totalrow">
-<span>GST</span>
-<b id="cartTax">₹0.00</b>
-</div>
+    <div class="card">
 
-<div class="totalrow">
-<span>Discount</span>
-<b id="cartDiscount">₹0.00</b>
-</div>
+        <h3 class="section-title">Shopping Cart</h3>
 
-<div class="totalrow grand">
-<span>Grand Total</span>
-<b id="cartGrand">₹0.00</b>
-</div>
+        <div class="table-wrap">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Food</th>
+                        <th>Price</th>
+                        <th>Quantity</th>
+                        <th>Total</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody id="cartList"></tbody>
+            </table>
+        </div>
 
-<button class="btn" style="width:100%;margin-top:16px"
-onclick="placeOrder()">✓ Generate Bill</button>
+        <div style="margin-top:20px;line-height:2;">
+            <p>Subtotal: <b id="cartSubtotal">₹0.00</b></p>
+            <p>GST: <b id="cartGST">₹0.00</b></p>
+            <p>Discount: <b id="cartDiscount">₹0.00</b></p>
+            <h2 style="color:var(--gold2);">
+                Grand Total: <span id="cartGrandTotal">₹0.00</span>
+            </h2>
+        </div>
 
-<button class="btn secondary" style="width:100%;margin-top:9px"
-onclick="clearCart()">Clear Cart</button>
+        <button class="btn btn-gold" onclick="generateBill()">
+            GENERATE BILL
+        </button>
 
-</div>
-</div>
+        <button class="btn btn-dark" onclick="clearCart()">
+            CLEAR CART
+        </button>
+
+    </div>
+
 </section>
 
-<!-- KITCHEN / KOT -->
+
+<!-- KITCHEN KOT -->
 
 <section class="page" id="page-kitchen">
 
-<div class="card">
+    <div class="page-heading">
+        <h2>Kitchen Order Ticket</h2>
+        <p>Track food preparation and kitchen orders.</p>
+    </div>
 
-<div class="section-head">
-<h2>Kitchen Order Tickets</h2>
-<span class="pill">Kitchen display</span>
-</div>
+    <div class="card">
 
-<p class="muted">
-Track orders from new to completed. Update the status as the kitchen prepares each order.
-</p>
+        <h3 class="section-title">Kitchen Orders</h3>
 
-<div id="kitchenList"></div>
+        <div class="table-wrap">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Order ID</th>
+                        <th>Customer</th>
+                        <th>Items</th>
+                        <th>Order Time</th>
+                        <th>Status</th>
+                        <th>Update</th>
+                    </tr>
+                </thead>
+                <tbody id="kitchenList"></tbody>
+            </table>
+        </div>
 
-</div>
+    </div>
+
 </section>
 
-<!-- ORDERS -->
+
+<!-- ORDER MANAGEMENT -->
 
 <section class="page" id="page-orders">
 
-<div class="card">
+    <div class="page-heading">
+        <h2>Order Management</h2>
+        <p>View, track and manage restaurant orders.</p>
+    </div>
 
-<div class="section-head">
-<h2>Order Register</h2>
-<button class="btn secondary" onclick="exportOrders()">Export CSV</button>
-</div>
+    <div class="card">
 
-<div class="toolbar">
-<input id="orderSearch" placeholder="Search order / customer...">
-<select id="orderFilter">
-<option value="all">All Orders</option>
-<option>New</option>
-<option>Preparing</option>
-<option>Ready</option>
-<option>Completed</option>
-</select>
-</div>
+        <h3 class="section-title">All Orders</h3>
 
-<div id="ordersList"></div>
+        <div class="form-group">
+            <input id="orderSearch"
+            placeholder="🔍 Search order or customer..."
+            oninput="renderOrders()">
+        </div>
 
-</div>
+        <div class="table-wrap">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Order ID</th>
+                        <th>Date</th>
+                        <th>Customer</th>
+                        <th>Type</th>
+                        <th>Payment</th>
+                        <th>Total</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody id="orderList"></tbody>
+            </table>
+        </div>
+
+    </div>
+
 </section>
+
 
 <!-- INVENTORY -->
 
 <section class="page" id="page-inventory">
 
-<div class="card">
+    <div class="page-heading">
+        <h2>Inventory Management</h2>
+        <p>Manage restaurant ingredients and stock.</p>
+    </div>
 
-<div class="section-head">
-<h2>Add Inventory Item</h2>
-<span class="pill">Stock management</span>
-</div>
+    <div class="card">
 
-<form id="inventoryForm" class="form-grid">
+        <h3 class="section-title">Add Inventory Item</h3>
 
-<input type="hidden" id="iId">
+        <div class="form-grid">
 
-<div class="field">
-<label>Ingredient / Item Name</label>
-<input id="iName" required placeholder="e.g. Basmati Rice">
-</div>
+            <div class="form-group">
+                <label>Ingredient Name</label>
+                <input id="inventoryName"
+                placeholder="Example: Rice">
+            </div>
 
-<div class="field">
-<label>Item Code</label>
-<input id="iCode" placeholder="INV001">
-</div>
+            <div class="form-group">
+                <label>Item Code</label>
+                <input id="inventoryCode"
+                placeholder="Example: INV001">
+            </div>
 
-<div class="field">
-<label>Unit</label>
-<select id="iUnit">
-<option>Kg</option>
-<option>Gram</option>
-<option>Litre</option>
-<option>ML</option>
-<option>Piece</option>
-<option>Packet</option>
-<option>Box</option>
-</select>
-</div>
+            <div class="form-group">
+                <label>Category</label>
+                <select id="inventoryCategory">
+                    <option>Vegetables</option>
+                    <option>Fruits</option>
+                    <option>Grains</option>
+                    <option>Dairy</option>
+                    <option>Spices</option>
+                    <option>Oil</option>
+                    <option>Beverages</option>
+                    <option>Packaging</option>
+                    <option>Other</option>
+                </select>
+            </div>
 
-<div class="field">
-<label>Available Quantity</label>
-<input id="iQty" type="number" min="0" step=".01" value="0">
-</div>
+            <div class="form-group">
+                <label>Unit</label>
+                <select id="inventoryUnit">
+                    <option>Kg</option>
+                    <option>Gram</option>
+                    <option>Litre</option>
+                    <option>ML</option>
+                    <option>Packet</option>
+                    <option>Piece</option>
+                    <option>Box</option>
+                </select>
+            </div>
 
-<div class="field">
-<label>Cost per Unit (₹)</label>
-<input id="iCost" type="number" min="0" step=".01" value="0">
-</div>
+            <div class="form-group">
+                <label>Opening Stock</label>
+                <input id="inventoryStock" type="number"
+                min="0" placeholder="Quantity">
+            </div>
 
-<div class="field">
-<label>Low Stock Alert Quantity</label>
-<input id="iMin" type="number" min="0" step=".01" value="5">
-</div>
+            <div class="form-group">
+                <label>Cost Per Unit (₹)</label>
+                <input id="inventoryCost" type="number"
+                min="0" placeholder="Purchase cost">
+            </div>
 
-<div class="field full inline">
-<button class="btn" type="submit">Save Inventory Item</button>
-<button class="btn secondary" type="button" onclick="resetInventoryForm()">Clear</button>
-</div>
+            <div class="form-group">
+                <label>Low Stock Alert</label>
+                <input id="inventoryLimit" type="number"
+                min="0" placeholder="Minimum quantity">
+            </div>
 
-</form>
+        </div>
 
-</div>
+        <button class="btn btn-gold" onclick="addInventory()">
+            ＋ ADD INVENTORY
+        </button>
 
-<div class="card" style="margin-top:15px">
+    </div>
 
-<div class="section-head">
-<h2>Inventory Register</h2>
-<input id="inventorySearch" placeholder="Search inventory..." style="max-width:200px">
-</div>
+    <div class="card">
 
-<div id="inventoryList"></div>
+        <h3 class="section-title">Available Stock</h3>
 
-</div>
+        <div class="table-wrap">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Item</th>
+                        <th>Code</th>
+                        <th>Category</th>
+                        <th>Stock</th>
+                        <th>Unit</th>
+                        <th>Cost</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody id="inventoryList"></tbody>
+            </table>
+        </div>
+
+    </div>
+
 </section>
+
 
 <!-- PURCHASES -->
 
-<section class="page" id="page-purchase">
+<section class="page" id="page-purchases">
 
-<div class="card">
+    <div class="page-heading">
+        <h2>Purchase Management</h2>
+        <p>Record purchases from suppliers and update inventory.</p>
+    </div>
 
-<div class="section-head">
-<h2>Record Purchase</h2>
-<span class="pill">Stock inward</span>
-</div>
+    <div class="card">
 
-<form id="purchaseForm" class="form-grid">
+        <h3 class="section-title">New Purchase</h3>
 
-<div class="field">
-<label>Purchase Date</label>
-<input id="buyDate" type="date" required>
-</div>
+        <div class="form-grid">
 
-<div class="field">
-<label>Inventory Item</label>
-<select id="buyItem" required></select>
-</div>
+            <div class="form-group">
+                <label>Supplier Name</label>
+                <input id="purchaseSupplier"
+                placeholder="Supplier name">
+            </div>
 
-<div class="field">
-<label>Supplier Name</label>
-<input id="buySupplier" placeholder="Supplier name">
-</div>
+            <div class="form-group">
+                <label>Purchase Date</label>
+                <input id="purchaseDate" type="date">
+            </div>
 
-<div class="field">
-<label>Quantity Purchased</label>
-<input id="buyQty" type="number" min=".01" step=".01" required>
-</div>
+            <div class="form-group">
+                <label>Inventory Item</label>
+                <select id="purchaseItem">
+                    <option value="">Select item</option>
+                </select>
+            </div>
 
-<div class="field">
-<label>Cost per Unit (₹)</label>
-<input id="buyCost" type="number" min="0" step=".01" required>
-</div>
+            <div class="form-group">
+                <label>Quantity Purchased</label>
+                <input id="purchaseQuantity" type="number"
+                min="0" placeholder="Quantity">
+            </div>
 
-<div class="field">
-<label>Invoice Number</label>
-<input id="buyInvoice" placeholder="Invoice number">
-</div>
+            <div class="form-group">
+                <label>Cost Per Unit (₹)</label>
+                <input id="purchaseCost" type="number"
+                min="0" placeholder="Cost">
+            </div>
 
-<div class="field full">
-<button class="btn" type="submit">Save Purchase & Update Stock</button>
-</div>
+            <div class="form-group">
+                <label>Invoice Number</label>
+                <input id="purchaseInvoice"
+                placeholder="Invoice number">
+            </div>
 
-</form>
+        </div>
 
-</div>
+        <button class="btn btn-gold" onclick="addPurchase()">
+            SAVE PURCHASE
+        </button>
 
-<div class="card" style="margin-top:15px">
-<div class="section-head">
-<h2>Purchase History</h2>
-</div>
-<div id="purchaseList"></div>
-</div>
+    </div>
+
+    <div class="card">
+
+        <h3 class="section-title">Purchase History</h3>
+
+        <div class="table-wrap">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Supplier</th>
+                        <th>Item</th>
+                        <th>Quantity</th>
+                        <th>Unit Cost</th>
+                        <th>Total</th>
+                        <th>Invoice</th>
+                    </tr>
+                </thead>
+                <tbody id="purchaseList"></tbody>
+            </table>
+        </div>
+
+    </div>
 
 </section>
+
 
 <!-- CUSTOMERS -->
 
 <section class="page" id="page-customers">
 
-<div class="card">
+    <div class="page-heading">
+        <h2>Customer Management</h2>
+        <p>View your restaurant's customer records.</p>
+    </div>
 
-<div class="section-head">
-<h2>Customer Directory</h2>
-<span class="pill">Customer records</span>
-</div>
+    <div class="card">
 
-<p class="muted">
-Customer details are collected from recorded orders.
-</p>
+        <h3 class="section-title">Customer Directory</h3>
 
-<div id="customerList"></div>
+        <div class="form-group">
+            <input id="customerSearch"
+            placeholder="🔍 Search customer..."
+            oninput="renderCustomers()">
+        </div>
 
-</div>
+        <div class="table-wrap">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Customer</th>
+                        <th>Phone</th>
+                        <th>Total Orders</th>
+                        <th>Total Spending</th>
+                    </tr>
+                </thead>
+                <tbody id="customerList"></tbody>
+            </table>
+        </div>
+
+    </div>
+
 </section>
+
 
 <!-- SUPPLIERS -->
 
 <section class="page" id="page-suppliers">
 
-<div class="card">
+    <div class="page-heading">
+        <h2>Supplier Management</h2>
+        <p>Maintain details of your restaurant suppliers.</p>
+    </div>
 
-<div class="section-head">
-<h2>Add Supplier</h2>
-</div>
+    <div class="card">
 
-<form id="supplierForm" class="form-grid">
+        <h3 class="section-title">Add Supplier</h3>
 
-<input type="hidden" id="sId">
+        <div class="form-grid">
 
-<div class="field">
-<label>Supplier Name</label>
-<input id="sName" required>
-</div>
+            <div class="form-group">
+                <label>Supplier Name</label>
+                <input id="supplierName"
+                placeholder="Business name">
+            </div>
 
-<div class="field">
-<label>Phone Number</label>
-<input id="sPhone">
-</div>
+            <div class="form-group">
+                <label>Contact Person</label>
+                <input id="supplierContact"
+                placeholder="Contact person">
+            </div>
 
-<div class="field">
-<label>Email</label>
-<input id="sEmail" type="email">
-</div>
+            <div class="form-group">
+                <label>Phone Number</label>
+                <input id="supplierPhone"
+                type="tel" placeholder="Phone number">
+            </div>
 
-<div class="field">
-<label>GSTIN (optional)</label>
-<input id="sGst">
-</div>
+            <div class="form-group">
+                <label>Email</label>
+                <input id="supplierEmail"
+                type="email" placeholder="Email address">
+            </div>
 
-<div class="field full">
-<label>Address</label>
-<textarea id="sAddress" rows="2"></textarea>
-</div>
+            <div class="form-group">
+                <label>GSTIN</label>
+                <input id="supplierGST"
+                placeholder="GSTIN (optional)">
+            </div>
 
-<div class="field full inline">
-<button class="btn" type="submit">Save Supplier</button>
-<button class="btn secondary" type="button" onclick="resetSupplierForm()">Clear</button>
-</div>
+        </div>
 
-</form>
+        <button class="btn btn-gold" onclick="addSupplier()">
+            ＋ ADD SUPPLIER
+        </button>
 
-</div>
+    </div>
 
-<div class="card" style="margin-top:15px">
-<div class="section-head">
-<h2>Supplier Register</h2>
-</div>
-<div id="supplierList"></div>
-</div>
+    <div class="card">
+
+        <h3 class="section-title">Supplier List</h3>
+
+        <div class="table-wrap">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Supplier</th>
+                        <th>Contact Person</th>
+                        <th>Phone</th>
+                        <th>Email</th>
+                        <th>GSTIN</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody id="supplierList"></tbody>
+            </table>
+        </div>
+
+    </div>
 
 </section>
+
 
 <!-- STAFF -->
 
 <section class="page" id="page-staff">
 
-<div class="card">
+    <div class="page-heading">
+        <h2>Staff Management</h2>
+        <p>Manage restaurant employees and their roles.</p>
+    </div>
 
-<div class="section-head">
-<h2>Add Staff Member</h2>
-</div>
+    <div class="card">
 
-<form id="staffForm" class="form-grid">
+        <h3 class="section-title">Add Staff Member</h3>
 
-<input type="hidden" id="stId">
+        <div class="form-grid">
 
-<div class="field">
-<label>Staff Name</label>
-<input id="stName" required>
-</div>
+            <div class="form-group">
+                <label>Employee Name</label>
+                <input id="staffName"
+                placeholder="Employee name">
+            </div>
 
-<div class="field">
-<label>Job Role</label>
-<select id="stRole">
-<option>Manager</option>
-<option>Chef</option>
-<option>Assistant Chef</option>
-<option>Waiter</option>
-<option>Cashier</option>
-<option>Delivery Staff</option>
-<option>Cleaner</option>
-<option>Other</option>
-</select>
-</div>
+            <div class="form-group">
+                <label>Phone Number</label>
+                <input id="staffPhone"
+                type="tel" placeholder="Phone number">
+            </div>
 
-<div class="field">
-<label>Phone Number</label>
-<input id="stPhone">
-</div>
+            <div class="form-group">
+                <label>Job Role</label>
+                <select id="staffRole">
+                    <option>Manager</option>
+                    <option>Chef</option>
+                    <option>Assistant Chef</option>
+                    <option>Waiter</option>
+                    <option>Cashier</option>
+                    <option>Cleaner</option>
+                    <option>Delivery Staff</option>
+                    <option>Other</option>
+                </select>
+            </div>
 
-<div class="field">
-<label>Monthly Salary (₹)</label>
-<input id="stSalary" type="number" min="0" value="0">
-</div>
+            <div class="form-group">
+                <label>Monthly Salary (₹)</label>
+                <input id="staffSalary" type="number"
+                min="0" placeholder="Salary">
+            </div>
 
-<div class="field full">
-<label>Joining Date</label>
-<input id="stJoin" type="date">
-</div>
+            <div class="form-group">
+                <label>Joining Date</label>
+                <input id="staffJoining" type="date">
+            </div>
 
-<div class="field full inline">
-<button class="btn" type="submit">Save Staff Member</button>
-<button class="btn secondary" type="button" onclick="resetStaffForm()">Clear</button>
-</div>
+        </div>
 
-</form>
+        <button class="btn btn-gold" onclick="addStaff()">
+            ＋ ADD STAFF
+        </button>
 
-</div>
+    </div>
 
-<div class="card" style="margin-top:15px">
-<div class="section-head">
-<h2>Staff Register</h2>
-</div>
-<div id="staffList"></div>
-</div>
+    <div class="card">
+
+        <h3 class="section-title">Employee Records</h3>
+
+        <div class="table-wrap">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Phone</th>
+                        <th>Role</th>
+                        <th>Salary</th>
+                        <th>Joining Date</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody id="staffList"></tbody>
+            </table>
+        </div>
+
+    </div>
 
 </section>
+
 
 <!-- EXPENSES -->
 
 <section class="page" id="page-expenses">
 
-<div class="card">
+    <div class="page-heading">
+        <h2>Expense Management</h2>
+        <p>Record and monitor restaurant business expenses.</p>
+    </div>
 
-<div class="section-head">
-<h2>Record Business Expense</h2>
-<span class="pill">Expense register</span>
-</div>
+    <div class="card">
 
-<form id="expenseForm" class="form-grid">
+        <h3 class="section-title">Add New Expense</h3>
 
-<div class="field">
-<label>Expense Date</label>
-<input id="eDate" type="date" required>
-</div>
+        <div class="form-grid">
 
-<div class="field">
-<label>Expense Category</label>
-<select id="eCategory">
-<option>Food Supplies</option>
-<option>Electricity</option>
-<option>Water</option>
-<option>Rent</option>
-<option>Salary</option>
-<option>Transportation</option>
-<option>Maintenance</option>
-<option>Packaging</option>
-<option>Marketing</option>
-<option>Other</option>
-</select>
-</div>
+            <div class="form-group">
+                <label>Expense Title</label>
+                <input id="expenseTitle"
+                placeholder="Example: Electricity Bill">
+            </div>
 
-<div class="field">
-<label>Description</label>
-<input id="eDescription" required placeholder="Expense details">
-</div>
+            <div class="form-group">
+                <label>Expense Category</label>
+                <select id="expenseCategory">
+                    <option>Rent</option>
+                    <option>Electricity</option>
+                    <option>Water</option>
+                    <option>Salary</option>
+                    <option>Raw Materials</option>
+                    <option>Transportation</option>
+                    <option>Maintenance</option>
+                    <option>Marketing</option>
+                    <option>Packaging</option>
+                    <option>Other</option>
+                </select>
+            </div>
 
-<div class="field">
-<label>Amount (₹)</label>
-<input id="eAmount" type="number" min=".01" step=".01" required>
-</div>
+            <div class="form-group">
+                <label>Amount (₹)</label>
+                <input id="expenseAmount" type="number"
+                min="0" placeholder="Enter amount">
+            </div>
 
-<div class="field">
-<label>Payment Method</label>
-<select id="ePayment">
-<option>Cash</option>
-<option>UPI</option>
-<option>Card</option>
-<option>Bank Transfer</option>
-</select>
-</div>
+            <div class="form-group">
+                <label>Payment Method</label>
+                <select id="expensePayment">
+                    <option>Cash</option>
+                    <option>UPI</option>
+                    <option>Bank Transfer</option>
+                    <option>Card</option>
+                    <option>Other</option>
+                </select>
+            </div>
 
-<div class="field">
-<label>Reference Number</label>
-<input id="eReference" placeholder="Optional">
-</div>
+            <div class="form-group">
+                <label>Expense Date</label>
+                <input id="expenseDate" type="date">
+            </div>
 
-<div class="field full">
-<button class="btn" type="submit">Save Expense</button>
-</div>
+            <div class="form-group">
+                <label>Reference Number</label>
+                <input id="expenseReference"
+                placeholder="Optional reference">
+            </div>
 
-</form>
+        </div>
 
-</div>
+        <button class="btn btn-gold" onclick="addExpense()">
+            SAVE EXPENSE
+        </button>
 
-<div class="card" style="margin-top:15px">
+    </div>
 
-<div class="section-head">
-<h2>Expense History</h2>
-</div>
+    <div class="card">
 
-<div id="expenseList"></div>
+        <h3 class="section-title">Expense History</h3>
 
-</div>
+        <div class="table-wrap">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Title</th>
+                        <th>Category</th>
+                        <th>Payment</th>
+                        <th>Amount</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody id="expenseList"></tbody>
+            </table>
+        </div>
+
+    </div>
 
 </section>
 
-<!-- END OF PART 2 --><!-- POS BILLING -->
 
-<section class="page" id="page-pos">
-
-<div class="order-layout">
-
-<div class="card">
-
-<div class="section-head">
-<h2>Create New Order</h2>
-<span class="pill">Point of Sale</span>
-</div>
-
-<div class="form-grid">
-
-<div class="field">
-<label>Order Type</label>
-<select id="orderType">
-<option>Dine-in</option>
-<option>Takeaway</option>
-<option>Delivery</option>
-</select>
-</div>
-
-<div class="field" id="tableField">
-<label>Select Table</label>
-<select id="orderTable"></select>
-</div>
-
-<div class="field">
-<label>Customer Name</label>
-<input id="orderCustomer" placeholder="Customer name">
-</div>
-
-<div class="field">
-<label>Customer Phone</label>
-<input id="orderPhone" placeholder="Phone number">
-</div>
-
-<div class="field">
-<label>Payment Method</label>
-<select id="orderPayment">
-<option>Cash</option>
-<option>UPI</option>
-<option>Card</option>
-<option>Bank Transfer</option>
-<option>Credit</option>
-</select>
-</div>
-
-<div class="field">
-<label>Discount (₹)</label>
-<input id="orderDiscount" type="number" min="0" value="0">
-</div>
-
-</div>
-
-<div class="section-head" style="margin-top:20px">
-<h2>Select Food Items</h2>
-<input id="posSearch" placeholder="Search menu..." style="max-width:170px">
-</div>
-
-<div id="posMenu" class="grid menu-grid"></div>
-
-</div>
-
-<div class="card">
-
-<div class="section-head">
-<h2>Order Summary</h2>
-<span class="pill">Current Cart</span>
-</div>
-
-<div id="cartItems">
-<div class="empty">No items added yet.</div>
-</div>
-
-<div class="totalrow">
-<span>Subtotal</span>
-<b id="cartSubtotal">₹0.00</b>
-</div>
-
-<div class="totalrow">
-<span>GST</span>
-<b id="cartTax">₹0.00</b>
-</div>
-
-<div class="totalrow">
-<span>Discount</span>
-<b id="cartDiscount">₹0.00</b>
-</div>
-
-<div class="totalrow grand">
-<span>Grand Total</span>
-<b id="cartGrand">₹0.00</b>
-</div>
-
-<button class="btn" style="width:100%;margin-top:16px"
-onclick="placeOrder()">✓ Generate Bill</button>
-
-<button class="btn secondary" style="width:100%;margin-top:9px"
-onclick="clearCart()">Clear Cart</button>
-
-</div>
-</div>
-</section>
-
-<!-- KITCHEN / KOT -->
-
-<section class="page" id="page-kitchen">
-
-<div class="card">
-
-<div class="section-head">
-<h2>Kitchen Order Tickets</h2>
-<span class="pill">Kitchen display</span>
-</div>
-
-<p class="muted">
-Track orders from new to completed. Update the status as the kitchen prepares each order.
-</p>
-
-<div id="kitchenList"></div>
-
-</div>
-</section>
-
-<!-- ORDERS -->
-
-<section class="page" id="page-orders">
-
-<div class="card">
-
-<div class="section-head">
-<h2>Order Register</h2>
-<button class="btn secondary" onclick="exportOrders()">Export CSV</button>
-</div>
-
-<div class="toolbar">
-<input id="orderSearch" placeholder="Search order / customer...">
-<select id="orderFilter">
-<option value="all">All Orders</option>
-<option>New</option>
-<option>Preparing</option>
-<option>Ready</option>
-<option>Completed</option>
-</select>
-</div>
-
-<div id="ordersList"></div>
-
-</div>
-</section>
-
-<!-- INVENTORY -->
-
-<section class="page" id="page-inventory">
-
-<div class="card">
-
-<div class="section-head">
-<h2>Add Inventory Item</h2>
-<span class="pill">Stock management</span>
-</div>
-
-<form id="inventoryForm" class="form-grid">
-
-<input type="hidden" id="iId">
-
-<div class="field">
-<label>Ingredient / Item Name</label>
-<input id="iName" required placeholder="e.g. Basmati Rice">
-</div>
-
-<div class="field">
-<label>Item Code</label>
-<input id="iCode" placeholder="INV001">
-</div>
-
-<div class="field">
-<label>Unit</label>
-<select id="iUnit">
-<option>Kg</option>
-<option>Gram</option>
-<option>Litre</option>
-<option>ML</option>
-<option>Piece</option>
-<option>Packet</option>
-<option>Box</option>
-</select>
-</div>
-
-<div class="field">
-<label>Available Quantity</label>
-<input id="iQty" type="number" min="0" step=".01" value="0">
-</div>
-
-<div class="field">
-<label>Cost per Unit (₹)</label>
-<input id="iCost" type="number" min="0" step=".01" value="0">
-</div>
-
-<div class="field">
-<label>Low Stock Alert Quantity</label>
-<input id="iMin" type="number" min="0" step=".01" value="5">
-</div>
-
-<div class="field full inline">
-<button class="btn" type="submit">Save Inventory Item</button>
-<button class="btn secondary" type="button" onclick="resetInventoryForm()">Clear</button>
-</div>
-
-</form>
-
-</div>
-
-<div class="card" style="margin-top:15px">
-
-<div class="section-head">
-<h2>Inventory Register</h2>
-<input id="inventorySearch" placeholder="Search inventory..." style="max-width:200px">
-</div>
-
-<div id="inventoryList"></div>
-
-</div>
-</section>
-
-<!-- PURCHASES -->
-
-<section class="page" id="page-purchase">
-
-<div class="card">
-
-<div class="section-head">
-<h2>Record Purchase</h2>
-<span class="pill">Stock inward</span>
-</div>
-
-<form id="purchaseForm" class="form-grid">
-
-<div class="field">
-<label>Purchase Date</label>
-<input id="buyDate" type="date" required>
-</div>
-
-<div class="field">
-<label>Inventory Item</label>
-<select id="buyItem" required></select>
-</div>
-
-<div class="field">
-<label>Supplier Name</label>
-<input id="buySupplier" placeholder="Supplier name">
-</div>
-
-<div class="field">
-<label>Quantity Purchased</label>
-<input id="buyQty" type="number" min=".01" step=".01" required>
-</div>
-
-<div class="field">
-<label>Cost per Unit (₹)</label>
-<input id="buyCost" type="number" min="0" step=".01" required>
-</div>
-
-<div class="field">
-<label>Invoice Number</label>
-<input id="buyInvoice" placeholder="Invoice number">
-</div>
-
-<div class="field full">
-<button class="btn" type="submit">Save Purchase & Update Stock</button>
-</div>
-
-</form>
-
-</div>
-
-<div class="card" style="margin-top:15px">
-<div class="section-head">
-<h2>Purchase History</h2>
-</div>
-<div id="purchaseList"></div>
-</div>
-
-</section>
-
-<!-- CUSTOMERS -->
-
-<section class="page" id="page-customers">
-
-<div class="card">
-
-<div class="section-head">
-<h2>Customer Directory</h2>
-<span class="pill">Customer records</span>
-</div>
-
-<p class="muted">
-Customer details are collected from recorded orders.
-</p>
-
-<div id="customerList"></div>
-
-</div>
-</section>
-
-<!-- SUPPLIERS -->
-
-<section class="page" id="page-suppliers">
-
-<div class="card">
-
-<div class="section-head">
-<h2>Add Supplier</h2>
-</div>
-
-<form id="supplierForm" class="form-grid">
-
-<input type="hidden" id="sId">
-
-<div class="field">
-<label>Supplier Name</label>
-<input id="sName" required>
-</div>
-
-<div class="field">
-<label>Phone Number</label>
-<input id="sPhone">
-</div>
-
-<div class="field">
-<label>Email</label>
-<input id="sEmail" type="email">
-</div>
-
-<div class="field">
-<label>GSTIN (optional)</label>
-<input id="sGst">
-</div>
-
-<div class="field full">
-<label>Address</label>
-<textarea id="sAddress" rows="2"></textarea>
-</div>
-
-<div class="field full inline">
-<button class="btn" type="submit">Save Supplier</button>
-<button class="btn secondary" type="button" onclick="resetSupplierForm()">Clear</button>
-</div>
-
-</form>
-
-</div>
-
-<div class="card" style="margin-top:15px">
-<div class="section-head">
-<h2>Supplier Register</h2>
-</div>
-<div id="supplierList"></div>
-</div>
-
-</section>
-
-<!-- STAFF -->
-
-<section class="page" id="page-staff">
-
-<div class="card">
-
-<div class="section-head">
-<h2>Add Staff Member</h2>
-</div>
-
-<form id="staffForm" class="form-grid">
-
-<input type="hidden" id="stId">
-
-<div class="field">
-<label>Staff Name</label>
-<input id="stName" required>
-</div>
-
-<div class="field">
-<label>Job Role</label>
-<select id="stRole">
-<option>Manager</option>
-<option>Chef</option>
-<option>Assistant Chef</option>
-<option>Waiter</option>
-<option>Cashier</option>
-<option>Delivery Staff</option>
-<option>Cleaner</option>
-<option>Other</option>
-</select>
-</div>
-
-<div class="field">
-<label>Phone Number</label>
-<input id="stPhone">
-</div>
-
-<div class="field">
-<label>Monthly Salary (₹)</label>
-<input id="stSalary" type="number" min="0" value="0">
-</div>
-
-<div class="field full">
-<label>Joining Date</label>
-<input id="stJoin" type="date">
-</div>
-
-<div class="field full inline">
-<button class="btn" type="submit">Save Staff Member</button>
-<button class="btn secondary" type="button" onclick="resetStaffForm()">Clear</button>
-</div>
-
-</form>
-
-</div>
-
-<div class="card" style="margin-top:15px">
-<div class="section-head">
-<h2>Staff Register</h2>
-</div>
-<div id="staffList"></div>
-</div>
-
-</section>
-
-<!-- EXPENSES -->
-
-<section class="page" id="page-expenses">
-
-<div class="card">
-
-<div class="section-head">
-<h2>Record Business Expense</h2>
-<span class="pill">Expense register</span>
-</div>
-
-<form id="expenseForm" class="form-grid">
-
-<div class="field">
-<label>Expense Date</label>
-<input id="eDate" type="date" required>
-</div>
-
-<div class="field">
-<label>Expense Category</label>
-<select id="eCategory">
-<option>Food Supplies</option>
-<option>Electricity</option>
-<option>Water</option>
-<option>Rent</option>
-<option>Salary</option>
-<option>Transportation</option>
-<option>Maintenance</option>
-<option>Packaging</option>
-<option>Marketing</option>
-<option>Other</option>
-</select>
-</div>
-
-<div class="field">
-<label>Description</label>
-<input id="eDescription" required placeholder="Expense details">
-</div>
-
-<div class="field">
-<label>Amount (₹)</label>
-<input id="eAmount" type="number" min=".01" step=".01" required>
-</div>
-
-<div class="field">
-<label>Payment Method</label>
-<select id="ePayment">
-<option>Cash</option>
-<option>UPI</option>
-<option>Card</option>
-<option>Bank Transfer</option>
-</select>
-</div>
-
-<div class="field">
-<label>Reference Number</label>
-<input id="eReference" placeholder="Optional">
-</div>
-
-<div class="field full">
-<button class="btn" type="submit">Save Expense</button>
-</div>
-
-</form>
-
-</div>
-
-<div class="card" style="margin-top:15px">
-
-<div class="section-head">
-<h2>Expense History</h2>
-</div>
-
-<div id="expenseList"></div>
-
-</div>
-
-</section>
 <!-- REPORTS -->
 
 <section class="page" id="page-reports">
 
-<div class="grid stats">
+    <div class="page-heading">
+        <h2>Business Reports</h2>
+        <p>Understand your restaurant's business performance.</p>
+    </div>
 
-<div class="card">
-<div class="stat-title">TOTAL SALES</div>
-<div class="stat-value" id="reportSales">₹0</div>
-</div>
+    <div class="grid">
 
-<div class="card">
-<div class="stat-title">TOTAL EXPENSES</div>
-<div class="stat-value" id="reportExpenses">₹0</div>
-</div>
+        <div class="card stat-card">
+            <p>Total Revenue</p>
+            <h2 id="reportRevenue">₹0</h2>
+        </div>
 
-<div class="card">
-<div class="stat-title">TOTAL ORDERS</div>
-<div class="stat-value" id="reportOrders">0</div>
-</div>
+        <div class="card stat-card">
+            <p>Total Expenses</p>
+            <h2 id="reportExpenses">₹0</h2>
+        </div>
 
-<div class="card">
-<div class="stat-title">COMPLETED ORDERS</div>
-<div class="stat-value" id="reportCompleted">0</div>
-</div>
+        <div class="card stat-card">
+            <p>Estimated Profit</p>
+            <h2 id="reportProfit">₹0</h2>
+        </div>
 
-</div>
+        <div class="card stat-card">
+            <p>Total Orders</p>
+            <h2 id="reportOrders">0</h2>
+        </div>
 
-<div class="card">
-<div class="section-head">
-<h2>Business Performance</h2>
-<button class="btn secondary" onclick="exportReport()">Export Report</button>
-</div>
+    </div>
 
-<div id="reportDetails"></div>
-</div>
+    <div class="card">
+
+        <h3 class="section-title">Sales Report</h3>
+
+        <div class="form-group">
+            <label>From Date</label>
+            <input id="reportFrom" type="date">
+        </div>
+
+        <div class="form-group">
+            <label>To Date</label>
+            <input id="reportTo" type="date">
+        </div>
+
+        <button class="btn btn-gold" onclick="generateReport()">
+            GENERATE REPORT
+        </button>
+
+        <button class="btn btn-dark" onclick="exportReport()">
+            EXPORT CSV
+        </button>
+
+        <div id="reportResult"
+        style="margin-top:20px;color:#ccc;font-size:13px;">
+        </div>
+
+    </div>
 
 </section>
+
 
 <!-- BRANCHES -->
 
 <section class="page" id="page-branches">
 
-<div class="card">
+    <div class="page-heading">
+        <h2>Branch Management</h2>
+        <p>Maintain multiple restaurant branch records.</p>
+    </div>
 
-<div class="section-head">
-<h2>Branch Management</h2>
-</div>
+    <div class="card">
 
-<form id="branchForm" class="form-grid">
+        <h3 class="section-title">Add Branch</h3>
 
-<div class="field">
-<label>Branch Name</label>
-<input id="bName" required>
-</div>
+        <div class="form-grid">
 
-<div class="field">
-<label>Branch Location</label>
-<input id="bLocation" required>
-</div>
+            <div class="form-group">
+                <label>Branch Name</label>
+                <input id="branchName"
+                placeholder="Example: Chennai Main Branch">
+            </div>
 
-<div class="field">
-<label>Manager Name</label>
-<input id="bManager">
-</div>
+            <div class="form-group">
+                <label>Branch Phone</label>
+                <input id="branchPhone"
+                type="tel" placeholder="Phone number">
+            </div>
 
-<div class="field">
-<label>Contact Number</label>
-<input id="bPhone">
-</div>
+            <div class="form-group">
+                <label>Branch Address</label>
+                <input id="branchAddress"
+                placeholder="Branch address">
+            </div>
 
-<div class="field full">
-<button class="btn">Add Branch</button>
-</div>
+            <div class="form-group">
+                <label>Branch Manager</label>
+                <input id="branchManager"
+                placeholder="Manager name">
+            </div>
 
-</form>
+        </div>
 
-</div>
+        <button class="btn btn-gold" onclick="addBranch()">
+            ＋ ADD BRANCH
+        </button>
 
-<div class="card" style="margin-top:15px">
-<h2>Branch Register</h2>
-<div id="branchList"></div>
-</div>
+    </div>
+
+    <div class="card">
+
+        <h3 class="section-title">Branch Directory</h3>
+
+        <div class="table-wrap">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Branch</th>
+                        <th>Phone</th>
+                        <th>Address</th>
+                        <th>Manager</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody id="branchList"></tbody>
+            </table>
+        </div>
+
+    </div>
 
 </section>
 
-<!-- BACKUP AND RESTORE -->
+
+<!-- BACKUP & RESTORE -->
 
 <section class="page" id="page-backup">
 
-<div class="card">
+    <div class="page-heading">
+        <h2>Backup & Restore</h2>
+        <p>Protect your restaurant business records.</p>
+    </div>
 
-<h2>Data Management</h2>
+    <div class="card">
 
-<div class="notice">
-Your restaurant records are stored in this browser using local storage. Download regular backups to protect your information.
-</div>
+        <h3 class="section-title">Data Backup</h3>
 
-<div class="toolbar">
+        <p style="color:#aaa;font-size:13px;line-height:1.8;">
+            Download a backup of your restaurant information,
+            food menu, images, orders, inventory, expenses,
+            staff and other saved records.
+        </p>
 
-<button class="btn" onclick="downloadBackup()">
-Download Full Backup
-</button>
+        <button class="btn btn-gold"
+        onclick="backupData()">
+            DOWNLOAD BACKUP
+        </button>
 
-<button class="btn secondary" onclick="document.getElementById('restoreFile').click()">
-Restore Backup
-</button>
+    </div>
 
-<input type="file" id="restoreFile" accept=".json" hidden>
+    <div class="card">
 
-</div>
+        <h3 class="section-title">Restore Data</h3>
 
-<hr style="border-color:var(--line)">
+        <div class="form-group">
+            <label>Select Backup JSON File</label>
+            <input type="file" id="restoreFile"
+            accept=".json,application/json">
+        </div>
 
-<h3>Storage Information</h3>
+        <button class="btn btn-green"
+        onclick="restoreData()">
+            RESTORE BACKUP
+        </button>
 
-<div class="totalrow">
-<span>Menu Items</span>
-<b id="backupMenu">0</b>
-</div>
+    </div>
 
-<div class="totalrow">
-<span>Orders</span>
-<b id="backupOrders">0</b>
-</div>
+    <div class="card">
 
-<div class="totalrow">
-<span>Inventory Items</span>
-<b id="backupInventory">0</b>
-</div>
+        <h3 class="section-title">Danger Zone</h3>
 
-<div class="totalrow">
-<span>Expenses</span>
-<b id="backupExpenses">0</b>
-</div>
+        <p style="color:#aaa;font-size:13px;line-height:1.8;">
+            This action permanently clears the saved data
+            in this browser. Download a backup before proceeding.
+        </p>
 
-<div class="totalrow">
-<span>Customers</span>
-<b id="backupCustomers">0</b>
-</div>
+        <button class="btn btn-red"
+        onclick="deleteAllData()">
+            DELETE ALL RESTAURANT DATA
+        </button>
 
-<div style="margin-top:20px">
-<button class="btn danger" onclick="deleteAllData()">
-Delete All Restaurant Data
-</button>
-</div>
+    </div>
 
-</div>
 </section>
-
-</main>
-</div>
+<!-- SMART RESTRO PRO JAVASCRIPT -->
 
 <script>
 
-/* ==================================
-   SMART RESTRO PRO
-   MAIN DATABASE
-================================== */
+/* =====================================
+   DATABASE
+===================================== */
 
-const KEY = "SMART_RESTRO_PRO_DATABASE";
+const DB_KEY = "SMART_RESTRO_PRO_DATABASE";
 
-const defaults = {
-profile:{},
-menu:[],
-tables:[],
-orders:[],
-inventory:[],
-purchases:[],
-expenses:[],
-suppliers:[],
-staff:[],
-branches:[]
+const defaultDB = {
+    profile: {
+        name: "",
+        owner: "",
+        phone: "",
+        email: "",
+        gst: "",
+        type: "Restaurant",
+        address: "",
+        logo: ""
+    },
+    menu: [],
+    tables: [],
+    orders: [],
+    inventory: [],
+    purchases: [],
+    suppliers: [],
+    staff: [],
+    expenses: [],
+    branches: []
 };
 
-function loadData(){
-try{
-const saved=JSON.parse(localStorage.getItem(KEY));
+let db;
 
-if(!saved || typeof saved!=="object") return structuredClone(defaults);
+function loadDatabase() {
+    try {
+        const saved = localStorage.getItem(DB_KEY);
+        db = saved ? JSON.parse(saved) : structuredClone(defaultDB);
 
-return {...structuredClone(defaults),...saved};
+        Object.keys(defaultDB).forEach(key => {
+            if (db[key] === undefined) {
+                db[key] = structuredClone(defaultDB[key]);
+            }
+        });
 
-}catch(e){
-return structuredClone(defaults);
-}
-}
+        if (!db.profile) db.profile = structuredClone(defaultDB.profile);
 
-let db=loadData();
-let cart=[];
-
-function save(){
-try{
-localStorage.setItem(KEY,JSON.stringify(db));
-}catch(e){
-alert("Storage is full. Download a backup and remove unnecessary records.");
-}
+    } catch (error) {
+        alert("Saved data could not be read. Please check your browser storage.");
+        db = structuredClone(defaultDB);
+    }
 }
 
-function id(){
-return Date.now().toString(36)+Math.random().toString(36).slice(2,7);
+function saveDatabase() {
+    try {
+        localStorage.setItem(DB_KEY, JSON.stringify(db));
+        return true;
+    } catch (error) {
+        alert("Storage is full. Export a backup and reduce the number or size of uploaded images.");
+        return false;
+    }
 }
 
-function money(n){
-return "₹"+Number(n||0).toLocaleString("en-IN",{
-minimumFractionDigits:2,
-maximumFractionDigits:2
-});
+function money(value) {
+    return "₹" + Number(value || 0).toLocaleString("en-IN", {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2
+    });
 }
 
-function today(){
-return new Date().toISOString().slice(0,10);
+function uid(prefix = "ID") {
+    return prefix + Date.now().toString(36) +
+        Math.random().toString(36).slice(2, 6).toUpperCase();
 }
 
-function safe(value){
-return String(value??"").replace(/[&<>"']/g,c=>({
-"&":"&amp;",
-"<":"&lt;",
-">":"&gt;",
-'"':"&quot;",
-"'":"&#39;"
-}[c]));
+function escapeHTML(value) {
+    return String(value ?? "").replace(/[&<>"']/g, char => ({
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        '"': "&quot;",
+        "'": "&#39;"
+    })[char]);
 }
 
-function get(id){
-return document.getElementById(id);
+function today() {
+    const d = new Date();
+    return d.getFullYear() + "-" +
+        String(d.getMonth() + 1).padStart(2, "0") + "-" +
+        String(d.getDate()).padStart(2, "0");
 }
 
-function value(id){
-return get(id).value.trim();
+function getDate(date) {
+    return String(date || "").slice(0, 10);
 }
 
-function setValue(id,v){
-get(id).value=v??"";
-}
 
-function sum(arr,key){
-return arr.reduce((a,b)=>a+Number(b[key]||0),0);
-}
+/* =====================================
+   PAGE NAVIGATION
+===================================== */
 
-function tableHTML(headers,rows){
-if(!rows.length){
-return '<div class="empty">No records available.</div>';
-}
-
-return `
-<div class="table-wrap">
-<table>
-<thead><tr>
-${headers.map(h=>`<th>${h}</th>`).join("")}
-</tr></thead>
-<tbody>${rows.join("")}</tbody>
-</table>
-</div>`;
-}
-
-/* ==================================
-   NAVIGATION
-================================== */
-
-function showPage(name){
-
-document.querySelectorAll(".page").forEach(p=>{
-p.classList.remove("active");
-});
-
-document.querySelectorAll(".nav button").forEach(b=>{
-b.classList.remove("active");
-});
-
-const page=get("page-"+name);
-
-if(!page)return;
-
-page.classList.add("active");
-
-const button=document.querySelector(`[data-page="${name}"]`);
-
-if(button)button.classList.add("active");
-
-const titles={
-dashboard:"Dashboard",
-profile:"Restaurant Profile",
-menu:"Menu Management",
-tables:"Table Management",
-pos:"POS Billing",
-kitchen:"Kitchen / KOT",
-orders:"Order Management",
-inventory:"Inventory Management",
-purchase:"Purchase Management",
-customers:"Customer Management",
-suppliers:"Supplier Management",
-staff:"Staff Management",
-expenses:"Expense Management",
-reports:"Business Reports",
-branches:"Branch Management",
-backup:"Backup & Restore"
+const pageNames = {
+    dashboard: "Dashboard",
+    restaurant: "Restaurant Profile",
+    menu: "Food Menu",
+    tables: "Table Management",
+    pos: "POS Billing",
+    kitchen: "Kitchen KOT",
+    orders: "Order Management",
+    inventory: "Inventory",
+    purchases: "Purchases",
+    customers: "Customers",
+    suppliers: "Suppliers",
+    staff: "Staff Management",
+    expenses: "Expenses",
+    reports: "Business Reports",
+    branches: "Branches",
+    backup: "Backup & Restore"
 };
 
-get("pageTitle").textContent=titles[name]||name;
-get("crumb").textContent=name.toUpperCase();
+function showPage(name, button) {
+    document.querySelectorAll(".page").forEach(page => {
+        page.classList.remove("active");
+    });
 
-renderAll();
+    const page = document.getElementById("page-" + name);
+
+    if (!page) return;
+
+    page.classList.add("active");
+
+    document.querySelectorAll(".nav-btn").forEach(btn => {
+        btn.classList.remove("active");
+    });
+
+    if (button) {
+        button.classList.add("active");
+    } else {
+        const matching = [...document.querySelectorAll(".nav-btn")]
+            .find(btn => btn.getAttribute("onclick")?.includes("'" + name + "'"));
+
+        if (matching) matching.classList.add("active");
+    }
+
+    document.getElementById("pageTitle").textContent =
+        pageNames[name] || name;
+
+    if (name === "dashboard") renderDashboard();
+    if (name === "menu") renderMenu();
+    if (name === "tables") renderTables();
+    if (name === "pos") {
+        renderPosMenu();
+        renderCart();
+        updateTableOptions();
+    }
+    if (name === "kitchen") renderKitchen();
+    if (name === "orders") renderOrders();
+    if (name === "inventory") renderInventory();
+    if (name === "purchases") {
+        renderPurchases();
+        updatePurchaseOptions();
+    }
+    if (name === "customers") renderCustomers();
+    if (name === "suppliers") renderSuppliers();
+    if (name === "staff") renderStaff();
+    if (name === "expenses") renderExpenses();
+    if (name === "reports") renderReports();
+    if (name === "branches") renderBranches();
 }
 
-document.querySelectorAll(".nav button").forEach(button=>{
-button.addEventListener("click",()=>{
-showPage(button.dataset.page);
-});
-});
 
-/* ==================================
+/* =====================================
+   IMAGE COMPRESSION
+===================================== */
+
+function compressImage(file, callback) {
+
+    if (!file || !file.type.startsWith("image/")) {
+        alert("Please select a valid image.");
+        return;
+    }
+
+    if (file.size > 8 * 1024 * 1024) {
+        alert("Please select an image smaller than 8 MB.");
+        return;
+    }
+
+    const reader = new FileReader();
+
+    reader.onload = function(event) {
+
+        const img = new Image();
+
+        img.onload = function() {
+
+            const maxSize = 700;
+
+            let width = img.width;
+            let height = img.height;
+
+            if (width > height && width > maxSize) {
+                height = Math.round(height * maxSize / width);
+                width = maxSize;
+            } else if (height > maxSize) {
+                width = Math.round(width * maxSize / height);
+                height = maxSize;
+            }
+
+            const canvas = document.createElement("canvas");
+            canvas.width = width;
+            canvas.height = height;
+
+            const ctx = canvas.getContext("2d");
+
+            ctx.fillStyle = "#ffffff";
+            ctx.fillRect(0, 0, width, height);
+            ctx.drawImage(img, 0, 0, width, height);
+
+            const compressed = canvas.toDataURL("image/jpeg", 0.70);
+
+            callback(compressed);
+        };
+
+        img.onerror = function() {
+            alert("Unable to read this image.");
+        };
+
+        img.src = event.target.result;
+    };
+
+    reader.onerror = function() {
+        alert("Image upload failed.");
+    };
+
+    reader.readAsDataURL(file);
+}
+
+
+/* =====================================
    RESTAURANT PROFILE
-================================== */
+===================================== */
 
-get("profileForm").addEventListener("submit",e=>{
-e.preventDefault();
+let restaurantLogoData = "";
 
-db.profile={
-name:value("pName"),
-owner:value("pOwner"),
-phone:value("pPhone"),
-email:value("pEmail"),
-gst:value("pGst"),
-fssai:value("pFssai"),
-tax:Number(value("pTax")),
-type:value("pType"),
-address:value("pAddress")
-};
+document.getElementById("restaurantLogoInput")
+.addEventListener("change", function() {
 
-save();
-renderAll();
+    const file = this.files[0];
+    if (!file) return;
 
-alert("Restaurant profile saved successfully!");
+    compressImage(file, function(image) {
+
+        restaurantLogoData = image;
+
+        const preview = document.getElementById("restaurantLogoPreview");
+        preview.src = image;
+        preview.style.display = "block";
+    });
 });
 
-function renderProfile(){
+function loadRestaurant() {
 
-const p=db.profile;
+    const p = db.profile;
 
-setValue("pName",p.name);
-setValue("pOwner",p.owner);
-setValue("pPhone",p.phone);
-setValue("pEmail",p.email);
-setValue("pGst",p.gst);
-setValue("pFssai",p.fssai);
-setValue("pTax",p.tax??5);
-setValue("pType",p.type||"Restaurant");
-setValue("pAddress",p.address);
+    document.getElementById("restaurantName").value = p.name || "";
+    document.getElementById("ownerName").value = p.owner || "";
+    document.getElementById("restaurantPhone").value = p.phone || "";
+    document.getElementById("restaurantEmail").value = p.email || "";
+    document.getElementById("restaurantGST").value = p.gst || "";
+    document.getElementById("restaurantType").value = p.type || "Restaurant";
+    document.getElementById("restaurantAddress").value = p.address || "";
+
+    restaurantLogoData = p.logo || "";
+
+    if (p.logo) {
+        const preview = document.getElementById("restaurantLogoPreview");
+        preview.src = p.logo;
+        preview.style.display = "block";
+    }
+
+    updateBrand();
 }
 
-/* ==================================
-   MENU MANAGEMENT
-================================== */
+function saveRestaurant() {
 
-get("menuForm").addEventListener("submit",e=>{
-e.preventDefault();
+    db.profile.name = document.getElementById("restaurantName").value.trim();
+    db.profile.owner = document.getElementById("ownerName").value.trim();
+    db.profile.phone = document.getElementById("restaurantPhone").value.trim();
+    db.profile.email = document.getElementById("restaurantEmail").value.trim();
+    db.profile.gst = document.getElementById("restaurantGST").value.trim();
+    db.profile.type = document.getElementById("restaurantType").value;
+    db.profile.address = document.getElementById("restaurantAddress").value.trim();
+    db.profile.logo = restaurantLogoData;
 
-const item={
-id:value("mId")||id(),
-name:value("mName"),
-category:value("mCategory"),
-price:Number(value("mPrice")),
-tax:Number(value("mTax")),
-code:value("mCode"),
-available:value("mAvailable"),
-description:value("mDesc")
-};
+    if (!saveDatabase()) return;
 
-const index=db.menu.findIndex(x=>x.id===item.id);
+    updateBrand();
 
-if(index>=0){
-db.menu[index]=item;
-}else{
-db.menu.push(item);
+    alert("Restaurant details saved successfully!");
 }
 
-save();
-resetMenuForm();
-renderAll();
+function updateBrand() {
 
-alert("Menu item saved!");
+    const name = db.profile.name || "SMART RESTRO PRO";
+
+    document.getElementById("restaurantHeader").textContent = name;
+
+    const logo = document.getElementById("sidebarLogo");
+
+    if (db.profile.logo) {
+        logo.innerHTML = `<img src="${db.profile.logo}" alt="Restaurant logo">`;
+    } else {
+        logo.textContent = "🍽️";
+    }
+}
+
+
+/* =====================================
+   FOOD MENU
+===================================== */
+
+let productImageData = "";
+let editingFoodId = null;
+
+document.getElementById("productImageInput")
+.addEventListener("change", function() {
+
+    const file = this.files[0];
+    if (!file) return;
+
+    compressImage(file, function(image) {
+
+        productImageData = image;
+
+        const preview = document.getElementById("productImagePreview");
+        preview.src = image;
+        preview.style.display = "block";
+    });
 });
 
-function resetMenuForm(){
-get("menuForm").reset();
-setValue("mId","");
+function clearFoodForm() {
+
+    editingFoodId = null;
+    productImageData = "";
+
+    [
+        "foodName",
+        "foodCode",
+        "foodPrice",
+        "foodCost",
+        "foodStock",
+        "foodDescription"
+    ].forEach(id => {
+        document.getElementById(id).value = "";
+    });
+
+    document.getElementById("foodGST").value = "5";
+    document.getElementById("foodAvailability").value = "Available";
+
+    document.getElementById("productImageInput").value = "";
+
+    const preview = document.getElementById("productImagePreview");
+    preview.src = "";
+    preview.style.display = "none";
+
+    document.querySelector("#page-menu .btn-gold").textContent =
+        "＋ ADD FOOD ITEM";
 }
 
-function editMenu(itemId){
+function addFood() {
 
-const x=db.menu.find(a=>a.id===itemId);
-if(!x)return;
+    const name = document.getElementById("foodName").value.trim();
+    const code = document.getElementById("foodCode").value.trim();
+    const price = Number(document.getElementById("foodPrice").value);
+    const cost = Number(document.getElementById("foodCost").value);
+    const stock = Number(document.getElementById("foodStock").value);
 
-setValue("mId",x.id);
-setValue("mName",x.name);
-setValue("mCategory",x.category);
-setValue("mPrice",x.price);
-setValue("mTax",x.tax);
-setValue("mCode",x.code);
-setValue("mAvailable",x.available);
-setValue("mDesc",x.description);
+    if (!name || !code || document.getElementById("foodPrice").value === "") {
+        alert("Enter food name, code and price.");
+        return;
+    }
 
-showPage("menu");
+    if (price < 0 || cost < 0 || stock < 0) {
+        alert("Values cannot be negative.");
+        return;
+    }
+
+    const duplicate = db.menu.find(item =>
+        item.code.toLowerCase() === code.toLowerCase() &&
+        item.id !== editingFoodId
+    );
+
+    if (duplicate) {
+        alert("This food code already exists.");
+        return;
+    }
+
+    const item = {
+        id: editingFoodId || uid("FOOD"),
+        name,
+        code,
+        category: document.getElementById("foodCategory").value,
+        price,
+        cost,
+        gst: Number(document.getElementById("foodGST").value),
+        stock,
+        availability: document.getElementById("foodAvailability").value,
+        description: document.getElementById("foodDescription").value.trim(),
+        image: productImageData
+    };
+
+    if (editingFoodId) {
+        const index = db.menu.findIndex(x => x.id === editingFoodId);
+        if (index !== -1) db.menu[index] = item;
+    } else {
+        db.menu.push(item);
+    }
+
+    if (!saveDatabase()) return;
+
+    clearFoodForm();
+    renderMenu();
+    renderDashboard();
+
+    alert("Food item saved successfully!");
 }
 
-function deleteMenu(itemId){
+function renderMenu() {
 
-if(!confirm("Delete this menu item?"))return;
+    const grid = document.getElementById("productGrid");
+    const search = document.getElementById("menuSearch").value.toLowerCase();
 
-db.menu=db.menu.filter(x=>x.id!==itemId);
-save();
-renderAll();
+    const list = db.menu.filter(item =>
+        item.name.toLowerCase().includes(search) ||
+        item.code.toLowerCase().includes(search) ||
+        item.category.toLowerCase().includes(search)
+    );
+
+    if (!list.length) {
+        grid.innerHTML = `<p style="color:#aaa;">No food products found.</p>`;
+        return;
+    }
+
+    grid.innerHTML = list.map(item => `
+
+        <div class="product-card">
+
+            ${item.image
+                ? `<img src="${item.image}" alt="${escapeHTML(item.name)}">`
+                : `<div style="height:145px;display:grid;place-items:center;font-size:45px;">🍽️</div>`
+            }
+
+            <div class="product-info">
+
+                <h3>${escapeHTML(item.name)}</h3>
+
+                <p>${escapeHTML(item.category)} · ${escapeHTML(item.code)}</p>
+
+                <p>Price: <b>${money(item.price)}</b></p>
+
+                <p>GST: ${item.gst}%</p>
+
+                <p>Stock: ${item.stock}</p>
+
+                <p>Status: ${escapeHTML(item.availability)}</p>
+
+                <button class="btn btn-dark"
+                onclick="editFood('${item.id}')">EDIT</button>
+
+                <button class="btn btn-red"
+                onclick="deleteFood('${item.id}')">DELETE</button>
+
+            </div>
+        </div>
+
+    `).join("");
 }
 
-function renderMenu(){
+function editFood(id) {
 
-const search=(get("menuSearch")?.value||"").toLowerCase();
+    const item = db.menu.find(x => x.id === id);
+    if (!item) return;
 
-const items=db.menu.filter(x=>
-x.name.toLowerCase().includes(search)||
-x.category.toLowerCase().includes(search)
-);
+    editingFoodId = id;
 
-get("menuList").innerHTML=items.map(x=>`
+    document.getElementById("foodName").value = item.name;
+    document.getElementById("foodCode").value = item.code;
+    document.getElementById("foodCategory").value = item.category;
+    document.getElementById("foodPrice").value = item.price;
+    document.getElementById("foodCost").value = item.cost;
+    document.getElementById("foodGST").value = item.gst;
+    document.getElementById("foodStock").value = item.stock;
+    document.getElementById("foodAvailability").value = item.availability;
+    document.getElementById("foodDescription").value = item.description || "";
 
-<div class="food">
+    productImageData = item.image || "";
 
-<h3>${safe(x.name)}</h3>
-<small>${safe(x.category)} • ${safe(x.code)}</small>
+    const preview = document.getElementById("productImagePreview");
 
-<div class="price">${money(x.price)}</div>
+    if (productImageData) {
+        preview.src = productImageData;
+        preview.style.display = "block";
+    } else {
+        preview.style.display = "none";
+    }
 
-<small>GST: ${x.tax}%</small><br>
+    document.querySelector("#page-menu .btn-gold").textContent = "UPDATE FOOD ITEM";
 
-<span class="pill ${x.available==="yes"?"green":"red"}">
-${x.available==="yes"?"Available":"Unavailable"}
-</span>
-
-<div class="toolbar">
-
-<button class="btn small" onclick="editMenu('${x.id}')">Edit</button>
-
-<button class="btn small secondary" onclick="deleteMenu('${x.id}')">Delete</button>
-
-</div>
-
-</div>
-
-`).join("")||'<div class="empty">No menu items added.</div>';
-
+    document.getElementById("page-menu").scrollIntoView();
 }
 
-/* ==================================
+function deleteFood(id) {
+
+    if (!confirm("Delete this food item?")) return;
+
+    db.menu = db.menu.filter(item => item.id !== id);
+
+    saveDatabase();
+    renderMenu();
+    renderDashboard();
+}
+
+function renderPosMenu() {
+
+    const grid = document.getElementById("posMenuGrid");
+    const search = document.getElementById("posSearch").value.toLowerCase();
+
+    const list = db.menu.filter(item =>
+        item.availability === "Available" &&
+        item.name.toLowerCase().includes(search)
+    );
+
+    grid.innerHTML = list.length ? list.map(item => `
+
+        <div class="product-card">
+
+            ${item.image
+                ? `<img src="${item.image}" alt="${escapeHTML(item.name)}">`
+                : `<div style="height:145px;display:grid;place-items:center;font-size:45px;">🍽️</div>`
+            }
+
+            <div class="product-info">
+                <h3>${escapeHTML(item.name)}</h3>
+                <p>${money(item.price)}</p>
+                <p>Stock: ${item.stock}</p>
+
+                <button class="btn btn-gold"
+                onclick="addToCart('${item.id}')">
+                    ADD TO CART
+                </button>
+            </div>
+
+        </div>
+
+    `).join("") : `<p style="color:#aaa;">No available food items.</p>`;
+}
+
+
+/* =====================================
    TABLE MANAGEMENT
-================================== */
+===================================== */
 
-function addTable(){
+function addTable() {
 
-const name=prompt("Enter table number or name:");
+    const number = document.getElementById("tableNumber").value.trim();
+    const capacity = Number(document.getElementById("tableCapacity").value);
 
-if(!name||!name.trim())return;
+    if (!number || capacity <= 0) {
+        alert("Enter a table number and valid seating capacity.");
+        return;
+    }
 
-if(db.tables.some(t=>t.name.toLowerCase()===name.trim().toLowerCase())){
-alert("This table already exists.");
-return;
+    if (db.tables.some(t => t.number.toLowerCase() === number.toLowerCase())) {
+        alert("Table already exists.");
+        return;
+    }
+
+    db.tables.push({
+        id: uid("TABLE"),
+        number,
+        capacity,
+        status: "Available"
+    });
+
+    saveDatabase();
+
+    document.getElementById("tableNumber").value = "";
+    document.getElementById("tableCapacity").value = "";
+
+    renderTables();
+    updateTableOptions();
 }
 
-db.tables.push({
-id:id(),
-name:name.trim(),
-status:"Available"
-});
+function renderTables() {
 
-save();
-renderAll();
+    document.getElementById("tableList").innerHTML =
+        db.tables.map(t => `
+
+        <tr>
+            <td>${escapeHTML(t.number)}</td>
+            <td>${t.capacity}</td>
+            <td>${escapeHTML(t.status)}</td>
+            <td>
+                <button class="btn btn-dark"
+                onclick="toggleTable('${t.id}')">CHANGE STATUS</button>
+
+                <button class="btn btn-red"
+                onclick="deleteTable('${t.id}')">DELETE</button>
+            </td>
+        </tr>
+
+    `).join("");
 }
 
-function changeTable(tableId){
+function toggleTable(id) {
 
-const t=db.tables.find(x=>x.id===tableId);
-if(!t)return;
+    const t = db.tables.find(x => x.id === id);
+    if (!t) return;
 
-t.status=t.status==="Available"?"Occupied":"Available";
+    t.status = t.status === "Available" ? "Occupied" : "Available";
 
-save();
-renderAll();
+    saveDatabase();
+    renderTables();
+    updateTableOptions();
 }
 
-function deleteTable(tableId){
+function deleteTable(id) {
 
-if(!confirm("Delete this table?"))return;
+    if (!confirm("Delete this table?")) return;
 
-db.tables=db.tables.filter(t=>t.id!==tableId);
+    db.tables = db.tables.filter(t => t.id !== id);
 
-save();
-renderAll();
+    saveDatabase();
+    renderTables();
+    updateTableOptions();
 }
 
-function renderTables(){
+function updateTableOptions() {
 
-get("tableList").innerHTML=db.tables.map(t=>`
+    const select = document.getElementById("posTable");
 
-<div class="food">
-
-<h3>${safe(t.name)}</h3>
-
-<span class="pill ${t.status==="Available"?"green":"red"}">
-${t.status}
-</span>
-
-<div class="toolbar">
-
-<button class="btn small" onclick="changeTable('${t.id}')">
-Change Status
-</button>
-
-<button class="btn small secondary" onclick="deleteTable('${t.id}')">
-Delete
-</button>
-
-</div>
-
-</div>
-
-`).join("")||'<div class="empty">Add your first restaurant table.</div>';
-
-get("orderTable").innerHTML=
-'<option value="">Select Table</option>'+
-db.tables.map(t=>
-`<option value="${t.id}">${safe(t.name)} (${t.status})</option>`
-).join("");
-
+    select.innerHTML = `<option value="">Select table</option>` +
+        db.tables.filter(t => t.status === "Available").map(t =>
+            `<option value="${escapeHTML(t.number)}">${escapeHTML(t.number)}</option>`
+        ).join("");
 }
 
-/* ==================================
-   POS BILLING
-================================== */
 
-function renderPosMenu(){
+/* =====================================
+   POS CART
+===================================== */
 
-const search=(get("posSearch").value||"").toLowerCase();
+let cart = [];
 
-const items=db.menu.filter(x=>
-x.available==="yes"&&
-x.name.toLowerCase().includes(search)
-);
+function addToCart(id) {
 
-get("posMenu").innerHTML=items.map(x=>`
+    const item = db.menu.find(x => x.id === id);
 
-<div class="food">
+    if (!item) return;
 
-<h3>${safe(x.name)}</h3>
+    const existing = cart.find(x => x.id === id);
+    const quantity = existing ? existing.quantity + 1 : 1;
 
-<small>${safe(x.category)}</small>
+    if (quantity > item.stock) {
+        alert("Not enough stock available.");
+        return;
+    }
 
-<div class="price">${money(x.price)}</div>
+    if (existing) {
+        existing.quantity++;
+    } else {
+        cart.push({
+            id: item.id,
+            name: item.name,
+            price: item.price,
+            cost: item.cost,
+            gst: item.gst,
+            quantity: 1
+        });
+    }
 
-<button class="btn small" onclick="addCart('${x.id}')">
-＋ Add
-</button>
-
-</div>
-
-`).join("")||'<div class="empty">No available menu items.</div>';
-
+    renderCart();
 }
 
-function addCart(itemId){
+function changeQuantity(id, amount) {
 
-const item=db.menu.find(x=>x.id===itemId);
+    const item = cart.find(x => x.id === id);
+    if (!item) return;
 
-if(!item)return;
+    const menuItem = db.menu.find(x => x.id === id);
 
-const existing=cart.find(x=>x.id===itemId);
+    item.quantity += amount;
 
-if(existing){
-existing.qty++;
-}else{
-cart.push({
-id:item.id,
-name:item.name,
-price:item.price,
-tax:item.tax,
-qty:1
-});
+    if (item.quantity <= 0) {
+        cart = cart.filter(x => x.id !== id);
+    } else if (!menuItem || item.quantity > menuItem.stock) {
+        item.quantity -= amount;
+        alert("Available stock limit reached.");
+    }
+
+    renderCart();
 }
 
-renderCart();
+function removeCartItem(id) {
+    cart = cart.filter(x => x.id !== id);
+    renderCart();
 }
 
-function updateCart(itemId,change){
-
-const item=cart.find(x=>x.id===itemId);
-if(!item)return;
-
-item.qty+=change;
-
-if(item.qty<=0){
-cart=cart.filter(x=>x.id!==itemId);
+function clearCart() {
+    cart = [];
+    renderCart();
 }
 
-renderCart();
+function calculateCart() {
+
+    const inclusive = document.getElementById("posGSTType").value === "inclusive";
+
+    let subtotal = 0;
+    let gstTotal = 0;
+
+    cart.forEach(item => {
+
+        const line = item.price * item.quantity;
+
+        if (inclusive) {
+            const base = line / (1 + item.gst / 100);
+            subtotal += base;
+            gstTotal += line - base;
+        } else {
+            subtotal += line;
+            gstTotal += line * item.gst / 100;
+        }
+    });
+
+    const discount = Math.max(0,
+        Number(document.getElementById("posDiscount").value || 0));
+
+    const totalBeforeDiscount = subtotal + gstTotal;
+    const finalTotal = Math.max(0, totalBeforeDiscount - discount);
+
+    return {
+        subtotal,
+        gstTotal,
+        discount,
+        finalTotal
+    };
 }
 
-function clearCart(){
-cart=[];
-renderCart();
+function renderCart() {
+
+    document.getElementById("cartList").innerHTML =
+        cart.map(item => `
+
+        <tr>
+            <td>${escapeHTML(item.name)}</td>
+            <td>${money(item.price)}</td>
+            <td>
+                <button class="btn btn-dark"
+                onclick="changeQuantity('${item.id}',-1)">−</button>
+
+                ${item.quantity}
+
+                <button class="btn btn-dark"
+                onclick="changeQuantity('${item.id}',1)">+</button>
+            </td>
+            <td>${money(item.price * item.quantity)}</td>
+            <td>
+                <button class="btn btn-red"
+                onclick="removeCartItem('${item.id}')">REMOVE</button>
+            </td>
+        </tr>
+
+    `).join("");
+
+    const totals = calculateCart();
+
+    document.getElementById("cartSubtotal").textContent = money(totals.subtotal);
+    document.getElementById("cartGST").textContent = money(totals.gstTotal);
+    document.getElementById("cartDiscount").textContent = money(totals.discount);
+    document.getElementById("cartGrandTotal").textContent = money(totals.finalTotal);
 }
 
-function getCartTotals(){
+document.getElementById("posDiscount")
+.addEventListener("input", renderCart);
 
-let subtotal=0;
-let tax=0;
+document.getElementById("posGSTType")
+.addEventListener("change", renderCart);
 
-cart.forEach(x=>{
-const amount=x.price*x.qty;
-subtotal+=amount;
-tax+=amount*x.tax/100;
-});
 
-const discount=Math.min(
-Math.max(0,Number(get("orderDiscount").value)||0),
-subtotal+tax
-);
+/* =====================================
+   GENERATE BILL
+===================================== */
 
-return{
-subtotal,
-tax,
-discount,
-grand:subtotal+tax-discount
-};
+function generateBill() {
+
+    if (!cart.length) {
+        alert("Please add food items to the cart.");
+        return;
+    }
+
+    const totals = calculateCart();
+
+    if (totals.discount > totals.subtotal + totals.gstTotal) {
+        alert("Discount cannot exceed the order total.");
+        return;
+    }
+
+    const customer = document.getElementById("posCustomer").value.trim();
+    const phone = document.getElementById("posPhone").value.trim();
+    const orderType = document.getElementById("posOrderType").value;
+    const table = document.getElementById("posTable").value;
+    const payment = document.getElementById("posPayment").value;
+
+    if (orderType === "Dine In" && !table) {
+        alert("Please select a table for dine-in.");
+        return;
+    }
+
+    for (const item of cart) {
+        const menuItem = db.menu.find(x => x.id === item.id);
+
+        if (!menuItem || menuItem.stock < item.quantity) {
+            alert("Stock changed. Please check your cart.");
+            return;
+        }
+    }
+
+    const order = {
+        id: uid("ORD"),
+        date: new Date().toISOString(),
+        customer: customer || "Walk-in Customer",
+        phone,
+        type: orderType,
+        table,
+        payment,
+        gstType: document.getElementById("posGSTType").value,
+        items: cart.map(item => ({ ...item })),
+        subtotal: totals.subtotal,
+        gst: totals.gstTotal,
+        discount: totals.discount,
+        total: totals.finalTotal,
+        status: "Preparing"
+    };
+
+    cart.forEach(item => {
+        const menuItem = db.menu.find(x => x.id === item.id);
+        menuItem.stock -= item.quantity;
+    });
+
+    if (orderType === "Dine In" && table) {
+        const selectedTable = db.tables.find(t => t.number === table);
+        if (selectedTable) selectedTable.status = "Occupied";
+    }
+
+    db.orders.push(order);
+
+    if (!saveDatabase()) return;
+
+    cart = [];
+
+    renderCart();
+    renderPosMenu();
+    renderTables();
+    renderOrders();
+    renderKitchen();
+    renderDashboard();
+    renderInventory();
+
+    printBill(order.id);
+
+    alert("Order created successfully!");
 }
 
-function renderCart(){
 
-const el=get("cartItems");
-
-el.innerHTML=cart.map(x=>`
-
-<div class="cartline">
-
-<div>
-<b>${safe(x.name)}</b><br>
-<small>${money(x.price)} × ${x.qty}</small>
-</div>
-
-<div class="inline">
-
-<button class="btn small secondary" onclick="updateCart('${x.id}',-1)">−</button>
-
-<b>${x.qty}</b>
-
-<button class="btn small secondary" onclick="updateCart('${x.id}',1)">＋</button>
-
-</div>
-
-</div>
-
-`).join("")||'<div class="empty">No items added yet.</div>';
-
-const t=getCartTotals();
-
-get("cartSubtotal").textContent=money(t.subtotal);
-get("cartTax").textContent=money(t.tax);
-get("cartDiscount").textContent=money(t.discount);
-get("cartGrand").textContent=money(t.grand);
-
-}
-
-get("orderDiscount").addEventListener("input",renderCart);
-
-get("orderType").addEventListener("change",()=>{
-get("tableField").style.display=
-get("orderType").value==="Dine-in"?"flex":"none";
-});
-
-function placeOrder(){
-
-if(!cart.length){
-alert("Please add food items first.");
-return;
-}
-
-const type=value("orderType");
-const tableId=value("orderTable");
-
-if(type==="Dine-in"&&!tableId){
-alert("Please select a table.");
-return;
-}
-
-if(type==="Dine-in"){
-
-const table=db.tables.find(t=>t.id===tableId);
-
-if(!table||table.status!=="Available"){
-alert("This table is not available.");
-return;
-}
-}
-
-const t=getCartTotals();
-
-if(t.grand<=0){
-alert("Please check the order total.");
-return;
-}
-
-const order={
-id:id(),
-number:"ORD-"+Date.now().toString().slice(-7),
-date:new Date().toISOString(),
-customer:value("orderCustomer")||"Walk-in Customer",
-phone:value("orderPhone"),
-type,
-tableId:type==="Dine-in"?tableId:"",
-tableName:type==="Dine-in"?
-db.tables.find(t=>t.id===tableId).name:"",
-payment:value("orderPayment"),
-items:JSON.parse(JSON.stringify(cart)),
-subtotal:t.subtotal,
-tax:t.tax,
-discount:t.discount,
-total:t.grand,
-status:"New"
-};
-
-db.orders.push(order);
-
-if(type==="Dine-in"){
-const table=db.tables.find(t=>t.id===tableId);
-table.status="Occupied";
-}
-
-save();
-
-cart=[];
-get("orderCustomer").value="";
-get("orderPhone").value="";
-get("orderDiscount").value=0;
-
-renderAll();
-
-showPage("orders");
-
-alert("Order generated successfully! Order No: "+order.number);
-
-}
-
-/* ==================================
-   ORDERS & KITCHEN
-================================== */
-
-function updateOrderStatus(orderId,status){
-
-const order=db.orders.find(x=>x.id===orderId);
-if(!order)return;
-
-order.status=status;
-
-if(status==="Completed"&&order.tableId){
-
-const table=db.tables.find(t=>t.id===order.tableId);
-
-if(table)table.status="Available";
-
-}
-
-save();
-renderAll();
-}
-
-function deleteOrder(orderId){
-
-if(!confirm("Delete this order?"))return;
-
-db.orders=db.orders.filter(x=>x.id!==orderId);
-
-save();
-renderAll();
-}
-
-function renderOrders(){
-
-const search=(get("orderSearch")?.value||"").toLowerCase();
-const filter=get("orderFilter")?.value||"all";
-
-const list=db.orders.filter(o=>
-(filter==="all"||o.status===filter)&&
-(o.number.toLowerCase().includes(search)||
-o.customer.toLowerCase().includes(search))
-).slice().reverse();
-
-get("ordersList").innerHTML=tableHTML(
-["Order","Date","Customer","Type","Payment","Total","Status","Actions"],
-list.map(o=>`
-
-<tr>
-
-<td>${safe(o.number)}</td>
-<td>${new Date(o.date).toLocaleDateString("en-IN")}</td>
-<td>${safe(o.customer)}</td>
-<td>${safe(o.type)}</td>
-<td>${safe(o.payment)}</td>
-<td>${money(o.total)}</td>
-
-<td><span class="pill">${safe(o.status)}</span></td>
-
-<td>
-<select onchange="updateOrderStatus('${o.id}',this.value)">
-${["New","Preparing","Ready","Completed"].map(s=>
-`<option ${o.status===s?"selected":""}>${s}</option>`
-).join("")}
-</select>
-
-<button class="btn small secondary" onclick="printBill('${o.id}')">Bill</button>
-
-<button class="btn small danger" onclick="deleteOrder('${o.id}')">Delete</button>
-</td>
-
-</tr>
-
-`)
-);
-
-}
-
-function renderKitchen(){
-const list=db.orders.filter(o=>o.status!=="Completed").slice().reverse();
-
-get("kitchenList").innerHTML=list.map(o=>`
-
-<div class="food" style="margin-bottom:12px">
-
-<div class="section-head">
-<h3>${safe(o.number)}</h3>
-<span class="pill">${safe(o.status)}</span>
-</div>
-
-<p>
-Customer: ${safe(o.customer)}<br>
-Order Type: ${safe(o.type)}<br>
-Table: ${safe(o.tableName||"N/A")}
-</p>
-
-${o.items.map(x=>`
-<div class="totalrow">
-<span>${safe(x.name)}</span>
-<b>× ${x.qty}</b>
-</div>
-`).join("")}
-
-<div class="toolbar">
-
-<button class="btn small" onclick="updateOrderStatus('${o.id}','Preparing')">Preparing</button>
-
-<button class="btn small" onclick="updateOrderStatus('${o.id}','Ready')">Ready</button>
-
-<button class="btn small secondary" onclick="updateOrderStatus('${o.id}','Completed')">Complete</button>
-
-</div>
-
-</div>
-
-`).join("")||'<div class="empty">No pending kitchen orders.</div>';
-
-}
-
-/* ==================================
+/* =====================================
    PRINT BILL
-================================== */
+===================================== */
 
-function printBill(orderId){
+function printBill(id) {
 
-const o=db.orders.find(x=>x.id===orderId);
-if(!o)return;
+    const order = db.orders.find(x => x.id === id);
+    if (!order) return;
 
-const p=db.profile;
+    const p = db.profile;
 
-const bill=window.open("","_blank","width=700,height=750");
+    const rows = order.items.map(item => `
+        <tr>
+            <td>${escapeHTML(item.name)}</td>
+            <td>${item.quantity}</td>
+            <td>${money(item.price)}</td>
+            <td>${money(item.price * item.quantity)}</td>
+        </tr>
+    `).join("");
 
-if(!bill){
-alert("Please allow pop-ups to print the bill.");
-return;
+    const html = `
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <title>Restaurant Invoice</title>
+        <style>
+            body {
+                font-family: Arial;
+                padding: 25px;
+                color: #111;
+            }
+            .center { text-align: center; }
+            img { max-width: 100px; max-height: 90px; }
+            table {
+                width: 100%;
+                border-collapse: collapse;
+                margin-top: 20px;
+            }
+            th,td {
+                border-bottom: 1px solid #ccc;
+                padding: 9px;
+                text-align: left;
+            }
+            .total {
+                text-align: right;
+                margin-top: 20px;
+                line-height: 1.8;
+            }
+        </style>
+    </head>
+    <body>
+
+        <div class="center">
+
+            ${p.logo ? `<img src="${p.logo}" alt="Restaurant logo">` : ""}
+
+            <h2>${escapeHTML(p.name || "SMART RESTRO PRO")}</h2>
+
+            <p>${escapeHTML(p.address || "")}</p>
+
+            <p>Phone: ${escapeHTML(p.phone || "")}</p>
+
+            <p>GSTIN: ${escapeHTML(p.gst || "Not provided")}</p>
+
+            <h3>RESTAURANT INVOICE</h3>
+
+        </div>
+
+        <hr>
+
+        <p>Invoice: ${escapeHTML(order.id)}</p>
+        <p>Date: ${new Date(order.date).toLocaleString("en-IN")}</p>
+        <p>Customer: ${escapeHTML(order.customer)}</p>
+        <p>Phone: ${escapeHTML(order.phone)}</p>
+        <p>Order Type: ${escapeHTML(order.type)}</p>
+        <p>Payment: ${escapeHTML(order.payment)}</p>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Food Item</th>
+                    <th>Qty</th>
+                    <th>Price</th>
+                    <th>Total</th>
+                </tr>
+            </thead>
+            <tbody>${rows}</tbody>
+        </table>
+
+        <div class="total">
+            <p>Subtotal: ${money(order.subtotal)}</p>
+            <p>GST: ${money(order.gst)}</p>
+            <p>Discount: ${money(order.discount)}</p>
+            <h2>Grand Total: ${money(order.total)}</h2>
+        </div>
+
+        <hr>
+        <div class="center">
+            <h3>Thank You! Visit Again.</h3>
+        </div>
+
+        <script>
+            window.onload = function() {
+                window.print();
+            };
+        <\/script>
+
+    </body>
+    </html>`;
+
+    const win = window.open("", "_blank");
+
+    if (!win) {
+        alert("Please allow pop-ups to print invoices.");
+        return;
+    }
+
+    win.document.open();
+    win.document.write(html);
+    win.document.close();
 }
 
-bill.document.write(`
 
-<!DOCTYPE html>
-<html>
-<head>
-<title>Restaurant Invoice</title>
+/* =====================================
+   KITCHEN ORDERS
+===================================== */
 
-<style>
-body{
-font-family:Arial;
-padding:25px;
-color:#222;
-}
-h1{text-align:center}
-.center{text-align:center}
-table{width:100%;border-collapse:collapse;margin-top:20px}
-th,td{padding:9px;border-bottom:1px solid #ddd;text-align:left}
-.total{text-align:right;margin-top:20px}
-</style>
+function renderKitchen() {
 
-</head>
+    document.getElementById("kitchenList").innerHTML =
+        db.orders.map(order => `
 
-<body>
+        <tr>
+            <td>${escapeHTML(order.id)}</td>
+            <td>${escapeHTML(order.customer)}</td>
+            <td>${order.items.map(i =>
+                escapeHTML(i.name) + " × " + i.quantity
+            ).join("<br>")}</td>
+            <td>${new Date(order.date).toLocaleString("en-IN")}</td>
+            <td>${escapeHTML(order.status)}</td>
+            <td>
+                <select onchange="updateOrderStatus('${order.id}',this.value)">
+                    <option ${order.status === "Preparing" ? "selected" : ""}>Preparing</option>
+                    <option ${order.status === "Ready" ? "selected" : ""}>Ready</option>
+                    <option ${order.status === "Served" ? "selected" : ""}>Served</option>
+                    <option ${order.status === "Completed" ? "selected" : ""}>Completed</option>
+                    <option ${order.status === "Cancelled" ? "selected" : ""}>Cancelled</option>
+                </select>
+            </td>
+        </tr>
 
-<h1>${safe(p.name||"SMART RESTRO PRO")}</h1>
-
-<p class="center">${safe(p.address||"")}</p>
-
-<p class="center">
-Phone: ${safe(p.phone||"")}<br>
-GSTIN: ${safe(p.gst||"")}
-</p>
-
-<hr>
-
-<h3>INVOICE</h3>
-
-<p>
-Invoice: ${safe(o.number)}<br>
-Date: ${new Date(o.date).toLocaleString("en-IN")}<br>
-Customer: ${safe(o.customer)}<br>
-Phone: ${safe(o.phone)}<br>
-Payment: ${safe(o.payment)}
-</p>
-
-<table>
-<tr>
-<th>Item</th>
-<th>Qty</th>
-<th>Price</th>
-<th>Amount</th>
-</tr>
-
-${o.items.map(x=>`
-<tr>
-<td>${safe(x.name)}</td>
-<td>${x.qty}</td>
-<td>${money(x.price)}</td>
-<td>${money(x.price*x.qty)}</td>
-</tr>
-`).join("")}
-
-</table>
-
-<div class="total">
-
-<p>Subtotal: ${money(o.subtotal)}</p>
-<p>GST: ${money(o.tax)}</p>
-<p>Discount: ${money(o.discount)}</p>
-
-<h2>Grand Total: ${money(o.total)}</h2>
-
-</div>
-
-<hr>
-
-<p class="center">Thank you for dining with us!</p>
-
-<script>
-window.onload=function(){
-window.print();
-};
-<\/script>
-
-</body>
-</html>
-
-`);
-
-bill.document.close();
-
+    `).join("");
 }
 
-/* ==================================
+function updateOrderStatus(id, status) {
+
+    const order = db.orders.find(x => x.id === id);
+    if (!order) return;
+
+    order.status = status;
+
+    if (status === "Completed" || status === "Cancelled") {
+        const table = db.tables.find(t => t.number === order.table);
+
+        if (table) table.status = "Available";
+    }
+
+    saveDatabase();
+    renderKitchen();
+    renderOrders();
+    renderTables();
+}
+
+
+/* =====================================
+   ORDER HISTORY
+===================================== */
+
+function renderOrders() {
+
+    const search = document.getElementById("orderSearch").value.toLowerCase();
+
+    const list = db.orders.filter(order =>
+        order.id.toLowerCase().includes(search) ||
+        order.customer.toLowerCase().includes(search)
+    );
+
+    document.getElementById("orderList").innerHTML =
+        list.map(order => `
+
+        <tr>
+            <td>${escapeHTML(order.id)}</td>
+            <td>${getDate(order.date)}</td>
+            <td>${escapeHTML(order.customer)}</td>
+            <td>${escapeHTML(order.type)}</td>
+            <td>${escapeHTML(order.payment)}</td>
+            <td>${money(order.total)}</td>
+            <td>${escapeHTML(order.status)}</td>
+            <td>
+                <button class="btn btn-dark"
+                onclick="printBill('${order.id}')">PRINT</button>
+            </td>
+        </tr>
+
+    `).join("");
+}
+
+
+/* =====================================
    INVENTORY
-================================== */
+===================================== */
 
-get("inventoryForm").addEventListener("submit",e=>{
-e.preventDefault();
+function addInventory() {
 
-const item={
-id:value("iId")||id(),
-name:value("iName"),
-code:value("iCode"),
-unit:value("iUnit"),
-qty:Number(value("iQty")),
-cost:Number(value("iCost")),
-min:Number(value("iMin"))
-};
+    const name = document.getElementById("inventoryName").value.trim();
+    const code = document.getElementById("inventoryCode").value.trim();
+    const stock = Number(document.getElementById("inventoryStock").value);
+    const cost = Number(document.getElementById("inventoryCost").value);
+    const limit = Number(document.getElementById("inventoryLimit").value);
 
-const index=db.inventory.findIndex(x=>x.id===item.id);
+    if (!name || !code || document.getElementById("inventoryStock").value === "") {
+        alert("Enter item name, code and opening stock.");
+        return;
+    }
 
-if(index>=0){
-db.inventory[index]=item;
-}else{
-db.inventory.push(item);
+    if (stock < 0 || cost < 0 || limit < 0) {
+        alert("Values cannot be negative.");
+        return;
+    }
+
+    if (db.inventory.some(x => x.code.toLowerCase() === code.toLowerCase())) {
+        alert("Inventory code already exists.");
+        return;
+    }
+
+    db.inventory.push({
+        id: uid("INV"),
+        name,
+        code,
+        category: document.getElementById("inventoryCategory").value,
+        unit: document.getElementById("inventoryUnit").value,
+        stock,
+        cost,
+        limit
+    });
+
+    saveDatabase();
+
+    [
+        "inventoryName",
+        "inventoryCode",
+        "inventoryStock",
+        "inventoryCost",
+        "inventoryLimit"
+    ].forEach(id => document.getElementById(id).value = "");
+
+    renderInventory();
+    updatePurchaseOptions();
 }
 
-save();
-resetInventoryForm();
-renderAll();
+function renderInventory() {
 
-alert("Inventory saved!");
-});
+    document.getElementById("inventoryList").innerHTML =
+        db.inventory.map(item => `
 
-function resetInventoryForm(){
-get("inventoryForm").reset();
-setValue("iId","");
-setValue("iQty",0);
-setValue("iCost",0);
-setValue("iMin",5);
+        <tr>
+            <td>${escapeHTML(item.name)}</td>
+            <td>${escapeHTML(item.code)}</td>
+            <td>${escapeHTML(item.category)}</td>
+            <td>${item.stock}</td>
+            <td>${escapeHTML(item.unit)}</td>
+            <td>${money(item.cost)}</td>
+            <td>
+                ${item.stock <= item.limit
+                    ? `<span style="color:#ff7777;">LOW STOCK</span>`
+                    : `<span style="color:#55d99a;">IN STOCK</span>`
+                }
+            </td>
+            <td>
+                <button class="btn btn-red"
+                onclick="deleteInventory('${item.id}')">DELETE</button>
+            </td>
+        </tr>
+
+    `).join("");
 }
 
-function editInventory(itemId){
+function deleteInventory(id) {
 
-const x=db.inventory.find(i=>i.id===itemId);
-if(!x)return;
+    if (!confirm("Delete this inventory item?")) return;
 
-setValue("iId",x.id);
-setValue("iName",x.name);
-setValue("iCode",x.code);
-setValue("iUnit",x.unit);
-setValue("iQty",x.qty);
-setValue("iCost",x.cost);
-setValue("iMin",x.min);
+    db.inventory = db.inventory.filter(x => x.id !== id);
 
-showPage("inventory");
+    saveDatabase();
+    renderInventory();
+    updatePurchaseOptions();
 }
 
-function deleteInventory(itemId){
+function updatePurchaseOptions() {
 
-if(!confirm("Delete inventory item?"))return;
-
-db.inventory=db.inventory.filter(x=>x.id!==itemId);
-
-save();
-renderAll();
+    document.getElementById("purchaseItem").innerHTML =
+        `<option value="">Select item</option>` +
+        db.inventory.map(item => `
+            <option value="${item.id}">
+                ${escapeHTML(item.name)} (${escapeHTML(item.unit)})
+            </option>
+        `).join("");
 }
 
-function renderInventory(){
 
-const search=(get("inventorySearch").value||"").toLowerCase();
+/* =====================================
+   PURCHASES
+===================================== */
 
-const items=db.inventory.filter(x=>
-x.name.toLowerCase().includes(search)
-);
+function addPurchase() {
 
-get("inventoryList").innerHTML=tableHTML(
-["Item","Code","Quantity","Cost","Stock Status","Actions"],
-items.map(x=>`
+    const itemId = document.getElementById("purchaseItem").value;
+    const quantity = Number(document.getElementById("purchaseQuantity").value);
+    const cost = Number(document.getElementById("purchaseCost").value);
 
-<tr>
+    const item = db.inventory.find(x => x.id === itemId);
 
-<td>${safe(x.name)}</td>
-<td>${safe(x.code)}</td>
-<td>${x.qty} ${safe(x.unit)}</td>
-<td>${money(x.cost)}</td>
+    if (!item || quantity <= 0 || cost < 0) {
+        alert("Enter a valid item, quantity and cost.");
+        return;
+    }
 
-<td>
-<span class="pill ${x.qty<=x.min?"red":"green"}">
-${x.qty<=x.min?"Low Stock":"In Stock"}
-</span>
-</td>
+    const purchase = {
+        id: uid("PUR"),
+        supplier: document.getElementById("purchaseSupplier").value.trim() || "Unknown",
+        date: document.getElementById("purchaseDate").value || today(),
+        item: item.name,
+        itemId,
+        quantity,
+        cost,
+        total: quantity * cost,
+        invoice: document.getElementById("purchaseInvoice").value.trim()
+    };
 
-<td>
-<button class="btn small" onclick="editInventory('${x.id}')">Edit</button>
-<button class="btn small danger" onclick="deleteInventory('${x.id}')">Delete</button>
-</td>
+    item.stock += quantity;
+    item.cost = cost;
 
-</tr>
+    db.purchases.push(purchase);
 
-`)
-);
+    if (!saveDatabase()) return;
 
-get("buyItem").innerHTML=
-'<option value="">Select Inventory Item</option>'+
-db.inventory.map(x=>
-`<option value="${x.id}">${safe(x.name)}</option>`
-).join("");
+    document.getElementById("purchaseSupplier").value = "";
+    document.getElementById("purchaseQuantity").value = "";
+    document.getElementById("purchaseCost").value = "";
+    document.getElementById("purchaseInvoice").value = "";
 
+    renderPurchases();
+    renderInventory();
+
+    alert("Purchase saved and stock updated!");
 }
 
-/* ==================================
-   PURCHASE MANAGEMENT
-================================== */
+function renderPurchases() {
 
-get("purchaseForm").addEventListener("submit",e=>{
-e.preventDefault();
+    document.getElementById("purchaseList").innerHTML =
+        db.purchases.map(p => `
 
-const item=db.inventory.find(x=>x.id===value("buyItem"));
+        <tr>
+            <td>${escapeHTML(p.date)}</td>
+            <td>${escapeHTML(p.supplier)}</td>
+            <td>${escapeHTML(p.item)}</td>
+            <td>${p.quantity}</td>
+            <td>${money(p.cost)}</td>
+            <td>${money(p.total)}</td>
+            <td>${escapeHTML(p.invoice)}</td>
+        </tr>
 
-if(!item){
-alert("Select a valid inventory item.");
-return;
+    `).join("");
 }
 
-const qty=Number(value("buyQty"));
-const cost=Number(value("buyCost"));
 
-if(qty<=0||cost<0){
-alert("Enter valid purchase details.");
-return;
+/* =====================================
+   CUSTOMERS
+===================================== */
+
+function renderCustomers() {
+
+    const search = document.getElementById("customerSearch").value.toLowerCase();
+
+    const customers = {};
+
+    db.orders.forEach(order => {
+
+        const key = order.phone || order.customer;
+
+        if (!customers[key]) {
+            customers[key] = {
+                name: order.customer,
+                phone: order.phone,
+                count: 0,
+                spending: 0
+            };
+        }
+
+        customers[key].count++;
+        customers[key].spending += order.total;
+    });
+
+    const list = Object.values(customers).filter(c =>
+        c.name.toLowerCase().includes(search) ||
+        c.phone.toLowerCase().includes(search)
+    );
+
+    document.getElementById("customerList").innerHTML =
+        list.map(c => `
+
+        <tr>
+            <td>${escapeHTML(c.name)}</td>
+            <td>${escapeHTML(c.phone)}</td>
+            <td>${c.count}</td>
+            <td>${money(c.spending)}</td>
+        </tr>
+
+    `).join("");
 }
 
-item.qty+=qty;
-item.cost=cost;
 
-db.purchases.push({
-id:id(),
-date:value("buyDate"),
-item:item.name,
-supplier:value("buySupplier"),
-qty,
-unit:item.unit,
-cost,
-invoice:value("buyInvoice"),
-total:qty*cost
-});
-
-save();
-get("purchaseForm").reset();
-setValue("buyDate",today());
-
-renderAll();
-
-alert("Purchase recorded and stock updated!");
-
-});
-
-function renderPurchases(){
-
-get("purchaseList").innerHTML=tableHTML(
-["Date","Item","Supplier","Quantity","Unit Cost","Total","Invoice"],
-db.purchases.slice().reverse().map(x=>`
-
-<tr>
-<td>${safe(x.date)}</td>
-<td>${safe(x.item)}</td>
-<td>${safe(x.supplier)}</td>
-<td>${x.qty} ${safe(x.unit)}</td>
-<td>${money(x.cost)}</td>
-<td>${money(x.total)}</td>
-<td>${safe(x.invoice)}</td>
-</tr>
-
-`)
-);
-
-}
-
-/* ==================================
-   CUSTOMER MANAGEMENT
-================================== */
-
-function renderCustomers(){
-
-const customers={};
-
-db.orders.forEach(o=>{
-
-const phone=o.phone||"No phone";
-
-if(!customers[phone]){
-customers[phone]={
-name:o.customer,
-phone,
-orders:0,
-spent:0
-};
-}
-
-customers[phone].orders++;
-customers[phone].spent+=o.total;
-
-});
-
-get("customerList").innerHTML=tableHTML(
-["Customer","Phone","Orders","Total Spending"],
-Object.values(customers).map(c=>`
-
-<tr>
-<td>${safe(c.name)}</td>
-<td>${safe(c.phone)}</td>
-<td>${c.orders}</td>
-<td>${money(c.spent)}</td>
-</tr>
-
-`)
-);
-
-}
-
-/* ==================================
+/* =====================================
    SUPPLIERS
-================================== */
+===================================== */
 
-get("supplierForm").addEventListener("submit",e=>{
-e.preventDefault();
+function addSupplier() {
 
-const s={
-id:value("sId")||id(),
-name:value("sName"),
-phone:value("sPhone"),
-email:value("sEmail"),
-gst:value("sGst"),
-address:value("sAddress")
-};
+    const name = document.getElementById("supplierName").value.trim();
 
-const index=db.suppliers.findIndex(x=>x.id===s.id);
+    if (!name) {
+        alert("Enter supplier name.");
+        return;
+    }
 
-if(index>=0){
-db.suppliers[index]=s;
-}else{
-db.suppliers.push(s);
+    db.suppliers.push({
+        id: uid("SUP"),
+        name,
+        contact: document.getElementById("supplierContact").value.trim(),
+        phone: document.getElementById("supplierPhone").value.trim(),
+        email: document.getElementById("supplierEmail").value.trim(),
+        gst: document.getElementById("supplierGST").value.trim()
+    });
+
+    saveDatabase();
+
+    [
+        "supplierName",
+        "supplierContact",
+        "supplierPhone",
+        "supplierEmail",
+        "supplierGST"
+    ].forEach(id => document.getElementById(id).value = "");
+
+    renderSuppliers();
 }
 
-save();
-resetSupplierForm();
-renderAll();
+function renderSuppliers() {
 
-});
+    document.getElementById("supplierList").innerHTML =
+        db.suppliers.map(s => `
 
-function resetSupplierForm(){
-get("supplierForm").reset();
-setValue("sId","");
+        <tr>
+            <td>${escapeHTML(s.name)}</td>
+            <td>${escapeHTML(s.contact)}</td>
+            <td>${escapeHTML(s.phone)}</td>
+            <td>${escapeHTML(s.email)}</td>
+            <td>${escapeHTML(s.gst)}</td>
+            <td>
+                <button class="btn btn-red"
+                onclick="deleteSupplier('${s.id}')">DELETE</button>
+            </td>
+        </tr>
+
+    `).join("");
 }
 
-function editSupplier(sid){
+function deleteSupplier(id) {
 
-const s=db.suppliers.find(x=>x.id===sid);
-if(!s)return;
+    if (!confirm("Delete this supplier?")) return;
 
-setValue("sId",s.id);
-setValue("sName",s.name);
-setValue("sPhone",s.phone);
-setValue("sEmail",s.email);
-setValue("sGst",s.gst);
-setValue("sAddress",s.address);
+    db.suppliers = db.suppliers.filter(x => x.id !== id);
 
-showPage("suppliers");
+    saveDatabase();
+    renderSuppliers();
 }
 
-function deleteSupplier(sid){
 
-if(!confirm("Delete supplier?"))return;
+/* =====================================
+   STAFF
+===================================== */
 
-db.suppliers=db.suppliers.filter(x=>x.id!==sid);
+function addStaff() {
 
-save();
-renderAll();
+    const name = document.getElementById("staffName").value.trim();
+    const salary = Number(document.getElementById("staffSalary").value);
+
+    if (!name || salary < 0) {
+        alert("Enter a valid staff name and salary.");
+        return;
+    }
+
+    db.staff.push({
+        id: uid("STAFF"),
+        name,
+        phone: document.getElementById("staffPhone").value.trim(),
+        role: document.getElementById("staffRole").value,
+        salary,
+        joining: document.getElementById("staffJoining").value
+    });
+
+    saveDatabase();
+
+    [
+        "staffName",
+        "staffPhone",
+        "staffSalary",
+        "staffJoining"
+    ].forEach(id => document.getElementById(id).value = "");
+
+    renderStaff();
 }
 
-function renderSuppliers(){
+function renderStaff() {
 
-get("supplierList").innerHTML=tableHTML(
-["Supplier","Phone","Email","GSTIN","Actions"],
-db.suppliers.map(s=>`
+    document.getElementById("staffList").innerHTML =
+        db.staff.map(s => `
 
-<tr>
-<td>${safe(s.name)}</td>
-<td>${safe(s.phone)}</td>
-<td>${safe(s.email)}</td>
-<td>${safe(s.gst)}</td>
+        <tr>
+            <td>${escapeHTML(s.name)}</td>
+            <td>${escapeHTML(s.phone)}</td>
+            <td>${escapeHTML(s.role)}</td>
+            <td>${money(s.salary)}</td>
+            <td>${escapeHTML(s.joining)}</td>
+            <td>
+                <button class="btn btn-red"
+                onclick="deleteStaff('${s.id}')">DELETE</button>
+            </td>
+        </tr>
 
-<td>
-<button class="btn small" onclick="editSupplier('${s.id}')">Edit</button>
-<button class="btn small danger" onclick="deleteSupplier('${s.id}')">Delete</button>
-</td>
-</tr>
-
-`)
-);
-
+    `).join("");
 }
 
-/* ==================================
-   STAFF MANAGEMENT
-================================== */
+function deleteStaff(id) {
 
-get("staffForm").addEventListener("submit",e=>{
-e.preventDefault();
+    if (!confirm("Delete this staff member?")) return;
 
-const s={
-id:value("stId")||id(),
-name:value("stName"),
-role:value("stRole"),
-phone:value("stPhone"),
-salary:Number(value("stSalary")),
-join:value("stJoin")
-};
+    db.staff = db.staff.filter(x => x.id !== id);
 
-const index=db.staff.findIndex(x=>x.id===s.id);
-
-if(index>=0){
-db.staff[index]=s;
-}else{
-db.staff.push(s);
+    saveDatabase();
+    renderStaff();
 }
 
-save();
-resetStaffForm();
-renderAll();
 
-});
+/* =====================================
+   EXPENSES
+===================================== */
 
-function resetStaffForm(){
-get("staffForm").reset();
-setValue("stId","");
-setValue("stSalary",0);
+function addExpense() {
+
+    const title = document.getElementById("expenseTitle").value.trim();
+    const amount = Number(document.getElementById("expenseAmount").value);
+
+    if (!title || document.getElementById("expenseAmount").value === "" || amount <= 0) {
+        alert("Enter an expense title and a valid amount.");
+        return;
+    }
+
+    db.expenses.push({
+        id: uid("EXP"),
+        title,
+        category: document.getElementById("expenseCategory").value,
+        amount,
+        payment: document.getElementById("expensePayment").value,
+        date: document.getElementById("expenseDate").value || today(),
+        reference: document.getElementById("expenseReference").value.trim()
+    });
+
+    saveDatabase();
+
+    [
+        "expenseTitle",
+        "expenseAmount",
+        "expenseDate",
+        "expenseReference"
+    ].forEach(id => document.getElementById(id).value = "");
+
+    renderExpenses();
+    renderDashboard();
+    renderReports();
 }
 
-function editStaff(sid){
+function renderExpenses() {
 
-const s=db.staff.find(x=>x.id===sid);
-if(!s)return;
+    document.getElementById("expenseList").innerHTML =
+        db.expenses.map(e => `
 
-setValue("stId",s.id);
-setValue("stName",s.name);
-setValue("stRole",s.role);
-setValue("stPhone",s.phone);
-setValue("stSalary",s.salary);
-setValue("stJoin",s.join);
+        <tr>
+            <td>${escapeHTML(e.date)}</td>
+            <td>${escapeHTML(e.title)}</td>
+            <td>${escapeHTML(e.category)}</td>
+            <td>${escapeHTML(e.payment)}</td>
+            <td>${money(e.amount)}</td>
+            <td>
+                <button class="btn btn-red"
+                onclick="deleteExpense('${e.id}')">DELETE</button>
+            </td>
+        </tr>
 
-showPage("staff");
+    `).join("");
 }
 
-function deleteStaff(sid){
+function deleteExpense(id) {
 
-if(!confirm("Delete this staff member?"))return;
+    if (!confirm("Delete this expense?")) return;
 
-db.staff=db.staff.filter(x=>x.id!==sid);
+    db.expenses = db.expenses.filter(x => x.id !== id);
 
-save();
-renderAll();
+    saveDatabase();
+    renderExpenses();
+    renderDashboard();
+    renderReports();
 }
 
-function renderStaff(){
 
-get("staffList").innerHTML=tableHTML(
-["Name","Role","Phone","Salary","Joining Date","Actions"],
-db.staff.map(s=>`
-
-<tr>
-<td>${safe(s.name)}</td>
-<td>${safe(s.role)}</td>
-<td>${safe(s.phone)}</td>
-<td>${money(s.salary)}</td>
-<td>${safe(s.join)}</td>
-
-<td>
-<button class="btn small" onclick="editStaff('${s.id}')">Edit</button>
-<button class="btn small danger" onclick="deleteStaff('${s.id}')">Delete</button>
-</td>
-</tr>
-
-`)
-);
-
-}
-
-/* ==================================
-   EXPENSE MANAGEMENT
-================================== */
-
-get("expenseForm").addEventListener("submit",e=>{
-e.preventDefault();
-
-const amount=Number(value("eAmount"));
-
-if(amount<=0){
-alert("Enter a valid expense amount.");
-return;
-}
-
-db.expenses.push({
-id:id(),
-date:value("eDate"),
-category:value("eCategory"),
-description:value("eDescription"),
-amount,
-payment:value("ePayment"),
-reference:value("eReference")
-});
-
-save();
-
-get("expenseForm").reset();
-setValue("eDate",today());
-
-renderAll();
-
-alert("Expense recorded successfully!");
-
-});
-
-function deleteExpense(eid){
-
-if(!confirm("Delete this expense record?"))return;
-
-db.expenses=db.expenses.filter(x=>x.id!==eid);
-
-save();
-renderAll();
-}
-
-function renderExpenses(){
-
-get("expenseList").innerHTML=tableHTML(
-["Date","Category","Description","Payment","Amount","Actions"],
-db.expenses.slice().reverse().map(x=>`
-
-<tr>
-<td>${safe(x.date)}</td>
-<td>${safe(x.category)}</td>
-<td>${safe(x.description)}</td>
-<td>${safe(x.payment)}</td>
-<td>${money(x.amount)}</td>
-
-<td>
-<button class="btn small danger" onclick="deleteExpense('${x.id}')">Delete</button>
-</td>
-</tr>
-
-`)
-);
-
-}
-
-/* ==================================
-   BRANCH MANAGEMENT
-================================== */
-
-get("branchForm").addEventListener("submit",e=>{
-e.preventDefault();
-
-db.branches.push({
-id:id(),
-name:value("bName"),
-location:value("bLocation"),
-manager:value("bManager"),
-phone:value("bPhone")
-});
-
-save();
-
-get("branchForm").reset();
-
-renderAll();
-
-alert("Branch added successfully!");
-
-});
-
-function deleteBranch(bid){
-
-if(!confirm("Delete this branch?"))return;
-
-db.branches=db.branches.filter(x=>x.id!==bid);
-
-save();
-renderAll();
-}
-
-function renderBranches(){
-
-get("branchList").innerHTML=tableHTML(
-["Branch","Location","Manager","Contact","Actions"],
-db.branches.map(b=>`
-
-<tr>
-<td>${safe(b.name)}</td>
-<td>${safe(b.location)}</td>
-<td>${safe(b.manager)}</td>
-<td>${safe(b.phone)}</td>
-
-<td>
-<button class="btn small danger" onclick="deleteBranch('${b.id}')">Delete</button>
-</td>
-
-</tr>
-
-`)
-);
-
-}
-
-/* ==================================
+/* =====================================
    DASHBOARD
-================================== */
+===================================== */
 
-function renderDashboard(){
+function renderDashboard() {
 
-const date=today();
+    const todayOrders = db.orders.filter(order =>
+        getDate(order.date) === today() &&
+        order.status !== "Cancelled"
+    );
 
-const orders=db.orders.filter(o=>
-o.date.slice(0,10)===date
-);
+    const todaySales = todayOrders.reduce((sum, order) =>
+        sum + order.total, 0);
 
-const expenses=db.expenses.filter(e=>e.date===date);
+    const totalExpenses = db.expenses.reduce((sum, expense) =>
+        sum + expense.amount, 0);
 
-const revenue=sum(
-orders.filter(o=>o.status==="Completed"),
-"total"
-);
-
-const expenseTotal=sum(expenses,"amount");
-
-get("dashRevenue").textContent=money(revenue);
-get("dashOrders").textContent=orders.length;
-get("dashExpenses").textContent=money(expenseTotal);
-get("dashProfit").textContent=money(revenue-expenseTotal);
-
-get("snapName").textContent=db.profile.name||"Not configured";
-get("snapMenu").textContent=db.menu.length;
-get("snapTables").textContent=db.tables.length;
-get("snapInventory").textContent=db.inventory.length;
-
-get("snapKitchen").textContent=
-db.orders.filter(o=>o.status!=="Completed").length;
-
-get("recentOrders").innerHTML=tableHTML(
-["Order","Customer","Amount","Status"],
-db.orders.slice(-5).reverse().map(o=>`
-
-<tr>
-<td>${safe(o.number)}</td>
-<td>${safe(o.customer)}</td>
-<td>${money(o.total)}</td>
-<td><span class="pill">${safe(o.status)}</span></td>
-</tr>
-
-`)
-);
-
+    document.getElementById("dashSales").textContent = money(todaySales);
+    document.getElementById("dashOrders").textContent = todayOrders.length;
+    document.getElementById("dashMenu").textContent = db.menu.length;
+    document.getElementById("dashExpenses").textContent = money(totalExpenses);
 }
 
-/* ==================================
-   BUSINESS REPORTS
-================================== */
 
-function renderReports(){
+/* =====================================
+   REPORTS
+===================================== */
 
-const completed=db.orders.filter(o=>o.status==="Completed");
+function renderReports() {
 
-const sales=sum(completed,"total");
-const expenses=sum(db.expenses,"amount");
+    const validOrders = db.orders.filter(x => x.status !== "Cancelled");
 
-get("reportSales").textContent=money(sales);
-get("reportExpenses").textContent=money(expenses);
-get("reportOrders").textContent=db.orders.length;
-get("reportCompleted").textContent=completed.length;
+    const revenue = validOrders.reduce((sum, x) => sum + x.total, 0);
 
-get("reportDetails").innerHTML=`
+    const expenses = db.expenses.reduce((sum, x) => sum + x.amount, 0);
 
-<div class="totalrow">
-<span>Total Completed Sales</span>
-<b>${money(sales)}</b>
-</div>
+    const profit = revenue - expenses;
 
-<div class="totalrow">
-<span>Total Business Expenses</span>
-<b>${money(expenses)}</b>
-</div>
-
-<div class="totalrow">
-<span>Estimated Net Amount</span>
-<b>${money(sales-expenses)}</b>
-</div>
-
-<div class="totalrow">
-<span>Total GST Recorded on Orders</span>
-<b>${money(sum(completed,"tax"))}</b>
-</div>
-
-<div class="totalrow">
-<span>Total Discounts</span>
-<b>${money(sum(completed,"discount"))}</b>
-</div>
-
-`;
-
+    document.getElementById("reportRevenue").textContent = money(revenue);
+    document.getElementById("reportExpenses").textContent = money(expenses);
+    document.getElementById("reportProfit").textContent = money(profit);
+    document.getElementById("reportOrders").textContent = validOrders.length;
 }
 
-function exportReport(){
+function generateReport() {
 
-const rows=[
-["Metric","Amount"],
-["Total Sales",sum(db.orders.filter(o=>o.status==="Completed"),"total")],
-["Expenses",sum(db.expenses,"amount")],
-["Estimated Net",sum(db.orders.filter(o=>o.status==="Completed"),"total")-sum(db.expenses,"amount")],
-["Total Orders",db.orders.length]
-];
+    const from = document.getElementById("reportFrom").value;
+    const to = document.getElementById("reportTo").value;
 
-downloadCSV("restaurant-report.csv",rows);
+    if (from && to && from > to) {
+        alert("Start date cannot be after end date.");
+        return;
+    }
 
+    const orders = db.orders.filter(order => {
+
+        const date = getDate(order.date);
+
+        return order.status !== "Cancelled" &&
+            (!from || date >= from) &&
+            (!to || date <= to);
+    });
+
+    const expenses = db.expenses.filter(e =>
+        (!from || e.date >= from) &&
+        (!to || e.date <= to)
+    );
+
+    const revenue = orders.reduce((s, x) => s + x.total, 0);
+    const expenseTotal = expenses.reduce((s, x) => s + x.amount, 0);
+
+    document.getElementById("reportResult").innerHTML = `
+
+        <h3>Report Summary</h3>
+
+        <p>Orders: ${orders.length}</p>
+
+        <p>Sales Revenue: ${money(revenue)}</p>
+
+        <p>Expenses: ${money(expenseTotal)}</p>
+
+        <h3 style="color:var(--gold2);">
+            Difference: ${money(revenue - expenseTotal)}
+        </h3>
+
+    `;
 }
 
-/* ==================================
+function exportReport() {
+
+    const rows = [
+        ["Order ID", "Date", "Customer", "Payment", "Total", "Status"],
+        ...db.orders.map(o => [
+            o.id,
+            getDate(o.date),
+            o.customer,
+            o.payment,
+            o.total,
+            o.status
+        ])
+    ];
+
+    downloadCSV("Restaurant_Report.csv", rows);
+}
+
+
+/* =====================================
+   BRANCH MANAGEMENT
+===================================== */
+
+function addBranch() {
+
+    const name = document.getElementById("branchName").value.trim();
+
+    if (!name) {
+        alert("Enter branch name.");
+        return;
+    }
+
+    db.branches.push({
+        id: uid("BRANCH"),
+        name,
+        phone: document.getElementById("branchPhone").value.trim(),
+        address: document.getElementById("branchAddress").value.trim(),
+        manager: document.getElementById("branchManager").value.trim()
+    });
+
+    saveDatabase();
+
+    [
+        "branchName",
+        "branchPhone",
+        "branchAddress",
+        "branchManager"
+    ].forEach(id => document.getElementById(id).value = "");
+
+    renderBranches();
+}
+
+function renderBranches() {
+
+    document.getElementById("branchList").innerHTML =
+        db.branches.map(b => `
+
+        <tr>
+            <td>${escapeHTML(b.name)}</td>
+            <td>${escapeHTML(b.phone)}</td>
+            <td>${escapeHTML(b.address)}</td>
+            <td>${escapeHTML(b.manager)}</td>
+            <td>
+                <button class="btn btn-red"
+                onclick="deleteBranch('${b.id}')">DELETE</button>
+            </td>
+        </tr>
+
+    `).join("");
+}
+
+function deleteBranch(id) {
+
+    if (!confirm("Delete this branch?")) return;
+
+    db.branches = db.branches.filter(x => x.id !== id);
+
+    saveDatabase();
+    renderBranches();
+}
+
+
+/* =====================================
    CSV EXPORT
-================================== */
+===================================== */
 
-function downloadCSV(filename,rows){
+function downloadCSV(filename, rows) {
 
-const csv=rows.map(row=>
-row.map(v=>'"'+String(v??"").replace(/"/g,'""')+'"').join(",")
-).join("\n");
+    const csv = rows.map(row =>
+        row.map(value =>
+            '"' + String(value ?? "").replace(/"/g, '""') + '"'
+        ).join(",")
+    ).join("\n");
 
-const blob=new Blob(["\uFEFF"+csv],{
-type:"text/csv;charset=utf-8;"
-});
+    const blob = new Blob(["\uFEFF" + csv], {
+        type: "text/csv;charset=utf-8;"
+    });
 
-const url=URL.createObjectURL(blob);
+    const url = URL.createObjectURL(blob);
 
-const a=document.createElement("a");
-a.href=url;
-a.download=filename;
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = filename;
 
-document.body.appendChild(a);
-a.click();
-a.remove();
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
 
-URL.revokeObjectURL(url);
-
+    URL.revokeObjectURL(url);
 }
 
-function exportOrders(){
 
-const rows=[
-["Order No","Date","Customer","Phone","Type","Payment","Subtotal","GST","Discount","Total","Status"],
-...db.orders.map(o=>[
-o.number,o.date,o.customer,o.phone,o.type,o.payment,
-o.subtotal,o.tax,o.discount,o.total,o.status
-])
-];
+/* =====================================
+   BACKUP
+===================================== */
 
-downloadCSV("restaurant-orders.csv",rows);
+function backupData() {
 
+    const data = JSON.stringify(db, null, 2);
+
+    const blob = new Blob([data], {
+        type: "application/json"
+    });
+
+    const url = URL.createObjectURL(blob);
+
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = "SMART_RESTRO_BACKUP_" + today() + ".json";
+
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+
+    URL.revokeObjectURL(url);
+
+    alert("Backup downloaded successfully!");
 }
 
-/* ==================================
-   BACKUP & RESTORE
-================================== */
+function restoreData() {
 
-function downloadBackup(){
+    const file = document.getElementById("restoreFile").files[0];
 
-const blob=new Blob(
-[JSON.stringify(db,null,2)],
-{type:"application/json"}
-);
+    if (!file) {
+        alert("Please select a backup JSON file.");
+        return;
+    }
 
-const url=URL.createObjectURL(blob);
+    if (!confirm("Restore backup? Current saved data will be replaced.")) {
+        return;
+    }
 
-const a=document.createElement("a");
-a.href=url;
-a.download="SMART-RESTRO-BACKUP-"+today()+".json";
+    const reader = new FileReader();
 
-document.body.appendChild(a);
-a.click();
-a.remove();
+    reader.onload = function(event) {
 
-URL.revokeObjectURL(url);
+        try {
 
+            const restored = JSON.parse(event.target.result);
+
+            const required = [
+                "profile",
+                "menu",
+                "tables",
+                "orders",
+                "inventory",
+                "purchases",
+                "suppliers",
+                "staff",
+                "expenses",
+                "branches"
+            ];
+
+            if (!required.every(key =>
+                Object.prototype.hasOwnProperty.call(restored, key)
+            )) {
+                throw new Error("Invalid backup structure");
+            }
+
+            db = restored;
+
+            if (!saveDatabase()) return;
+
+            initializeApp();
+
+            alert("Backup restored successfully!");
+
+        } catch (error) {
+            alert("Invalid backup file. No data was restored.");
+        }
+    };
+
+    reader.readAsText(file);
 }
 
-get("restoreFile").addEventListener("change",async e=>{
+function deleteAllData() {
 
-const file=e.target.files[0];
+    const answer = confirm(
+        "WARNING: This will permanently delete all restaurant records saved in this browser. Continue?"
+    );
 
-if(!file)return;
+    if (!answer) return;
 
-try{
+    db = structuredClone(defaultDB);
 
-const restored=JSON.parse(await file.text());
+    if (!saveDatabase()) return;
 
-const required=[
-"profile","menu","tables","orders",
-"inventory","purchases","expenses",
-"suppliers","staff","branches"
-];
+    cart = [];
+    restaurantLogoData = "";
+    productImageData = "";
+    editingFoodId = null;
 
-if(!restored||typeof restored!=="object"||
-!required.every(k=>k in restored)||
-!required.slice(1).every(k=>Array.isArray(restored[k]))){
-throw new Error("Invalid backup format");
+    initializeApp();
+
+    alert("All restaurant data has been deleted.");
 }
 
-if(!confirm("Restore backup? This will replace current restaurant records.")){
-e.target.value="";
-return;
+
+/* =====================================
+   INITIALIZE APPLICATION
+===================================== */
+
+function initializeApp() {
+
+    loadRestaurant();
+
+    renderDashboard();
+    renderMenu();
+    renderTables();
+    renderPosMenu();
+    renderCart();
+    renderKitchen();
+    renderOrders();
+    renderInventory();
+    renderPurchases();
+    renderCustomers();
+    renderSuppliers();
+    renderStaff();
+    renderExpenses();
+    renderReports();
+    renderBranches();
+
+    updateTableOptions();
+    updatePurchaseOptions();
+
+    document.getElementById("purchaseDate").value = today();
+    document.getElementById("expenseDate").value = today();
 }
 
-db={...structuredClone(defaults),...restored};
-
-save();
-renderAll();
-
-alert("Backup restored successfully!");
-
-}catch(err){
-
-alert("Unable to restore. Please select a valid SMART RESTRO backup.");
-
-}
-
-e.target.value="";
-
-});
-
-function deleteAllData(){
-
-const answer=prompt(
-"Type DELETE to permanently clear all restaurant records from this browser."
-);
-
-if(answer!=="DELETE")return;
-
-localStorage.removeItem(KEY);
-
-db=structuredClone(defaults);
-cart=[];
-
-renderAll();
-
-alert("Restaurant data cleared.");
-
-}
-
-/* ==================================
-   GLOBAL SEARCH EVENTS
-================================== */
-
-get("menuSearch").addEventListener("input",renderMenu);
-
-get("posSearch").addEventListener("input",renderPosMenu);
-
-get("orderSearch").addEventListener("input",renderOrders);
-
-get("orderFilter").addEventListener("change",renderOrders);
-
-get("inventorySearch").addEventListener("input",renderInventory);
-
-/* ==================================
-   MAIN RENDER FUNCTION
-================================== */
-
-function renderAll(){
-
-renderProfile();
-renderMenu();
-renderTables();
-renderPosMenu();
-renderCart();
-renderOrders();
-renderKitchen();
-renderInventory();
-renderPurchases();
-renderCustomers();
-renderSuppliers();
-renderStaff();
-renderExpenses();
-renderBranches();
-renderDashboard();
-renderReports();
-
-get("backupMenu").textContent=db.menu.length;
-get("backupOrders").textContent=db.orders.length;
-get("backupInventory").textContent=db.inventory.length;
-get("backupExpenses").textContent=db.expenses.length;
-get("backupCustomers").textContent=
-new Set(db.orders.map(o=>o.phone||o.customer)).size;
-
-}
-
-/* ==================================
-   INITIALISE WEBSITE
-================================== */
-
-setValue("buyDate",today());
-setValue("eDate",today());
-
-renderAll();
-
-console.log("SMART RESTRO PRO loaded successfully!");
+initializeApp();
 
 </script>
 
