@@ -1,906 +1,3013 @@
+
 <!DOCTYPE html>
-<html lang="en" data-theme="dark">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SMART RESTRO PRO - Enterprise Restaurant System</title>
+<title>SMART RESTRO PRO</title>
+
+<!-- Export libraries -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.31/jspdf.plugin.autotable.min.js"></script>
+
 <style>
-:root {
-    --bg: #0f1115;
-    --panel: #181b22;
-    --panel-hover: #212631;
-    --gold: #f59e0b;
-    --gold-light: #fbbf24;
-    --text: #f3f4f6;
-    --text-muted: #9ca3af;
-    --border: #2d3748;
-    --green: #10b981;
-    --red: #ef4444;
-    --blue: #3b82f6;
-    --purple: #8b5cf6;
+:root{
+ --bg:#101114;
+ --panel:#1b1d22;
+ --panel2:#24272e;
+ --line:#343842;
+ --gold:#d6ad55;
+ --gold2:#f0d48b;
+ --text:#f5f1e8;
+ --muted:#aeb3bd;
+ --green:#45b883;
+ --red:#e36b6b;
 }
 
-[data-theme="light"] {
-    --bg: #f8fafc;
-    --panel: #ffffff;
-    --panel-hover: #f1f5f9;
-    --gold: #d97706;
-    --gold-light: #b45309;
-    --text: #1e293b;
-    --text-muted: #64748b;
-    --border: #cbd5e1;
-    --green: #059669;
-    --red: #dc2626;
-    --blue: #2563eb;
-    --purple: #7c3aed;
+*{box-sizing:border-box}
+
+body{
+ margin:0;
+ background:var(--bg);
+ color:var(--text);
+ font-family:Arial,sans-serif;
 }
 
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+header{
+ background:#17191e;
+ border-bottom:1px solid var(--line);
+ padding:15px 22px;
+ display:flex;
+ align-items:center;
+ justify-content:space-between;
+ gap:15px;
+ flex-wrap:wrap;
 }
 
-body {
-    background: var(--bg);
-    color: var(--text);
-    display: flex;
-    height: 100vh;
-    overflow: hidden;
+.brand{
+ display:flex;
+ align-items:center;
+ gap:12px;
 }
 
-/* SIDEBAR */
-.sidebar {
-    width: 260px;
-    background: var(--panel);
-    border-right: 1px solid var(--border);
-    display: flex;
-    flex-direction: column;
-    padding: 20px 15px;
-    gap: 15px;
-    z-index: 100;
+.brand img{
+ width:48px;
+ height:48px;
+ object-fit:contain;
+ border-radius:10px;
+ background:#fff;
 }
 
-.brand {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    padding-bottom: 15px;
-    border-bottom: 1px solid var(--border);
+h1{
+ margin:0;
+ font-size:22px;
+ color:var(--gold);
 }
 
-.brand-icon {
-    width: 40px;
-    height: 40px;
-    background: var(--gold);
-    color: #000;
-    border-radius: 10px;
-    display: grid;
-    place-items: center;
-    font-size: 20px;
-    font-weight: bold;
+small,.muted{color:var(--muted)}
+
+.layout{
+ display:flex;
+ min-height:calc(100vh - 75px);
 }
 
-.brand h2 {
-    font-size: 16px;
-    color: var(--gold);
+nav{
+ width:225px;
+ background:#17191e;
+ padding:14px;
+ display:flex;
+ flex-direction:column;
+ gap:6px;
 }
 
-.brand p {
-    font-size: 10px;
-    color: var(--text-muted);
+nav button{
+ background:transparent;
+ color:var(--text);
+ text-align:left;
+ border:0;
+ padding:12px;
+ cursor:pointer;
+ font-size:14px;
 }
 
-.nav-menu {
-    flex: 1;
-    overflow-y: auto;
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
+nav button.active{
+ background:var(--panel2);
+ color:var(--gold);
+ border-left:3px solid var(--gold);
 }
 
-.nav-menu::-webkit-scrollbar {
-    width: 4px;
-}
-.nav-menu::-webkit-scrollbar-thumb {
-    background: var(--border);
-    border-radius: 2px;
+main{
+ flex:1;
+ min-width:0;
+ padding:22px;
 }
 
-.nav-item {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 11px 14px;
-    border-radius: 8px;
-    color: var(--text-muted);
-    background: transparent;
-    border: none;
-    cursor: pointer;
-    font-size: 13px;
-    font-weight: 500;
-    width: 100%;
-    text-align: left;
-    transition: 0.2s;
+.page{display:none}
+.page.active{display:block}
+
+h2{margin-top:0}
+h3{color:var(--gold)}
+
+.grid{
+ display:grid;
+ grid-template-columns:repeat(auto-fit,minmax(160px,1fr));
+ gap:14px;
 }
 
-.nav-item:hover, .nav-item.active {
-    background: var(--panel-hover);
-    color: var(--gold);
+.card,.box{
+ background:var(--panel);
+ border:1px solid var(--line);
+ border-radius:12px;
+ padding:16px;
+ margin-bottom:14px;
 }
 
-/* MAIN CONTAINER */
-.main-container {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
+.value{
+ font-size:25px;
+ font-weight:bold;
+ color:var(--gold);
+ margin-top:9px;
 }
 
-/* TOPBAR */
-.topbar {
-    height: 70px;
-    background: var(--panel);
-    border-bottom: 1px solid var(--border);
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0 25px;
+.row{
+ display:flex;
+ gap:12px;
+ flex-wrap:wrap;
+ align-items:end;
+ margin-bottom:14px;
 }
 
-.topbar-left h1 {
-    font-size: 18px;
-    font-weight: 600;
+label{
+ display:flex;
+ flex-direction:column;
+ gap:6px;
+ font-size:13px;
+ color:var(--muted);
 }
 
-.topbar-left p {
-    font-size: 11px;
-    color: var(--text-muted);
+input,select,textarea{
+ background:#111318;
+ border:1px solid var(--line);
+ color:var(--text);
+ padding:11px;
+ border-radius:7px;
+ min-width:130px;
+ max-width:100%;
 }
 
-.topbar-right {
-    display: flex;
-    align-items: center;
-    gap: 15px;
+textarea{
+ width:100%;
+ min-height:75px;
 }
 
-.restaurant-select {
-    background: var(--bg);
-    color: var(--text);
-    border: 1px solid var(--border);
-    padding: 8px 12px;
-    border-radius: 6px;
-    font-size: 12px;
-    outline: none;
+button{
+ background:var(--gold);
+ color:#171717;
+ border:0;
+ border-radius:7px;
+ padding:10px 14px;
+ font-weight:bold;
+ cursor:pointer;
 }
 
-.theme-toggle, .action-btn-top {
-    background: var(--bg);
-    border: 1px solid var(--border);
-    color: var(--text);
-    padding: 8px 12px;
-    border-radius: 6px;
-    cursor: pointer;
-    font-size: 13px;
+button:hover{background:var(--gold2)}
+
+button.secondary{
+ background:var(--panel2);
+ color:var(--text);
+ border:1px solid var(--line);
 }
 
-/* CONTENT AREA */
-.content {
-    flex: 1;
-    overflow-y: auto;
-    padding: 25px;
+button.danger{
+ background:var(--red);
+ color:white;
 }
 
-.view-section {
-    display: none;
+button.success{
+ background:var(--green);
+ color:#071b12;
 }
 
-.view-section.active {
-    display: block;
+.tablewrap{
+ overflow-x:auto;
 }
 
-/* UTILITY COMPONENTS */
-.grid-4 {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    gap: 15px;
-    margin-bottom: 25px;
+table{
+ width:100%;
+ border-collapse:collapse;
+ min-width:600px;
 }
 
-.card {
-    background: var(--panel);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    padding: 20px;
+th,td{
+ padding:11px;
+ border-bottom:1px solid var(--line);
+ text-align:left;
 }
 
-.card-title {
-    font-size: 12px;
-    color: var(--text-muted);
-    margin-bottom: 8px;
+th{color:var(--gold)}
+
+.food-image{
+ width:75px;
+ height:65px;
+ object-fit:cover;
+ border-radius:8px;
+ background:var(--panel2);
 }
 
-.card-value {
-    font-size: 24px;
-    font-weight: bold;
-    color: var(--gold);
+.preview{
+ width:130px;
+ height:110px;
+ object-fit:cover;
+ border-radius:10px;
+ border:1px solid var(--line);
+ display:none;
+ margin-top:8px;
 }
 
-.btn {
-    padding: 10px 16px;
-    border-radius: 8px;
-    font-size: 13px;
-    font-weight: 600;
-    cursor: pointer;
-    border: none;
-    transition: 0.2s;
+.logo-preview{
+ width:120px;
+ height:100px;
+ object-fit:contain;
+ background:white;
+ padding:5px;
+ border-radius:10px;
+ display:none;
 }
 
-.btn-primary { background: var(--gold); color: #000; }
-.btn-primary:hover { background: var(--gold-light); }
-.btn-danger { background: var(--red); color: #fff; }
-.btn-success { background: var(--green); color: #fff; }
-
-.table-wrapper {
-    width: 100%;
-    overflow-x: auto;
-    background: var(--panel);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    margin-top: 15px;
+.menu-cards{
+ display:grid;
+ grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+ gap:12px;
+ margin-top:15px;
 }
 
-table {
-    width: 100%;
-    border-collapse: collapse;
-    text-align: left;
-    font-size: 13px;
+.menu-card{
+ background:var(--panel);
+ border:1px solid var(--line);
+ border-radius:12px;
+ padding:12px;
 }
 
-th, td {
-    padding: 14px 18px;
-    border-bottom: 1px solid var(--border);
+.menu-card img{
+ width:100%;
+ height:135px;
+ object-fit:cover;
+ border-radius:8px;
+ background:var(--panel2);
 }
 
-th {
-    background: rgba(0,0,0,0.1);
-    color: var(--gold);
-    font-weight: 600;
+.menu-card h3{margin-bottom:5px}
+
+.badge{
+ display:inline-block;
+ padding:5px 9px;
+ border-radius:20px;
+ background:var(--panel2);
+ color:var(--gold);
+ font-size:11px;
 }
 
-.form-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 15px;
-    margin-bottom: 15px;
+.status{
+ padding:5px 9px;
+ border-radius:6px;
+ background:var(--panel2);
+ display:inline-block;
+ font-size:12px;
 }
 
-.form-group {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
+.invoice{
+ background:white;
+ color:#111;
+ padding:20px;
+ border-radius:8px;
+ margin-top:15px;
 }
 
-.form-group label {
-    font-size: 12px;
-    color: var(--text-muted);
+.invoice img{
+ max-width:90px;
+ max-height:80px;
+ object-fit:contain;
 }
 
-.form-control {
-    background: var(--bg);
-    border: 1px solid var(--border);
-    color: var(--text);
-    padding: 10px;
-    border-radius: 8px;
-    font-size: 13px;
-    outline: none;
-}
+.invoice table{min-width:0}
+.invoice th{color:#111}
+.invoice td,.invoice th{border-bottom:1px solid #ddd}
 
-.form-control:focus {
-    border-color: var(--gold);
-}
+.hidden{display:none!important}
 
-/* POS LAYOUT */
-.pos-layout {
-    display: grid;
-    grid-template-columns: 1fr 380px;
-    gap: 20px;
-    height: calc(100vh - 140px);
-}
-
-.menu-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-    gap: 15px;
-    overflow-y: auto;
-    max-height: calc(100vh - 140px);
-    padding-right: 5px;
-}
-
-.menu-item-card {
-    background: var(--panel);
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    padding: 15px;
-    text-align: center;
-    cursor: pointer;
-    transition: 0.2s;
-}
-
-.menu-item-card:hover {
-    border-color: var(--gold);
-    transform: translateY(-2px);
-}
-
-.cart-panel {
-    background: var(--panel);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    display: flex;
-    flex-direction: column;
-    padding: 20px;
-    max-height: calc(100vh - 140px);
-}
-
-.cart-items {
-    flex: 1;
-    overflow-y: auto;
-    margin: 15px 0;
-    border-top: 1px solid var(--border);
-    border-bottom: 1px solid var(--border);
-}
-
-.cart-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px 0;
-    border-bottom: 1px dashed var(--border);
-    font-size: 13px;
-}
-
-/* KITCHEN DISPLAY */
-.kds-board {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 20px;
-}
-
-.kds-card {
-    background: var(--panel);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-}
-
-/* TABLES GRID */
-.tables-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-    gap: 15px;
-}
-
-.table-card {
-    background: var(--panel);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    padding: 20px;
-    text-align: center;
-    cursor: pointer;
-}
-
-.table-card.occupied {
-    border-color: var(--red);
-    background: rgba(239, 68, 68, 0.05);
-}
-
-.table-card.available {
-    border-color: var(--green);
-    background: rgba(16, 185, 129, 0.05);
-}
-
-@media(max-width: 900px) {
-    .pos-layout { grid-template-columns: 1fr; height: auto; }
-    .sidebar { width: 70px; padding: 15px 5px; }
-    .brand h2, .brand p, .nav-item span { display: none; }
+@media(max-width:760px){
+ .layout{display:block}
+ nav{
+  width:100%;
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:4px;
+ }
+ nav button{
+  text-align:center;
+  font-size:11px;
+  padding:10px 4px;
+ }
+ main{padding:13px}
+ header{padding:13px}
+ h1{font-size:18px}
+ .row>*{width:100%}
+ input,select{width:100%}
 }
 </style>
 </head>
+
 <body>
 
-<!-- SIDEBAR NAVIGATION -->
-<nav class="sidebar">
-    <div class="brand">
-        <div class="brand-icon">🍽️</div>
-        <div>
-            <h2>Smart Restro</h2>
-            <p>PRO SUITE V3</p>
-        </div>
-    </div>
-    <div class="nav-menu">
-        <button class="nav-item active" onclick="switchView('dashboard', this)">📊 <span>Dashboard</span></button>
-        <button class="nav-item" onclick="switchView('pos', this)">🛒 <span>POS Billing</span></button>
-        <button class="nav-item" onclick="switchView('kitchen', this)">🍳 <span>Kitchen KDS</span></button>
-        <button class="nav-item" onclick="switchView('tables', this)">🪑 <span>Tables</span></button>
-        <button class="nav-item" onclick="switchView('inventory', this)">📦 <span>Inventory</span></button>
-        <button class="nav-item" onclick="switchView('customers', this)">👥 <span>Customers</span></button>
-        <button class="nav-item" onclick="switchView('employees', this)">👨‍💼 <span>Employees</span></button>
-        <button class="nav-item" onclick="switchView('reports', this)">📈 <span>Reports & GST</span></button>
-        <button class="nav-item" onclick="switchView('restaurants', this)">🏢 <span>Multi-Branch</span></button>
-        <button class="nav-item" onclick="switchView('settings', this)">⚙️ <span>Settings & QR</span></button>
-    </div>
+<header>
+ <div class="brand">
+  <img id="headerLogo" alt="Restaurant logo" class="hidden">
+  <div>
+   <h1 id="headerName">SMART RESTRO PRO</h1>
+   <small>Restaurant POS & Management System</small>
+  </div>
+ </div>
+
+ <div class="row">
+  <select id="restaurantSelect"></select>
+  <button onclick="newRestaurant()">+ New Restaurant</button>
+ </div>
+</header>
+
+<div class="layout">
+
+<nav>
+ <button class="active" data-page="dashboard">📊 Dashboard</button>
+ <button data-page="menu">🍽️ Menu & Food Photos</button>
+ <button data-page="orders">🧾 New Order</button>
+ <button data-page="kitchen">👨‍🍳 Kitchen</button>
+ <button data-page="tables">🪑 Tables</button>
+ <button data-page="customers">👥 Customers</button>
+ <button data-page="suppliers">🚚 Suppliers</button>
+ <button data-page="expenses">💸 Expenses</button>
+ <button data-page="staff">🧑‍💼 Staff</button>
+ <button data-page="reports">📈 Reports</button>
+ <button data-page="settings">⚙️ Firm Settings</button>
+ <button data-page="backup">💾 Backup</button>
 </nav>
 
-<!-- MAIN APP INTERFACE -->
-<div class="main-container">
-    <header class="topbar">
-        <div class="topbar-left">
-            <h1 id="view-title">Dashboard Overview</h1>
-            <p id="active-branch-label">Active Branch: Main Branch</p>
-        </div>
-        <div class="topbar-right">
-            <select class="restaurant-select" id="branchSelector" onchange="changeBranch(this.value)">
-                <option value="Main Branch">Main Branch</option>
-                <option value="Downtown Outlet">Downtown Outlet</option>
-            </select>
-            <button class="theme-toggle" onclick="toggleTheme()">🌓 Theme</button>
-        </div>
-    </header>
+<main>
 
-    <div class="content">
+<!-- DASHBOARD -->
+<section id="dashboard" class="page active">
+ <h2>Restaurant Dashboard</h2>
+ <div class="grid" id="stats"></div>
 
-        <!-- 1. DASHBOARD VIEW -->
-        <section id="view-dashboard" class="view-section active">
-            <div class="grid-4">
-                <div class="card"><div class="card-title">Today's Sales</div><div class="card-value" id="dash-sales">₹0</div></div>
-                <div class="card"><div class="card-title">Monthly Revenue</div><div class="card-value" id="dash-monthly">₹0</div></div>
-                <div class="card"><div class="card-title">Total Orders</div><div class="card-value" id="dash-orders">0</div></div>
-                <div class="card"><div class="card-title">Net Profit</div><div class="card-value" id="dash-profit">₹0</div></div>
-            </div>
-            <div class="grid-4">
-                <div class="card"><div class="card-title">Total Expenses</div><div class="card-value" id="dash-expenses">₹0</div></div>
-                <div class="card"><div class="card-title">Customer Count</div><div class="card-value" id="dash-customers">0</div></div>
-                <div class="card"><div class="card-title">Best-Selling Item</div><div class="card-value" id="dash-bestseller" style="font-size: 16px; margin-top: 5px;">Paneer Tikka</div></div>
-                <div class="card"><div class="card-title">Low Stock Alerts</div><div class="card-value" id="dash-alerts" style="color: var(--red);">0 Items</div></div>
-            </div>
-        </section>
+ <div class="box">
+  <h3>Recent Orders</h3>
+  <div id="recentOrders"></div>
+ </div>
 
-        <!-- 2. POS BILLING VIEW -->
-        <section id="view-pos" class="view-section">
-            <div class="pos-layout">
-                <div>
-                    <div style="display:flex; justify-content:space-between; margin-bottom:15px;">
-                        <input type="text" class="form-control" placeholder="Search menu items..." id="menuSearch" oninput="filterMenu(this.value)" style="width: 250px;">
-                        <div id="categoryTabs" style="display:flex; gap:8px;">
-                            <button class="btn btn-primary" onclick="filterCategory('All')">All</button>
-                            <button class="btn" style="background:var(--panel); color:var(--text);" onclick="filterCategory('Starter')">Starters</button>
-                            <button class="btn" style="background:var(--panel); color:var(--text);" onclick="filterCategory('Main')">Main Course</button>
-                        </div>
-                    </div>
-                    <div class="menu-grid" id="posMenuGrid">
-                        <!-- Populated by JS -->
-                    </div>
-                </div>
-                <div class="cart-panel">
-                    <h3>Current Bill / Order</h3>
-                    <div class="form-group" style="margin-top: 10px;">
-                        <label>Customer Name & Mobile</label>
-                        <input type="text" class="form-control" id="billCustomer" placeholder="Name / Phone">
-                    </div>
-                    <div class="cart-items" id="cartItemsList">
-                        <p style="color:var(--text-muted); text-align:center; margin-top:40px;">Cart is empty</p>
-                    </div>
-                    <div style="font-size:13px; display:flex; flex-direction:column; gap:6px;">
-                        <div style="display:flex; justify-content:space-between;"><span>Subtotal</span><span id="subtotalAmt">₹0.00</span></div>
-                        <div style="display:flex; justify-content:space-between;"><span>GST (5%)</span><span id="gstAmt">₹0.00</span></div>
-                        <div style="display:flex; justify-content:space-between;"><span>Discount</span><input type="number" id="discountInput" value="0" oninput="updateCartTotals()" style="width:60px; background:var(--bg); border:1px solid var(--border); color:var(--text); text-align:right; border-radius:4px;"></div>
-                        <div style="display:flex; justify-content:space-between; font-weight:bold; font-size:16px; color:var(--gold); margin-top:5px;"><span>Grand Total</span><span id="grandTotalAmt">₹0.00</span></div>
-                    </div>
-                    <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px; margin-top:15px;">
-                        <button class="btn btn-success" onclick="completeOrder('Cash')">Cash / UPI</button>
-                        <button class="btn btn-primary" onclick="completeOrder('WhatsApp')">WhatsApp Bill</button>
-                    </div>
-                </div>
-            </div>
-        </section>
+ <div class="box">
+  <h3>Low Stock Alerts</h3>
+  <div id="lowStockAlerts"></div>
+ </div>
+</section>
 
-        <!-- 3. KITCHEN KDS VIEW -->
-        <section id="view-kitchen" class="view-section">
-            <h3 style="margin-bottom: 15px;">Kitchen Order Tickets (KDS)</h3>
-            <div class="kds-board" id="kdsBoard">
-                <!-- Populated by JS -->
-            </div>
-        </section>
+<!-- MENU -->
+<section id="menu" class="page">
+ <h2>Menu & Food Inventory</h2>
 
-        <!-- 4. TABLES VIEW -->
-        <section id="view-tables" class="view-section">
-            <div style="display:flex; justify-content:space-between; margin-bottom:15px;">
-                <h3>Restaurant Seating Floor Plan</h3>
-                <button class="btn btn-primary" onclick="addTablePrompt()">+ Add Table</button>
-            </div>
-            <div class="tables-grid" id="tablesGrid">
-                <!-- Populated by JS -->
-            </div>
-        </section>
+ <div class="box">
+  <h3>Add / Edit Food Item</h3>
 
-        <!-- 5. INVENTORY VIEW -->
-        <section id="view-inventory" class="view-section">
-            <div style="display:flex; justify-content:space-between; align-items:center;">
-                <h3>Stock & Ingredient Management</h3>
-                <button class="btn btn-primary" onclick="openInventoryModal()">+ Add Stock Item</button>
-            </div>
-            <div class="table-wrapper">
-                <table>
-                    <thead>
-                        <tr><th>Item Name</th><th>Category</th><th>Current Stock</th><th>Alert Limit</th><th>Status</th></tr>
-                    </thead>
-                    <tbody id="inventoryTableBody">
-                        <!-- Populated by JS -->
-                    </tbody>
-                </table>
-            </div>
-        </section>
+  <div class="row">
+   <label>Item Code
+    <input id="mCode" placeholder="FOOD001">
+   </label>
 
-        <!-- 6. CUSTOMERS VIEW -->
-        <section id="view-customers" class="view-section">
-            <h3>Customer Database & Loyalty</h3>
-            <div class="table-wrapper">
-                <table>
-                    <thead>
-                        <tr><th>Customer Name</th><th>Mobile Number</th><th>Total Orders</th><th>Total Spending</th><th>Loyalty Points</th></tr>
-                    </thead>
-                    <tbody id="customerTableBody">
-                        <tr><td>Rahul Sharma</td><td>9876543210</td><td>14</td><td>₹6,800</td><td>340 pts</td></tr>
-                        <tr><td>Priya Patel</td><td>9123456789</td><td>8</td><td>₹3,450</td><td>170 pts</td></tr>
-                    </tbody>
-                </table>
-            </div>
-        </section>
+   <label>Food Name
+    <input id="mName" placeholder="Paneer Pizza">
+   </label>
 
-        <!-- 7. EMPLOYEES VIEW -->
-        <section id="view-employees" class="view-section">
-            <h3>Staff & Payroll Management</h3>
-            <div class="table-wrapper">
-                <table>
-                    <thead>
-                        <tr><th>Employee Name</th><th>Role</th><th>Monthly Salary</th><th>Attendance</th><th>Actions</th></tr>
-                    </thead>
-                    <tbody id="employeeTableBody">
-                        <tr><td>Amit Kumar</td><td>Chef</td><td>₹25,000</td><td>Present (26 Days)</td><td><button class="btn btn-primary" style="padding:4px 8px; font-size:11px;">Pay Slip</button></td></tr>
-                        <tr><td>Sunita Rao</td><td>Waiter</td><td>₹15,000</td><td>Present (24 Days)</td><td><button class="btn btn-primary" style="padding:4px 8px; font-size:11px;">Pay Slip</button></td></tr>
-                    </tbody>
-                </table>
-            </div>
-        </section>
+   <label>Category
+    <select id="mCat">
+     <option>Starters</option>
+     <option>Main Course</option>
+     <option>South Indian</option>
+     <option>North Indian</option>
+     <option>Chinese</option>
+     <option>Pizza & Burger</option>
+     <option>Beverages</option>
+     <option>Desserts</option>
+     <option>Other</option>
+    </select>
+   </label>
+  </div>
 
-        <!-- 8. REPORTS & GST VIEW -->
-        <section id="view-reports" class="view-section">
-            <h3>Advanced Analytics & GST Reports</h3>
-            <div class="grid-4" style="margin-top: 15px;">
-                <div class="card"><div class="card-title">Total GST Collected</div><div class="card-value" id="rep-gst">₹0</div></div>
-                <div class="card"><div class="card-title">Total Expenses</div><div class="card-value" id="rep-exp">₹0</div></div>
-                <div class="card"><div class="card-title">Gross Profit</div><div class="card-value" id="rep-gross">₹0</div></div>
-                <div class="card"><div class="card-title">Taxable Turnover</div><div class="card-value" id="rep-turnover">₹0</div></div>
-            </div>
-        </section>
+  <div class="row">
+   <label>Cost Price
+    <input id="mCost" type="number" min="0" placeholder="50">
+   </label>
 
-        <!-- 9. MULTI-RESTAURANT VIEW -->
-        <section id="view-restaurants" class="view-section">
-            <h3>Multi-Restaurant / Branch Management</h3>
-            <div class="form-grid" style="margin-top: 15px;">
-                <div class="form-group"><label>New Branch Name</label><input type="text" id="newBranchName" class="form-control" placeholder="e.g. Airport Branch"></div>
-                <div class="form-group"><label>Location / Address</label><input type="text" id="newBranchLoc" class="form-control" placeholder="City / Street"></div>
-            </div>
-            <button class="btn btn-primary" onclick="addNewBranch()">Create Branch</button>
-        </section>
+   <label>Selling Price
+    <input id="mPrice" type="number" min="0" placeholder="100">
+   </label>
 
-        <!-- 10. SETTINGS & QR VIEW -->
-        <section id="view-settings" class="view-section">
-            <h3>QR Code Menu & Backup System</h3>
-            <div class="card" style="margin-top: 15px; max-width: 400px; text-align: center;">
-                <h4>Digital Table QR Code</h4>
-                <div style="background: white; padding: 20px; display: inline-block; margin: 15px 0; border-radius: 8px;">
-                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://smartrestropro.menu/digital" alt="QR Code">
-                </div>
-                <p style="font-size: 12px; color: var(--text-muted);">Scan to open digital ordering menu on customer smartphones.</p>
-            </div>
-        </section>
+   <label>Available Stock
+    <input id="mStock" type="number" min="0" placeholder="50">
+   </label>
 
-    </div>
+   <label>GST Rate
+    <select id="mGST">
+     <option value="0">0%</option>
+     <option value="5">5%</option>
+     <option value="12">12%</option>
+     <option value="18">18%</option>
+     <option value="28">28%</option>
+    </select>
+   </label>
+  </div>
+
+  <div class="row">
+   <label>Food Description
+    <input id="mDescription" placeholder="Short food description">
+   </label>
+
+   <label>Low Stock Alert At
+    <input id="mLow" type="number" min="0" value="5">
+   </label>
+  </div>
+
+  <label>Upload Food Photo
+   <input id="mImage" type="file" accept="image/*">
+   <img id="foodPreview" class="preview" alt="Food preview">
+  </label>
+
+  <br>
+  <button onclick="saveMenuItem()">Save Food Item</button>
+  <button class="secondary" onclick="resetMenuForm()">Reset Form</button>
+ </div>
+
+ <div class="box">
+  <h3>Food Menu</h3>
+  <input id="menuSearch" placeholder="Search food item..." oninput="renderMenu()">
+  <div id="menuCards" class="menu-cards"></div>
+ </div>
+
+ <div class="box">
+  <h3>Inventory Register</h3>
+  <div class="tablewrap">
+   <table>
+    <thead>
+     <tr>
+      <th>Photo</th><th>Code</th><th>Name</th>
+      <th>Category</th><th>Cost</th><th>Price</th>
+      <th>Stock</th><th>GST</th><th>Action</th>
+     </tr>
+    </thead>
+    <tbody id="menuRows"></tbody>
+   </table>
+  </div>
+ </div>
+</section>
+
+<!-- NEW ORDER -->
+<section id="orders" class="page">
+ <h2>New Order / POS Billing</h2>
+
+ <div class="box">
+  <div class="row">
+   <label>Customer Name
+    <input id="oCustomer" placeholder="Customer name">
+   </label>
+
+   <label>Phone Number
+    <input id="oPhone" placeholder="Mobile number">
+   </label>
+
+   <label>Table Number
+    <select id="oTable"></select>
+   </label>
+  </div>
+
+  <div class="row">
+   <label>Payment Mode
+    <select id="oPay">
+     <option>Cash</option>
+     <option>UPI</option>
+     <option>Google Pay</option>
+     <option>PhonePe</option>
+     <option>Card</option>
+     <option>Bank Transfer</option>
+     <option>Credit / Udhaar</option>
+    </select>
+   </label>
+
+   <label>GST Type
+    <select id="oGSTType">
+     <option value="local">Local (CGST + SGST)</option>
+     <option value="interstate">Interstate (IGST)</option>
+    </select>
+   </label>
+
+   <label>Discount (₹)
+    <input id="oDiscount" type="number" min="0" value="0">
+   </label>
+  </div>
+
+  <hr>
+
+  <div class="row">
+   <label>Select Food
+    <select id="orderItem"></select>
+   </label>
+
+   <label>Quantity
+    <input id="orderQty" type="number" min="1" value="1">
+   </label>
+
+   <button onclick="addToCart()">+ Add to Order</button>
+  </div>
+
+  <div id="cartRows"></div>
+  <div id="cartTotals"></div>
+
+  <button class="success" onclick="placeOrder()">Generate Bill</button>
+ </div>
+
+ <div id="invoiceArea"></div>
+</section>
+
+<!-- KITCHEN -->
+<section id="kitchen" class="page">
+ <h2>Kitchen Display System</h2>
+ <div id="kitchenRows"></div>
+</section>
+
+<!-- TABLES -->
+<section id="tables" class="page">
+ <h2>Table Management</h2>
+ <div class="box">
+  <label>Total Tables
+   <input id="tableCount" type="number" min="1" value="12">
+  </label>
+  <button onclick="updateTableCount()">Update Tables</button>
+ </div>
+ <div id="tableGrid" class="grid"></div>
+</section>
+
+<!-- CUSTOMERS -->
+<section id="customers" class="page">
+ <h2>Customer Management</h2>
+ <div id="customerRows"></div>
+</section>
+
+<!-- SUPPLIERS -->
+<section id="suppliers" class="page">
+ <h2>Supplier Management</h2>
+ <div id="supplierRows"></div>
+</section>
+
+<!-- EXPENSES -->
+<section id="expenses" class="page">
+ <h2>Expense Register</h2>
+ <div id="expenseRows"></div>
+</section>
+
+<!-- STAFF -->
+<section id="staff" class="page">
+ <h2>Staff Management</h2>
+ <div id="staffRows"></div>
+</section>
+
+<!-- REPORTS -->
+<section id="reports" class="page">
+ <h2>Business Reports</h2>
+ <div id="reportStats"></div>
+ <div class="row">
+  <button onclick="exportSalesCSV()">Export Sales CSV</button>
+  <button onclick="exportExpensesCSV()">Export Expenses CSV</button>
+ </div>
+</section>
+
+<!-- FIRM SETTINGS -->
+<section id="settings" class="page">
+ <h2>Restaurant / Firm Profile</h2>
+
+ <div class="box">
+  <h3>Restaurant Logo</h3>
+  <label>Upload Restaurant Logo
+   <input id="firmLogo" type="file" accept="image/*">
+  </label>
+  <img id="logoPreview" class="logo-preview" alt="Restaurant logo preview">
+  <button class="secondary" onclick="removeRestaurantLogo()">Remove Logo</button>
+ </div>
+
+ <div class="box">
+  <h3>Restaurant Details</h3>
+  <div class="row">
+   <label>Restaurant Name
+    <input id="firmName" placeholder="Restaurant name">
+   </label>
+
+   <label>Owner Name
+    <input id="firmOwner" placeholder="Owner name">
+   </label>
+
+   <label>Phone
+    <input id="firmPhone" placeholder="Phone number">
+   </label>
+
+   <label>Email
+    <input id="firmEmail" placeholder="Email address">
+   </label>
+  </div>
+
+  <div class="row">
+   <label>GSTIN
+    <input id="firmGSTIN" placeholder="GSTIN (if registered)">
+   </label>
+
+   <label>Address
+    <input id="firmAddress" placeholder="Restaurant address">
+   </label>
+  </div>
+
+  <button onclick="saveRestaurantSettings()">Save Restaurant Profile</button>
+ </div>
+
+ <div class="box">
+  <h3>Invoice Settings</h3>
+  <label>Invoice Footer Message
+   <input id="invoiceFooter" placeholder="Thank you! Visit again.">
+  </label>
+  <label>Invoice Prefix
+   <input id="invoicePrefix" placeholder="SR">
+  </label>
+  <button onclick="saveInvoiceSettings()">Save Invoice Settings</button>
+ </div>
+</section>
+
+<!-- BACKUP -->
+<section id="backup" class="page">
+ <h2>Backup & Restore</h2>
+ <div class="box">
+  <p>Keep a backup of your restaurant records and menu photos.</p>
+  <button onclick="downloadBackup()">Download Full Backup</button>
+
+  <br><br>
+
+  <label>Restore Backup File
+   <input id="restoreFile" type="file" accept=".json,application/json">
+  </label>
+  <button onclick="restoreBackup()">Restore Backup</button>
+
+  <br><br>
+  <button class="danger" onclick="clearCurrentRestaurant()">Clear Current Restaurant Data</button>
+  <p class="muted">Clearing data cannot be undone. Download a backup first.</p>
+ </div>
+</section>
+
+</main>
 </div>
 
 <script>
-/* APPLICATION STATE */
-let state = {
-    activeBranch: "Main Branch",
-    theme: "dark",
-    branches: ["Main Branch", "Downtown Outlet"],
-    sales: 14250,
-    monthly: 389000,
-    ordersCount: 42,
-    expenses: 4500,
-    profit: 9750,
-    cart: [],
-    menu: [
-        { id: 1, name: "Paneer Tikka", price: 240, category: "Starter" },
-        { id: 2, name: "Butter Chicken", price: 380, category: "Main" },
-        { id: 3, name: "Dal Makhani", price: 220, category: "Main" },
-        { id: 4, name: "Veg Biryani", price: 260, category: "Main" },
-        { id: 5, name: "Masala Dosa", price: 120, category: "Starter" },
-        { id: 6, name: "Cold Coffee", price: 110, category: "Starter" }
-    ],
-    kdsOrders: [
-        { id: "ORD-101", items: "Paneer Tikka x2, Butter Chicken x1", table: "Table 3", status: "Preparing" },
-        { id: "ORD-102", items: "Veg Biryani x2", table: "Table 5", status: "Ready" }
-    ],
-    tables: [
-        { id: 1, name: "Table 1", status: "available" },
-        { id: 2, name: "Table 2", status: "occupied" },
-        { id: 3, name: "Table 3", status: "available" },
-        { id: 4, name: "Table 4", status: "available" },
-        { id: 5, name: "Table 5", status: "occupied" }
-    ],
-    inventory: [
-        { name: "Basmati Rice", category: "Grains", stock: "12 Kg", limit: "15 Kg", status: "Low" },
-        { name: "Paneer", category: "Dairy", stock: "8 Kg", limit: "5 Kg", status: "OK" },
-        { name: "Chicken", category: "Meat", stock: "25 Kg", limit: "10 Kg", status: "OK" }
-    ]
-};
 
-/* VIEW SWITCHER */
-function switchView(viewId, btnElement) {
-    document.querySelectorAll('.view-section').forEach(el => el.classList.remove('active'));
-    document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
-    
-    document.getElementById('view-' + viewId).classList.add('active');
-    if(btnElement) btnElement.classList.add('active');
-    
-    document.getElementById('view-title').innerText = btnElement ? btnElement.innerText.trim() : viewId.toUpperCase();
-    
-    if(viewId === 'pos') renderPOSMenu();
-    if(viewId === 'kitchen') renderKDS();
-    if(viewId === 'tables') renderTables();
-    if(viewId === 'inventory') renderInventory();
-    refreshDashboard();
+// ==========================================
+// PART 2 — DATABASE & RESTAURANT MANAGEMENT
+// ==========================================
+
+const STORAGE_KEY = "SMART_RESTRO_PRO_V2";
+
+let db = {};
+
+function createRestaurant(name="My Restaurant"){
+    return {
+        settings:{
+            name:name,
+            owner:"",
+            phone:"",
+            email:"",
+            address:"",
+            gstin:"",
+            logo:"",
+            invoiceFooter:"Thank you! Visit again.",
+            invoicePrefix:"SR"
+        },
+        menu:[],
+        orders:[],
+        expenses:[],
+        customers:[],
+        suppliers:[],
+        staff:[],
+        tables:12
+    };
 }
 
-/* THEME TOGGLE */
-function toggleTheme() {
-    state.theme = state.theme === "dark" ? "light" : "dark";
-    document.documentElement.setAttribute("data-theme", state.theme);
-}
-
-/* BRANCH SELECTOR */
-function changeBranch(branch) {
-    state.activeBranch = branch;
-    document.getElementById('active-branch-label').innerText = "Active Branch: " + branch;
-    refreshDashboard();
-}
-
-/* REFRESH DASHBOARD METRICS */
-function refreshDashboard() {
-    document.getElementById('dash-sales').innerText = "₹" + state.sales.toLocaleString();
-    document.getElementById('dash-monthly').innerText = "₹" + state.monthly.toLocaleString();
-    document.getElementById('dash-orders').innerText = state.ordersCount;
-    document.getElementById('dash-profit').innerText = "₹" + state.profit.toLocaleString();
-    document.getElementById('dash-expenses').innerText = "₹" + state.expenses.toLocaleString();
-    document.getElementById('dash-customers').innerText = state.ordersCount * 2;
-    document.getElementById('dash-alerts').innerText = state.inventory.filter(i => i.status === "Low").length + " Items";
-
-    document.getElementById('rep-gst').innerText = "₹" + Math.round(state.monthly * 0.05).toLocaleString();
-    document.getElementById('rep-exp').innerText = "₹" + state.expenses.toLocaleString();
-    document.getElementById('rep-gross').innerText = "₹" + (state.monthly - state.expenses).toLocaleString();
-    document.getElementById('rep-turnover').innerText = "₹" + state.monthly.toLocaleString();
-}
-
-/* POS LOGIC */
-function renderPOSMenu(filter = "All") {
-    const grid = document.getElementById('posMenuGrid');
-    grid.innerHTML = "";
-    state.menu.filter(item => filter === "All" || item.category === filter).forEach(item => {
-        grid.innerHTML += `
-            <div class="menu-item-card" onclick="addToCart(${item.id})">
-                <div style="font-size:28px; margin-bottom:8px;">🍲</div>
-                <div style="font-weight:600; font-size:13px;">${item.name}</div>
-                <div style="color:var(--gold); font-size:12px; margin-top:4px;">₹${item.price}</div>
-            </div>
-        `;
-    });
-}
-
-function filterCategory(cat) {
-    renderPOSMenu(cat);
-}
-
-function filterMenu(query) {
-    const grid = document.getElementById('posMenuGrid');
-    grid.innerHTML = "";
-    state.menu.filter(item => item.name.toLowerCase().includes(query.toLowerCase())).forEach(item => {
-        grid.innerHTML += `
-            <div class="menu-item-card" onclick="addToCart(${item.id})">
-                <div style="font-size:28px; margin-bottom:8px;">🍲</div>
-                <div style="font-weight:600; font-size:13px;">${item.name}</div>
-                <div style="color:var(--gold); font-size:12px; margin-top:4px;">₹${item.price}</div>
-            </div>
-        `;
-    });
-}
-
-function addToCart(id) {
-    const item = state.menu.find(m => m.id === id);
-    const existing = state.cart.find(c => c.id === id);
-    if(existing) {
-        existing.qty++;
-    } else {
-        state.cart.push({ ...item, qty: 1 });
+function loadDatabase(){
+    try{
+        const saved = localStorage.getItem(STORAGE_KEY);
+        db = saved ? JSON.parse(saved) : {};
+    }catch(error){
+        console.error(error);
+        db = {};
     }
-    renderCart();
+
+    if(!db.restaurants || typeof db.restaurants !== "object"){
+        db = {
+            active:"restaurant1",
+            restaurants:{
+                restaurant1:createRestaurant("My Restaurant")
+            }
+        };
+    }
+
+    if(!db.active || !db.restaurants[db.active]){
+        db.active = Object.keys(db.restaurants)[0];
+    }
+
+    Object.values(db.restaurants).forEach(r=>{
+        r.settings = r.settings || {};
+        r.menu = r.menu || [];
+        r.orders = r.orders || [];
+        r.expenses = r.expenses || [];
+        r.customers = r.customers || [];
+        r.suppliers = r.suppliers || [];
+        r.staff = r.staff || [];
+        r.tables = Number(r.tables) || 12;
+
+        const defaults = createRestaurant().settings;
+
+        Object.keys(defaults).forEach(key=>{
+            if(r.settings[key] === undefined){
+                r.settings[key] = defaults[key];
+            }
+        });
+    });
+
+    saveDatabase();
 }
 
-function renderCart() {
-    const list = document.getElementById('cartItemsList');
-    if(state.cart.length === 0) {
-        list.innerHTML = `<p style="color:var(--text-muted); text-align:center; margin-top:40px;">Cart is empty</p>`;
-        document.getElementById('subtotalAmt').innerText = "₹0.00";
-        document.getElementById('gstAmt').innerText = "₹0.00";
-        document.getElementById('grandTotalAmt').innerText = "₹0.00";
+function R(){
+    return db.restaurants[db.active];
+}
+
+function saveDatabase(){
+    try{
+        localStorage.setItem(STORAGE_KEY,JSON.stringify(db));
+        return true;
+    }catch(error){
+        alert(
+          "Storage is full. Please use smaller photos or download a backup."
+        );
+        console.error(error);
+        return false;
+    }
+}
+
+function save(){
+    saveDatabase();
+    renderAll();
+}
+
+function money(amount){
+    return "₹" + Number(amount || 0).toFixed(2);
+}
+
+function today(){
+    return new Date().toISOString().slice(0,10);
+}
+
+function currentDate(){
+    return new Date().toLocaleDateString("en-IN");
+}
+
+function notify(message){
+    alert(message);
+}
+
+// ==========================================
+// IMAGE COMPRESSION
+// ==========================================
+
+function compressImage(file,maxWidth=700,quality=0.72){
+    return new Promise((resolve,reject)=>{
+
+        if(!file || !file.type.startsWith("image/")){
+            reject(new Error("Please select a valid image."));
+            return;
+        }
+
+        const reader = new FileReader();
+
+        reader.onload = function(event){
+            const img = new Image();
+
+            img.onload = function(){
+                const canvas = document.createElement("canvas");
+
+                const scale = Math.min(
+                    1,
+                    maxWidth / img.width
+                );
+
+                canvas.width = Math.round(img.width * scale);
+                canvas.height = Math.round(img.height * scale);
+
+                const ctx = canvas.getContext("2d");
+
+                ctx.drawImage(
+                    img,
+                    0,
+                    0,
+                    canvas.width,
+                    canvas.height
+                );
+
+                resolve(
+                    canvas.toDataURL("image/jpeg",quality)
+                );
+            };
+
+            img.onerror = ()=>reject(
+                new Error("Could not read this image.")
+            );
+
+            img.src = event.target.result;
+        };
+
+        reader.onerror = ()=>reject(
+            new Error("Image upload failed.")
+        );
+
+        reader.readAsDataURL(file);
+    });
+}
+
+// ==========================================
+// RESTAURANT SWITCHING
+// ==========================================
+
+function renderRestaurantSelect(){
+    const select = document.getElementById("restaurantSelect");
+
+    select.innerHTML = "";
+
+    Object.keys(db.restaurants).forEach(id=>{
+        const option = document.createElement("option");
+
+        option.value = id;
+        option.textContent = db.restaurants[id].settings.name || id;
+
+        if(id === db.active){
+            option.selected = true;
+        }
+
+        select.appendChild(option);
+    });
+
+    document.getElementById("headerName").textContent =
+        R().settings.name || "SMART RESTRO PRO";
+
+    const logo = document.getElementById("headerLogo");
+
+    if(R().settings.logo){
+        logo.src = R().settings.logo;
+        logo.classList.remove("hidden");
+    }else{
+        logo.removeAttribute("src");
+        logo.classList.add("hidden");
+    }
+}
+
+document.getElementById("restaurantSelect").addEventListener(
+    "change",
+    function(){
+        if(db.restaurants[this.value]){
+            db.active = this.value;
+            saveDatabase();
+            renderAll();
+        }
+    }
+);
+
+function newRestaurant(){
+    const name = prompt("Enter new restaurant name:");
+
+    if(!name || !name.trim()) return;
+
+    const id = "restaurant_" + Date.now();
+
+    db.restaurants[id] = createRestaurant(name.trim());
+    db.active = id;
+
+    save();
+    fillRestaurantSettings();
+
+    notify("New restaurant created successfully!");
+}
+
+// ==========================================
+// FIRM SETTINGS
+// ==========================================
+
+function fillRestaurantSettings(){
+    const s = R().settings;
+
+    document.getElementById("firmName").value = s.name || "";
+    document.getElementById("firmOwner").value = s.owner || "";
+    document.getElementById("firmPhone").value = s.phone || "";
+    document.getElementById("firmEmail").value = s.email || "";
+    document.getElementById("firmGSTIN").value = s.gstin || "";
+    document.getElementById("firmAddress").value = s.address || "";
+
+    document.getElementById("invoiceFooter").value =
+        s.invoiceFooter || "";
+
+    document.getElementById("invoicePrefix").value =
+        s.invoicePrefix || "SR";
+
+    showLogoPreview();
+}
+
+function saveRestaurantSettings(){
+    const s = R().settings;
+
+    s.name = document.getElementById("firmName").value.trim();
+    s.owner = document.getElementById("firmOwner").value.trim();
+    s.phone = document.getElementById("firmPhone").value.trim();
+    s.email = document.getElementById("firmEmail").value.trim();
+    s.gstin = document.getElementById("firmGSTIN").value.trim();
+    s.address = document.getElementById("firmAddress").value.trim();
+
+    if(!s.name){
+        notify("Please enter restaurant name.");
         return;
     }
-    list.innerHTML = "";
-    let subtotal = 0;
-    state.cart.forEach((c, idx) => {
-        subtotal += c.price * c.qty;
-        list.innerHTML += `
-            <div class="cart-row">
-                <div>${c.name} x${c.qty}</div>
-                <div>₹${c.price * c.qty} <button onclick="removeFromCart(${idx})" style="background:none; border:none; color:var(--red); cursor:pointer; margin-left:6px;">×</button></div>
+
+    save();
+    fillRestaurantSettings();
+    notify("Restaurant profile saved!");
+}
+
+function saveInvoiceSettings(){
+    R().settings.invoiceFooter =
+        document.getElementById("invoiceFooter").value.trim();
+
+    R().settings.invoicePrefix =
+        document.getElementById("invoicePrefix").value.trim() || "SR";
+
+    save();
+
+    notify("Invoice settings saved!");
+}
+
+// ==========================================
+// RESTAURANT LOGO UPLOAD
+// ==========================================
+
+document.getElementById("firmLogo").addEventListener(
+    "change",
+    async function(){
+
+        const file = this.files[0];
+
+        if(!file) return;
+
+        try{
+            const image = await compressImage(file,350,0.75);
+
+            R().settings.logo = image;
+
+            save();
+            showLogoPreview();
+            renderRestaurantSelect();
+
+            notify("Restaurant logo uploaded!");
+        }catch(error){
+            notify(error.message);
+        }
+
+        this.value = "";
+    }
+);
+
+function showLogoPreview(){
+    const preview = document.getElementById("logoPreview");
+    const logo = R().settings.logo;
+
+    if(logo){
+        preview.src = logo;
+        preview.style.display = "block";
+    }else{
+        preview.removeAttribute("src");
+        preview.style.display = "none";
+    }
+}
+
+function removeRestaurantLogo(){
+    if(!confirm("Remove this restaurant logo?")) return;
+
+    R().settings.logo = "";
+
+    save();
+    showLogoPreview();
+    renderRestaurantSelect();
+}
+
+// ==========================================
+// FOOD IMAGE UPLOAD & PREVIEW
+// ==========================================
+
+let selectedFoodImage = "";
+let editingFoodCode = null;
+
+document.getElementById("mImage").addEventListener(
+    "change",
+    async function(){
+
+        const file = this.files[0];
+
+        if(!file) return;
+
+        try{
+            selectedFoodImage = await compressImage(file,600,0.70);
+
+            const preview = document.getElementById("foodPreview");
+
+            preview.src = selectedFoodImage;
+            preview.style.display = "block";
+
+        }catch(error){
+            notify(error.message);
+        }
+    }
+);
+
+// ==========================================
+// MENU FORM
+// ==========================================
+
+function resetMenuForm(){
+    editingFoodCode = null;
+    selectedFoodImage = "";
+
+    [
+        "mCode",
+        "mName",
+        "mCost",
+        "mPrice",
+        "mStock",
+        "mDescription"
+    ].forEach(id=>{
+        document.getElementById(id).value = "";
+    });
+
+    document.getElementById("mCat").selectedIndex = 0;
+    document.getElementById("mGST").value = "0";
+    document.getElementById("mLow").value = "5";
+
+    document.getElementById("mImage").value = "";
+
+    const preview = document.getElementById("foodPreview");
+
+    preview.removeAttribute("src");
+    preview.style.display = "none";
+}
+
+function saveMenuItem(){
+
+    const code = document.getElementById("mCode").value.trim();
+    const name = document.getElementById("mName").value.trim();
+
+    const cost = Number(document.getElementById("mCost").value);
+    const price = Number(document.getElementById("mPrice").value);
+    const stock = Number(document.getElementById("mStock").value);
+
+    const category = document.getElementById("mCat").value;
+    const gst = Number(document.getElementById("mGST").value);
+    const low = Number(document.getElementById("mLow").value || 5);
+
+    const description =
+        document.getElementById("mDescription").value.trim();
+
+    if(!code || !name){
+        notify("Enter item code and food name.");
+        return;
+    }
+
+    if(cost < 0 || price < 0 || stock < 0){
+        notify("Enter valid non-negative amounts and stock.");
+        return;
+    }
+
+    const existingIndex = R().menu.findIndex(
+        item=>item.code === code
+    );
+
+    if(existingIndex !== -1 &&
+       R().menu[existingIndex].code !== editingFoodCode){
+
+        notify("This item code already exists.");
+        return;
+    }
+
+    const oldItem = existingIndex !== -1
+        ? R().menu[existingIndex]
+        : null;
+
+    const item = {
+        code,
+        name,
+        category,
+        cost,
+        price,
+        stock,
+        gst,
+        low,
+        description,
+        image:selectedFoodImage || (oldItem ? oldItem.image : "")
+    };
+
+    if(existingIndex !== -1){
+        R().menu[existingIndex] = item;
+    }else{
+        R().menu.push(item);
+    }
+
+    save();
+    resetMenuForm();
+
+    notify("Food item saved successfully!");
+}
+
+// ==========================================
+// MENU DISPLAY
+// ==========================================
+
+function renderMenu(){
+
+    const search = (
+        document.getElementById("menuSearch").value || ""
+    ).toLowerCase();
+
+    const filtered = R().menu.filter(item=>
+        item.name.toLowerCase().includes(search) ||
+        item.code.toLowerCase().includes(search) ||
+        item.category.toLowerCase().includes(search)
+    );
+
+    const cards = document.getElementById("menuCards");
+
+    cards.innerHTML = filtered.map(item=>`
+        <div class="menu-card">
+
+            ${
+                item.image
+                ? `<img src="${item.image}" alt="Food photo">`
+                : `<div class="food-image"></div>`
+            }
+
+            <h3>${escapeHTML(item.name)}</h3>
+
+            <span class="badge">
+                ${escapeHTML(item.category)}
+            </span>
+
+            <p>${money(item.price)}</p>
+
+            <p class="muted">
+                Stock: ${Number(item.stock)}
+            </p>
+
+            <button onclick="editMenu('${escapeJS(item.code)}')">
+                Edit
+            </button>
+
+            <button class="danger"
+                onclick="deleteMenu('${escapeJS(item.code)}')">
+                Delete
+            </button>
+
+        </div>
+    `).join("");
+
+    document.getElementById("menuRows").innerHTML =
+        R().menu.map(item=>`
+            <tr>
+                <td>
+                    ${
+                        item.image
+                        ? `<img class="food-image" src="${item.image}" alt="">`
+                        : "—"
+                    }
+                </td>
+                <td>${escapeHTML(item.code)}</td>
+                <td>${escapeHTML(item.name)}</td>
+                <td>${escapeHTML(item.category)}</td>
+                <td>${money(item.cost)}</td>
+                <td>${money(item.price)}</td>
+                <td>${Number(item.stock)}</td>
+                <td>${Number(item.gst)}%</td>
+                <td>
+                    <button onclick="editMenu('${escapeJS(item.code)}')">
+                        Edit
+                    </button>
+                    <button class="danger"
+                        onclick="deleteMenu('${escapeJS(item.code)}')">
+                        Delete
+                    </button>
+                </td>
+            </tr>
+        `).join("");
+
+    const select = document.getElementById("orderItem");
+
+    select.innerHTML = R().menu.map(item=>`
+        <option value="${escapeHTML(item.code)}">
+            ${escapeHTML(item.name)} — ${money(item.price)}
+        </option>
+    `).join("");
+}
+
+function editMenu(code){
+
+    const item = R().menu.find(x=>x.code === code);
+
+    if(!item) return;
+
+    editingFoodCode = code;
+
+    document.getElementById("mCode").value = item.code;
+    document.getElementById("mName").value = item.name;
+    document.getElementById("mCat").value = item.category;
+    document.getElementById("mCost").value = item.cost;
+    document.getElementById("mPrice").value = item.price;
+    document.getElementById("mStock").value = item.stock;
+    document.getElementById("mGST").value = item.gst;
+    document.getElementById("mLow").value = item.low;
+    document.getElementById("mDescription").value =
+        item.description || "";
+
+    selectedFoodImage = item.image || "";
+
+    const preview = document.getElementById("foodPreview");
+
+    if(selectedFoodImage){
+        preview.src = selectedFoodImage;
+        preview.style.display = "block";
+    }else{
+        preview.style.display = "none";
+    }
+
+    document.querySelector('[data-page="menu"]').click();
+
+    window.scrollTo({top:0,behavior:"smooth"});
+}
+
+function deleteMenu(code){
+
+    if(!confirm("Delete this food item?")) return;
+
+    R().menu = R().menu.filter(item=>item.code !== code);
+
+    save();
+    notify("Food item deleted.");
+}
+
+// ==========================================
+// SAFE TEXT HELPERS
+// ==========================================
+
+function escapeHTML(value){
+    return String(value ?? "").replace(/[&<>"']/g,char=>({
+        "&":"&amp;",
+        "<":"&lt;",
+        ">":"&gt;",
+        '"':"&quot;",
+        "'":"&#39;"
+    })[char]);
+}
+
+function escapeJS(value){
+    return String(value ?? "").replace(/\\/g,"\\\\")
+        .replace(/'/g,"\\'")
+        .replace(/\n/g," ");
+}
+
+// ==========================================
+// PART 3 — DASHBOARD & POS BILLING
+// ==========================================
+
+// ==========================================
+// NAVIGATION
+// ==========================================
+
+document.querySelectorAll("nav button[data-page]").forEach(button=>{
+    button.addEventListener("click",()=>{
+        document.querySelectorAll("nav button").forEach(b=>{
+            b.classList.remove("active");
+        });
+
+        document.querySelectorAll(".page").forEach(p=>{
+            p.classList.remove("active");
+        });
+
+        button.classList.add("active");
+
+        document.getElementById(button.dataset.page)
+            .classList.add("active");
+
+        renderAll();
+    });
+});
+
+// ==========================================
+// DASHBOARD
+// ==========================================
+
+function renderDashboard(){
+
+    const orders = R().orders;
+    const expenses = R().expenses;
+
+    const totalSales = orders.reduce(
+        (sum,o)=>sum+Number(o.total || 0),0
+    );
+
+    const totalExpenses = expenses.reduce(
+        (sum,e)=>sum+Number(e.amount || 0),0
+    );
+
+    const profit = orders.reduce(
+        (sum,o)=>sum+Number(o.subtotal || 0)-Number(o.discount || 0),
+        0
+    ) - totalExpenses;
+
+    const todaySales = orders
+        .filter(o=>o.date === today())
+        .reduce((sum,o)=>sum+Number(o.total || 0),0);
+
+    const todayOrders = orders.filter(o=>o.date === today()).length;
+
+    document.getElementById("stats").innerHTML = `
+        <div class="card">
+            <small>Total Sales</small>
+            <div class="value">${money(totalSales)}</div>
+        </div>
+
+        <div class="card">
+            <small>Today's Sales</small>
+            <div class="value">${money(todaySales)}</div>
+        </div>
+
+        <div class="card">
+            <small>Total Expenses</small>
+            <div class="value">${money(totalExpenses)}</div>
+        </div>
+
+        <div class="card">
+            <small>Estimated Profit</small>
+            <div class="value">${money(profit)}</div>
+        </div>
+
+        <div class="card">
+            <small>Total Orders</small>
+            <div class="value">${orders.length}</div>
+        </div>
+
+        <div class="card">
+            <small>Today's Orders</small>
+            <div class="value">${todayOrders}</div>
+        </div>
+    `;
+
+    const recent = [...orders].reverse().slice(0,5);
+
+    document.getElementById("recentOrders").innerHTML =
+        recent.length ? `
+        <div class="tablewrap">
+        <table>
+            <tr>
+                <th>Invoice</th>
+                <th>Customer</th>
+                <th>Date</th>
+                <th>Total</th>
+                <th>Status</th>
+            </tr>
+            ${recent.map(o=>`
+                <tr>
+                    <td>${escapeHTML(o.invoice)}</td>
+                    <td>${escapeHTML(o.customer || "Walk-in")}</td>
+                    <td>${escapeHTML(o.date)}</td>
+                    <td>${money(o.total)}</td>
+                    <td>${escapeHTML(o.payment)}</td>
+                </tr>
+            `).join("")}
+        </table>
+        </div>
+        ` : "<p class='muted'>No orders recorded yet.</p>";
+
+    const lowItems = R().menu.filter(
+        item=>Number(item.stock) <= Number(item.low)
+    );
+
+    document.getElementById("lowStockAlerts").innerHTML =
+        lowItems.length
+        ? lowItems.map(item=>`
+            <p>⚠️ ${escapeHTML(item.name)} — ${item.stock} left</p>
+        `).join("")
+        : "<p class='muted'>All food stock levels look good.</p>";
+}
+
+// ==========================================
+// POS CART
+// ==========================================
+
+let cart = [];
+
+function addToCart(){
+
+    const code = document.getElementById("orderItem").value;
+    const qty = Number(document.getElementById("orderQty").value);
+
+    const item = R().menu.find(x=>x.code === code);
+
+    if(!item){
+        notify("Please add food items to the menu first.");
+        return;
+    }
+
+    if(!Number.isInteger(qty) || qty <= 0){
+        notify("Enter a valid quantity.");
+        return;
+    }
+
+    const existing = cart.find(x=>x.code === code);
+
+    const requestedQty = qty + (existing ? existing.qty : 0);
+
+    if(requestedQty > Number(item.stock)){
+        notify("Not enough stock available.");
+        return;
+    }
+
+    if(existing){
+        existing.qty += qty;
+    }else{
+        cart.push({
+            code:item.code,
+            name:item.name,
+            price:Number(item.price),
+            gst:Number(item.gst || 0),
+            qty:qty
+        });
+    }
+
+    document.getElementById("orderQty").value = 1;
+
+    renderCart();
+}
+
+function changeQty(code,change){
+
+    const item = cart.find(x=>x.code === code);
+
+    if(!item) return;
+
+    const newQty = item.qty + change;
+
+    const menuItem = R().menu.find(x=>x.code === code);
+
+    if(newQty <= 0){
+        cart = cart.filter(x=>x.code !== code);
+    }else if(menuItem && newQty <= Number(menuItem.stock)){
+        item.qty = newQty;
+    }else{
+        notify("Stock limit reached.");
+    }
+
+    renderCart();
+}
+
+function removeCartItem(code){
+    cart = cart.filter(x=>x.code !== code);
+    renderCart();
+}
+
+// ==========================================
+// BILL CALCULATION
+// ==========================================
+
+function calculateBill(){
+
+    const subtotal = cart.reduce(
+        (sum,item)=>sum + item.price * item.qty,0
+    );
+
+    let discount = Number(
+        document.getElementById("oDiscount").value || 0
+    );
+
+    discount = Math.max(0,Math.min(discount,subtotal));
+
+    const taxableValue = subtotal - discount;
+
+    const gstAmount = cart.reduce((sum,item)=>{
+        const itemBase = item.price * item.qty;
+
+        const itemDiscount = subtotal > 0
+            ? discount * (itemBase / subtotal)
+            : 0;
+
+        const taxable = itemBase - itemDiscount;
+
+        return sum + taxable * item.gst / 100;
+    },0);
+
+    const total = taxableValue + gstAmount;
+
+    return {
+        subtotal,
+        discount,
+        taxableValue,
+        gstAmount,
+        total
+    };
+}
+
+function renderCart(){
+
+    const rows = document.getElementById("cartRows");
+
+    rows.innerHTML = cart.length ? `
+        <div class="tablewrap">
+        <table>
+            <tr>
+                <th>Food</th>
+                <th>Price</th>
+                <th>Quantity</th>
+                <th>GST</th>
+                <th>Amount</th>
+                <th>Action</th>
+            </tr>
+
+            ${cart.map(item=>`
+                <tr>
+                    <td>${escapeHTML(item.name)}</td>
+                    <td>${money(item.price)}</td>
+                    <td>
+                        <button class="secondary"
+                            onclick="changeQty('${escapeJS(item.code)}',-1)">−</button>
+
+                        ${item.qty}
+
+                        <button class="secondary"
+                            onclick="changeQty('${escapeJS(item.code)}',1)">+</button>
+                    </td>
+                    <td>${item.gst}%</td>
+                    <td>${money(item.price * item.qty)}</td>
+                    <td>
+                        <button class="danger"
+                            onclick="removeCartItem('${escapeJS(item.code)}')">
+                            Remove
+                        </button>
+                    </td>
+                </tr>
+            `).join("")}
+        </table>
+        </div>
+    ` : "<p class='muted'>Your cart is empty.</p>";
+
+    const bill = calculateBill();
+
+    const local = document.getElementById("oGSTType").value === "local";
+
+    document.getElementById("cartTotals").innerHTML = `
+        <div class="box">
+            <p>Subtotal: <b>${money(bill.subtotal)}</b></p>
+            <p>Discount: <b>${money(bill.discount)}</b></p>
+            <p>Taxable Value: <b>${money(bill.taxableValue)}</b></p>
+
+            ${
+                local
+                ? `
+                    <p>CGST: ${money(bill.gstAmount/2)}</p>
+                    <p>SGST: ${money(bill.gstAmount/2)}</p>
+                  `
+                : `<p>IGST: ${money(bill.gstAmount)}</p>`
+            }
+
+            <h2>Grand Total: ${money(bill.total)}</h2>
+        </div>
+    `;
+}
+
+document.getElementById("oDiscount").addEventListener(
+    "input",renderCart
+);
+
+document.getElementById("oGSTType").addEventListener(
+    "change",renderCart
+);
+
+// ==========================================
+// INVOICE NUMBER
+// ==========================================
+
+function generateInvoiceNumber(){
+
+    const prefix = R().settings.invoicePrefix || "SR";
+
+    const number = R().orders.length + 1;
+
+    return prefix + "-" + String(number).padStart(4,"0");
+}
+
+// ==========================================
+// PLACE ORDER
+// ==========================================
+
+function placeOrder(){
+
+    if(cart.length === 0){
+        notify("Please add food items to the cart.");
+        return;
+    }
+
+    const bill = calculateBill();
+
+    const customer = document.getElementById("oCustomer").value.trim();
+    const phone = document.getElementById("oPhone").value.trim();
+
+    // Verify stock again before saving.
+    for(const cartItem of cart){
+
+        const menuItem = R().menu.find(
+            x=>x.code === cartItem.code
+        );
+
+        if(!menuItem || Number(menuItem.stock) < cartItem.qty){
+            notify("Stock changed. Please check your cart.");
+            return;
+        }
+    }
+
+    const order = {
+        id:"ORDER-" + Date.now(),
+        invoice:generateInvoiceNumber(),
+        date:today(),
+        time:new Date().toLocaleTimeString("en-IN"),
+        customer:customer || "Walk-in Customer",
+        phone,
+        table:document.getElementById("oTable").value || "Takeaway",
+        payment:document.getElementById("oPay").value,
+        gstType:document.getElementById("oGSTType").value,
+        items:cart.map(item=>({...item})),
+        subtotal:bill.subtotal,
+        discount:bill.discount,
+        taxableValue:bill.taxableValue,
+        gstAmount:bill.gstAmount,
+        total:bill.total,
+        status:"Pending"
+    };
+
+    // Reduce inventory.
+    order.items.forEach(item=>{
+        const menuItem = R().menu.find(x=>x.code === item.code);
+        menuItem.stock -= item.qty;
+    });
+
+    R().orders.push(order);
+
+    // Save customer details.
+    if(customer || phone){
+        const existing = R().customers.find(
+            c=>c.phone && c.phone === phone
+        );
+
+        if(existing){
+            existing.name = customer || existing.name;
+        }else{
+            R().customers.push({
+                name:customer || "Walk-in Customer",
+                phone,
+                visits:1
+            });
+        }
+    }
+
+    cart = [];
+
+    document.getElementById("oCustomer").value = "";
+    document.getElementById("oPhone").value = "";
+    document.getElementById("oDiscount").value = 0;
+
+    save();
+
+    renderInvoice(order);
+
+    notify("Order saved successfully!");
+}
+
+// ==========================================
+// INVOICE DISPLAY
+// ==========================================
+
+function renderInvoice(order){
+
+    const s = R().settings;
+
+    const local = order.gstType === "local";
+
+    document.getElementById("invoiceArea").innerHTML = `
+        <div class="invoice" id="printInvoice">
+
+            <div style="display:flex;justify-content:space-between;gap:15px;flex-wrap:wrap">
+
+                <div>
+                    ${
+                        s.logo
+                        ? `<img src="${s.logo}" alt="Restaurant logo">`
+                        : ""
+                    }
+
+                    <h2>${escapeHTML(s.name)}</h2>
+
+                    <p>${escapeHTML(s.address)}</p>
+                    <p>Owner: ${escapeHTML(s.owner)}</p>
+                    <p>Phone: ${escapeHTML(s.phone)}</p>
+                    <p>GSTIN: ${escapeHTML(s.gstin)}</p>
+                </div>
+
+                <div>
+                    <h2>TAX INVOICE</h2>
+                    <p>Invoice: ${escapeHTML(order.invoice)}</p>
+                    <p>Date: ${escapeHTML(order.date)}</p>
+                    <p>Time: ${escapeHTML(order.time)}</p>
+                </div>
+
             </div>
-        `;
+
+            <hr>
+
+            <p>Customer: ${escapeHTML(order.customer)}</p>
+            <p>Phone: ${escapeHTML(order.phone)}</p>
+            <p>Table: ${escapeHTML(order.table)}</p>
+            <p>Payment: ${escapeHTML(order.payment)}</p>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Food Item</th>
+                        <th>Qty</th>
+                        <th>Rate</th>
+                        <th>GST</th>
+                        <th>Amount</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    ${order.items.map(item=>`
+                        <tr>
+                            <td>${escapeHTML(item.name)}</td>
+                            <td>${item.qty}</td>
+                            <td>${money(item.price)}</td>
+                            <td>${item.gst}%</td>
+                            <td>${money(item.price*item.qty)}</td>
+                        </tr>
+                    `).join("")}
+                </tbody>
+            </table>
+
+            <div style="text-align:right">
+                <p>Subtotal: ${money(order.subtotal)}</p>
+                <p>Discount: ${money(order.discount)}</p>
+                <p>Taxable Value: ${money(order.taxableValue)}</p>
+
+                ${
+                    local
+                    ? `
+                        <p>CGST: ${money(order.gstAmount/2)}</p>
+                        <p>SGST: ${money(order.gstAmount/2)}</p>
+                    `
+                    : `<p>IGST: ${money(order.gstAmount)}</p>`
+                }
+
+                <h2>Grand Total: ${money(order.total)}</h2>
+            </div>
+
+            <hr>
+
+            <p style="text-align:center">
+                ${escapeHTML(s.invoiceFooter)}
+            </p>
+
+        </div>
+
+        <div class="row">
+            <button onclick="printInvoice()">Print Invoice</button>
+            <button onclick="downloadInvoicePDF('${escapeJS(order.id)}')">
+                Download PDF
+            </button>
+        </div>
+    `;
+
+    document.getElementById("invoiceArea").scrollIntoView({
+        behavior:"smooth"
     });
-    
-    let gst = subtotal * 0.05;
-    let discount = parseFloat(document.getElementById('discountInput').value) || 0;
-    let grand = (subtotal + gst) - discount;
-
-    document.getElementById('subtotalAmt').innerText = "₹" + subtotal.toFixed(2);
-    document.getElementById('gstAmt').innerText = "₹" + gst.toFixed(2);
-    document.getElementById('grandTotalAmt').innerText = "₹" + grand.toFixed(2);
 }
 
-function removeFromCart(index) {
-    state.cart.splice(index, 1);
-    renderCart();
+// ==========================================
+// PRINT INVOICE
+// ==========================================
+
+function printInvoice(){
+
+    const content = document.getElementById("printInvoice");
+
+    if(!content){
+        notify("Generate an invoice first.");
+        return;
+    }
+
+    const win = window.open("","_blank");
+
+    if(!win){
+        notify("Allow pop-ups to print the invoice.");
+        return;
+    }
+
+    win.document.write(`
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <title>Restaurant Invoice</title>
+            <style>
+                body{font-family:Arial;padding:25px;color:#111}
+                img{max-width:100px;max-height:80px;object-fit:contain}
+                table{width:100%;border-collapse:collapse}
+                th,td{border:1px solid #ccc;padding:9px;text-align:left}
+                h2{margin-bottom:5px}
+            </style>
+        </head>
+        <body>
+            ${content.innerHTML}
+            <script>
+                window.onload=function(){
+                    window.print();
+                };
+            <\/script>
+        </body>
+        </html>
+    `);
+
+    win.document.close();
 }
 
-function updateCartTotals() {
-    renderCart();
-}
+// ==========================================
+// DOWNLOAD PDF INVOICE
+// ==========================================
 
-function completeOrder(mode) {
-    if(state.cart.length === 0) { alert("Cart is empty!"); return; }
-    let total = parseFloat(document.getElementById('grandTotalAmt').innerText.replace('₹',''));
-    state.sales += total;
-    state.monthly += total;
-    state.ordersCount++;
-    state.profit += total * 0.3; // Estimated profit margin
+function downloadInvoicePDF(orderId){
 
-    // Push to KDS
-    state.kdsOrders.push({
-        id: "ORD-" + Math.floor(100 + Math.random() * 900),
-        items: state.cart.map(c => `${c.name} x${c.qty}`).join(', '),
-        table: "Table 1",
-        status: "Preparing"
+    const order = R().orders.find(o=>o.id === orderId);
+
+    if(!order){
+        notify("Invoice not found.");
+        return;
+    }
+
+    if(!window.jspdf){
+        notify("PDF library not loaded. Check your internet connection.");
+        return;
+    }
+
+    const {jsPDF} = window.jspdf;
+    const doc = new jsPDF();
+
+    const s = R().settings;
+
+    let y = 15;
+
+    if(s.logo){
+        try{
+            const format = s.logo.startsWith("data:image/png")
+                ? "PNG"
+                : "JPEG";
+
+            doc.addImage(s.logo,format,15,y,25,20);
+        }catch(error){
+            console.log("Logo could not be added to PDF.");
+        }
+    }
+
+    doc.setFontSize(18);
+    doc.text(s.name || "Restaurant",45,y+8);
+
+    doc.setFontSize(10);
+    doc.text("Invoice: " + order.invoice,15,45);
+    doc.text("Date: " + order.date,15,51);
+    doc.text("Customer: " + order.customer,15,57);
+
+    doc.autoTable({
+        startY:65,
+        head:[["Food","Qty","Rate","GST","Amount"]],
+        body:order.items.map(item=>[
+            item.name,
+            item.qty,
+            money(item.price),
+            item.gst+"%",
+            money(item.price*item.qty)
+        ])
     });
 
-    state.cart = [];
-    renderCart();
-    alert("Order successfully placed via " + mode + "!");
-    refreshDashboard();
+    const finalY = doc.lastAutoTable.finalY + 10;
+
+    doc.text("Subtotal: "+money(order.subtotal),140,finalY);
+    doc.text("Discount: "+money(order.discount),140,finalY+7);
+    doc.text("GST: "+money(order.gstAmount),140,finalY+14);
+    doc.setFontSize(14);
+    doc.text("Total: "+money(order.total),140,finalY+24);
+
+    doc.save(order.invoice+".pdf");
 }
 
-/* KITCHEN KDS LOGIC */
-function renderKDS() {
-    const board = document.getElementById('kdsBoard');
-    board.innerHTML = "";
-    state.kdsOrders.forEach((o, index) => {
-        board.innerHTML += `
-            <div class="kds-card">
-                <div style="display:flex; justify-content:space-between; font-weight:bold;"><span>${o.id}</span><span style="color:var(--gold);">${o.table}</span></div>
-                <div style="font-size:13px; color:var(--text-muted);">${o.items}</div>
-                <div style="display:flex; justify-content:space-between; align-items:center; margin-top:5px;">
-                    <span style="font-size:12px; padding:3px 8px; border-radius:4px; background:rgba(245,158,11,0.1); color:var(--gold);">${o.status}</span>
-                    <button class="btn btn-primary" style="padding:5px 10px; font-size:11px;" onclick="advanceKDS(${index})">Advance</button>
+// ==========================================
+// PART 4 — RESTAURANT OPERATIONS
+// ==========================================
+
+// ==========================================
+// KITCHEN DISPLAY SYSTEM
+// ==========================================
+
+function renderKitchen(){
+
+    const orders = [...R().orders].reverse();
+
+    document.getElementById("kitchenRows").innerHTML =
+        orders.length ? orders.map(order=>`
+            <div class="box">
+                <div class="row" style="justify-content:space-between">
+                    <div>
+                        <h3>${escapeHTML(order.invoice)}</h3>
+                        <p>Customer: ${escapeHTML(order.customer)}</p>
+                        <p>Time: ${escapeHTML(order.time)}</p>
+                    </div>
+
+                    <span class="badge">
+                        ${escapeHTML(order.status || "Pending")}
+                    </span>
+                </div>
+
+                <h3>Food Items</h3>
+
+                ${order.items.map(item=>`
+                    <p>
+                        ${escapeHTML(item.name)}
+                        × ${item.qty}
+                    </p>
+                `).join("")}
+
+                <p><b>Total: ${money(order.total)}</b></p>
+
+                <div class="row">
+                    <button onclick="updateOrderStatus('${escapeJS(order.id)}','Preparing')">
+                        Preparing
+                    </button>
+
+                    <button class="success"
+                        onclick="updateOrderStatus('${escapeJS(order.id)}','Ready')">
+                        Ready
+                    </button>
+
+                    <button class="secondary"
+                        onclick="updateOrderStatus('${escapeJS(order.id)}','Served')">
+                        Served
+                    </button>
                 </div>
             </div>
-        `;
-    });
+        `).join("")
+        : "<p class='muted'>No kitchen orders yet.</p>";
 }
 
-function advanceKDS(index) {
-    if(state.kdsOrders[index].status === "Preparing") {
-        state.kdsOrders[index].status = "Ready";
-    } else {
-        state.kdsOrders.splice(index, 1);
+function updateOrderStatus(id,status){
+
+    const order = R().orders.find(o=>o.id === id);
+
+    if(!order) return;
+
+    order.status = status;
+
+    save();
+    notify("Order status updated to " + status);
+}
+
+// ==========================================
+// TABLE MANAGEMENT
+// ==========================================
+
+function renderTables(){
+
+    const count = Number(R().tables) || 12;
+
+    document.getElementById("tableCount").value = count;
+
+    const activeTables = R().orders
+        .filter(o=>o.table && o.table !== "Takeaway" &&
+            !["Served","Cancelled"].includes(o.status))
+        .map(o=>String(o.table));
+
+    document.getElementById("tableGrid").innerHTML =
+        Array.from({length:count},(_,i)=>{
+
+            const tableNumber = String(i+1);
+            const occupied = activeTables.includes(tableNumber);
+
+            return `
+                <div class="card">
+                    <h3>Table ${tableNumber}</h3>
+
+                    <span class="status">
+                        ${occupied ? "Occupied" : "Available"}
+                    </span>
+
+                    <p class="muted">
+                        ${occupied
+                            ? "An active order is assigned."
+                            : "Ready for customers."}
+                    </p>
+
+                    ${
+                        occupied
+                        ? `<button class="secondary"
+                            onclick="showTableOrders('${tableNumber}')">
+                            View Order
+                           </button>`
+                        : `<button onclick="selectTable('${tableNumber}')">
+                            Start Order
+                           </button>`
+                    }
+                </div>
+            `;
+        }).join("");
+
+    renderTableOptions();
+}
+
+function updateTableCount(){
+
+    const count = Number(document.getElementById("tableCount").value);
+
+    if(!Number.isInteger(count) || count < 1 || count > 200){
+        notify("Enter a table count between 1 and 200.");
+        return;
     }
-    renderKDS();
+
+    R().tables = count;
+
+    save();
+    notify("Table count updated!");
 }
 
-/* TABLES LOGIC */
-function renderTables() {
-    const grid = document.getElementById('tablesGrid');
-    grid.innerHTML = "";
-    state.tables.forEach(t => {
-        grid.innerHTML += `
-            <div class="table-card ${t.status}" onclick="toggleTableStatus(${t.id})">
-                <div style="font-size:24px; margin-bottom:8px;">🪑</div>
-                <div style="font-weight:600;">${t.name}</div>
-                <div style="font-size:11px; margin-top:5px; text-transform:uppercase; color:${t.status === 'occupied' ? 'var(--red)' : 'var(--green)'};">${t.status}</div>
+function renderTableOptions(){
+
+    const select = document.getElementById("oTable");
+
+    select.innerHTML = `<option value="Takeaway">Takeaway</option>`;
+
+    for(let i=1;i<=R().tables;i++){
+
+        const option = document.createElement("option");
+
+        option.value = String(i);
+        option.textContent = "Table " + i;
+
+        select.appendChild(option);
+    }
+}
+
+function selectTable(number){
+
+    document.getElementById("oTable").value = number;
+
+    document.querySelector('[data-page="orders"]').click();
+}
+
+function showTableOrders(number){
+
+    const order = [...R().orders].reverse().find(o=>
+        String(o.table) === String(number) &&
+        !["Served","Cancelled"].includes(o.status)
+    );
+
+    if(!order){
+        notify("No active order found.");
+        return;
+    }
+
+    notify(
+        "Invoice: " + order.invoice +
+        "\nCustomer: " + order.customer +
+        "\nTotal: " + money(order.total) +
+        "\nStatus: " + order.status
+    );
+}
+
+// ==========================================
+// CUSTOMER MANAGEMENT
+// ==========================================
+
+function renderCustomers(){
+
+    document.getElementById("customerRows").innerHTML = `
+        <div class="box">
+            <h3>Add Customer</h3>
+
+            <div class="row">
+                <label>Name
+                    <input id="cName" placeholder="Customer name">
+                </label>
+
+                <label>Phone
+                    <input id="cPhone" placeholder="Phone number">
+                </label>
+
+                <button onclick="addCustomer()">Add Customer</button>
             </div>
-        `;
-    });
+        </div>
+
+        <div class="box tablewrap">
+            <table>
+                <tr>
+                    <th>Name</th>
+                    <th>Phone</th>
+                    <th>Visits</th>
+                    <th>Action</th>
+                </tr>
+
+                ${R().customers.map((c,i)=>`
+                    <tr>
+                        <td>${escapeHTML(c.name)}</td>
+                        <td>${escapeHTML(c.phone)}</td>
+                        <td>${Number(c.visits || 0)}</td>
+                        <td>
+                            <button class="danger"
+                                onclick="deleteCustomer(${i})">
+                                Delete
+                            </button>
+                        </td>
+                    </tr>
+                `).join("")}
+            </table>
+        </div>
+    `;
 }
 
-function toggleTableStatus(id) {
-    const t = state.tables.find(tbl => tbl.id === id);
-    t.status = t.status === "available" ? "occupied" : "available";
+function addCustomer(){
+
+    const name = document.getElementById("cName").value.trim();
+    const phone = document.getElementById("cPhone").value.trim();
+
+    if(!name){
+        notify("Enter customer name.");
+        return;
+    }
+
+    const existing = R().customers.find(
+        c=>phone && c.phone === phone
+    );
+
+    if(existing){
+        notify("This customer already exists.");
+        return;
+    }
+
+    R().customers.push({
+        name,
+        phone,
+        visits:0
+    });
+
+    save();
+    notify("Customer added!");
+}
+
+function deleteCustomer(index){
+
+    if(!confirm("Delete this customer?")) return;
+
+    R().customers.splice(index,1);
+
+    save();
+}
+
+// ==========================================
+// SUPPLIER MANAGEMENT
+// ==========================================
+
+function renderSuppliers(){
+
+    document.getElementById("supplierRows").innerHTML = `
+        <div class="box">
+            <h3>Add Supplier</h3>
+
+            <div class="row">
+                <label>Supplier Name
+                    <input id="sName" placeholder="Supplier name">
+                </label>
+
+                <label>Phone
+                    <input id="sPhone" placeholder="Phone number">
+                </label>
+
+                <label>Business / Items
+                    <input id="sItems" placeholder="Vegetables, dairy, etc.">
+                </label>
+
+                <button onclick="addSupplier()">Add Supplier</button>
+            </div>
+        </div>
+
+        <div class="box tablewrap">
+            <table>
+                <tr>
+                    <th>Name</th>
+                    <th>Phone</th>
+                    <th>Items Supplied</th>
+                    <th>Action</th>
+                </tr>
+
+                ${R().suppliers.map((s,i)=>`
+                    <tr>
+                        <td>${escapeHTML(s.name)}</td>
+                        <td>${escapeHTML(s.phone)}</td>
+                        <td>${escapeHTML(s.items)}</td>
+                        <td>
+                            <button class="danger"
+                                onclick="deleteSupplier(${i})">
+                                Delete
+                            </button>
+                        </td>
+                    </tr>
+                `).join("")}
+            </table>
+        </div>
+    `;
+}
+
+function addSupplier(){
+
+    const name = document.getElementById("sName").value.trim();
+    const phone = document.getElementById("sPhone").value.trim();
+    const items = document.getElementById("sItems").value.trim();
+
+    if(!name){
+        notify("Enter supplier name.");
+        return;
+    }
+
+    R().suppliers.push({
+        name,
+        phone,
+        items
+    });
+
+    save();
+    notify("Supplier added!");
+}
+
+function deleteSupplier(index){
+
+    if(!confirm("Delete this supplier?")) return;
+
+    R().suppliers.splice(index,1);
+
+    save();
+}
+
+// ==========================================
+// EXPENSE MANAGEMENT
+// ==========================================
+
+function renderExpenses(){
+
+    const total = R().expenses.reduce(
+        (sum,e)=>sum+Number(e.amount || 0),0
+    );
+
+    document.getElementById("expenseRows").innerHTML = `
+        <div class="box">
+            <h3>Add Expense</h3>
+
+            <div class="row">
+                <label>Expense Name
+                    <input id="eName" placeholder="Electricity bill">
+                </label>
+
+                <label>Category
+                    <select id="eCategory">
+                        <option>Rent</option>
+                        <option>Electricity</option>
+                        <option>Water</option>
+                        <option>Salary</option>
+                        <option>Food Purchase</option>
+                        <option>Maintenance</option>
+                        <option>Transport</option>
+                        <option>Other</option>
+                    </select>
+                </label>
+
+                <label>Amount
+                    <input id="eAmount" type="number" min="0" placeholder="500">
+                </label>
+
+                <button onclick="addExpense()">Save Expense</button>
+            </div>
+        </div>
+
+        <div class="card">
+            <small>Total Recorded Expenses</small>
+            <div class="value">${money(total)}</div>
+        </div>
+
+        <div class="box tablewrap">
+            <table>
+                <tr>
+                    <th>Date</th>
+                    <th>Name</th>
+                    <th>Category</th>
+                    <th>Amount</th>
+                    <th>Action</th>
+                </tr>
+
+                ${[...R().expenses].reverse().map(e=>`
+                    <tr>
+                        <td>${escapeHTML(e.date)}</td>
+                        <td>${escapeHTML(e.name)}</td>
+                        <td>${escapeHTML(e.category)}</td>
+                        <td>${money(e.amount)}</td>
+                        <td>
+                            <button class="danger"
+                                onclick="deleteExpense('${escapeJS(e.id)}')">
+                                Delete
+                            </button>
+                        </td>
+                    </tr>
+                `).join("")}
+            </table>
+        </div>
+    `;
+}
+
+function addExpense(){
+
+    const name = document.getElementById("eName").value.trim();
+    const category = document.getElementById("eCategory").value;
+    const amount = Number(document.getElementById("eAmount").value);
+
+    if(!name || !Number.isFinite(amount) || amount <= 0){
+        notify("Enter a valid expense name and amount.");
+        return;
+    }
+
+    R().expenses.push({
+        id:"EXP-" + Date.now(),
+        name,
+        category,
+        amount,
+        date:today()
+    });
+
+    save();
+    notify("Expense recorded!");
+}
+
+function deleteExpense(id){
+
+    if(!confirm("Delete this expense?")) return;
+
+    R().expenses = R().expenses.filter(e=>e.id !== id);
+
+    save();
+}
+
+// ==========================================
+// STAFF MANAGEMENT
+// ==========================================
+
+function renderStaff(){
+
+    document.getElementById("staffRows").innerHTML = `
+        <div class="box">
+            <h3>Add Staff Member</h3>
+
+            <div class="row">
+                <label>Staff Name
+                    <input id="staffName" placeholder="Employee name">
+                </label>
+
+                <label>Role
+                    <select id="staffRole">
+                        <option>Manager</option>
+                        <option>Chef</option>
+                        <option>Waiter</option>
+                        <option>Cashier</option>
+                        <option>Cleaner</option>
+                        <option>Delivery Staff</option>
+                        <option>Other</option>
+                    </select>
+                </label>
+
+                <label>Phone
+                    <input id="staffPhone" placeholder="Phone number">
+                </label>
+
+                <label>Monthly Salary
+                    <input id="staffSalary" type="number" min="0">
+                </label>
+
+                <button onclick="addStaff()">Add Staff</button>
+            </div>
+        </div>
+
+        <div class="box tablewrap">
+            <table>
+                <tr>
+                    <th>Name</th>
+                    <th>Role</th>
+                    <th>Phone</th>
+                    <th>Salary</th>
+                    <th>Action</th>
+                </tr>
+
+                ${R().staff.map((s,i)=>`
+                    <tr>
+                        <td>${escapeHTML(s.name)}</td>
+                        <td>${escapeHTML(s.role)}</td>
+                        <td>${escapeHTML(s.phone)}</td>
+                        <td>${money(s.salary)}</td>
+                        <td>
+                            <button class="danger"
+                                onclick="deleteStaff(${i})">
+                                Delete
+                            </button>
+                        </td>
+                    </tr>
+                `).join("")}
+            </table>
+        </div>
+    `;
+}
+
+function addStaff(){
+
+    const name = document.getElementById("staffName").value.trim();
+    const role = document.getElementById("staffRole").value;
+    const phone = document.getElementById("staffPhone").value.trim();
+    const salary = Number(document.getElementById("staffSalary").value);
+
+    if(!name || !Number.isFinite(salary) || salary < 0){
+        notify("Enter a valid staff name and salary.");
+        return;
+    }
+
+    R().staff.push({
+        name,
+        role,
+        phone,
+        salary
+    });
+
+    save();
+    notify("Staff member added!");
+}
+
+function deleteStaff(index){
+
+    if(!confirm("Remove this staff member?")) return;
+
+    R().staff.splice(index,1);
+
+    save();
+}
+
+// ==========================================
+// PART 5 — REPORTS, BACKUP & FINAL SETUP
+// ==========================================
+
+// ==========================================
+// REPORTS
+// ==========================================
+
+function renderReports(){
+
+    const orders = R().orders;
+    const expenses = R().expenses;
+
+    const totalSales = orders.reduce(
+        (sum,o)=>sum+Number(o.total || 0),0
+    );
+
+    const totalExpenses = expenses.reduce(
+        (sum,e)=>sum+Number(e.amount || 0),0
+    );
+
+    const estimatedProfit = orders.reduce(
+        (sum,o)=>sum+
+        Number(o.subtotal || 0)-
+        Number(o.discount || 0),0
+    )-totalExpenses;
+
+    const todayOrders = orders.filter(
+        o=>o.date === today()
+    );
+
+    const todaySales = todayOrders.reduce(
+        (sum,o)=>sum+Number(o.total || 0),0
+    );
+
+    const month = today().slice(0,7);
+
+    const monthOrders = orders.filter(
+        o=>String(o.date).startsWith(month)
+    );
+
+    const monthSales = monthOrders.reduce(
+        (sum,o)=>sum+Number(o.total || 0),0
+    );
+
+    document.getElementById("reportStats").innerHTML = `
+        <div class="grid">
+
+            <div class="card">
+                <small>Total Revenue</small>
+                <div class="value">${money(totalSales)}</div>
+            </div>
+
+            <div class="card">
+                <small>Today's Revenue</small>
+                <div class="value">${money(todaySales)}</div>
+            </div>
+
+            <div class="card">
+                <small>This Month</small>
+                <div class="value">${money(monthSales)}</div>
+            </div>
+
+            <div class="card">
+                <small>Total Expenses</small>
+                <div class="value">${money(totalExpenses)}</div>
+            </div>
+
+            <div class="card">
+                <small>Estimated Profit</small>
+                <div class="value">${money(estimatedProfit)}</div>
+            </div>
+
+            <div class="card">
+                <small>Total Orders</small>
+                <div class="value">${orders.length}</div>
+            </div>
+
+        </div>
+
+        <div class="box">
+            <h3>Payment Mode Summary</h3>
+            <div class="tablewrap">
+                <table>
+                    <tr>
+                        <th>Payment Mode</th>
+                        <th>Orders</th>
+                        <th>Collection</th>
+                    </tr>
+
+                    ${getPaymentSummary().map(p=>`
+                        <tr>
+                            <td>${escapeHTML(p.name)}</td>
+                            <td>${p.count}</td>
+                            <td>${money(p.total)}</td>
+                        </tr>
+                    `).join("")}
+                </table>
+            </div>
+        </div>
+
+        <div class="box">
+            <h3>Best Selling Food Items</h3>
+            <div class="tablewrap">
+                <table>
+                    <tr>
+                        <th>Food Item</th>
+                        <th>Quantity Sold</th>
+                        <th>Sales Value</th>
+                    </tr>
+
+                    ${getBestSellingItems().map(item=>`
+                        <tr>
+                            <td>${escapeHTML(item.name)}</td>
+                            <td>${item.qty}</td>
+                            <td>${money(item.total)}</td>
+                        </tr>
+                    `).join("")}
+                </table>
+            </div>
+        </div>
+    `;
+}
+
+function getPaymentSummary(){
+
+    const summary = {};
+
+    R().orders.forEach(order=>{
+
+        const mode = order.payment || "Other";
+
+        if(!summary[mode]){
+            summary[mode] = {
+                name:mode,
+                count:0,
+                total:0
+            };
+        }
+
+        summary[mode].count++;
+        summary[mode].total += Number(order.total || 0);
+    });
+
+    return Object.values(summary);
+}
+
+function getBestSellingItems(){
+
+    const summary = {};
+
+    R().orders.forEach(order=>{
+        order.items.forEach(item=>{
+
+            if(!summary[item.code]){
+                summary[item.code] = {
+                    name:item.name,
+                    qty:0,
+                    total:0
+                };
+            }
+
+            summary[item.code].qty += Number(item.qty);
+            summary[item.code].total +=
+                Number(item.price)*Number(item.qty);
+        });
+    });
+
+    return Object.values(summary)
+        .sort((a,b)=>b.qty-a.qty)
+        .slice(0,10);
+}
+
+// ==========================================
+// CSV EXPORT
+// ==========================================
+
+function downloadCSV(filename,rows){
+
+    if(!rows || rows.length === 0){
+        notify("No records available to export.");
+        return;
+    }
+
+    function csvCell(value){
+
+        let text = String(value ?? "");
+
+        // Protect spreadsheet users from formula injection.
+        if(/^[=+\-@]/.test(text)){
+            text = "'" + text;
+        }
+
+        return '"' + text.replace(/"/g,'""') + '"';
+    }
+
+    const csv = rows.map(row=>
+        row.map(csvCell).join(",")
+    ).join("\r\n");
+
+    const blob = new Blob(
+        ["\uFEFF"+csv],
+        {type:"text/csv;charset=utf-8;"}
+    );
+
+    const url = URL.createObjectURL(blob);
+
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = filename;
+    a.click();
+
+    URL.revokeObjectURL(url);
+}
+
+function exportSalesCSV(){
+
+    const rows = [
+        [
+            "Invoice",
+            "Date",
+            "Customer",
+            "Phone",
+            "Payment",
+            "Subtotal",
+            "Discount",
+            "GST",
+            "Total",
+            "Status"
+        ]
+    ];
+
+    R().orders.forEach(o=>{
+        rows.push([
+            o.invoice,
+            o.date,
+            o.customer,
+            o.phone,
+            o.payment,
+            o.subtotal,
+            o.discount,
+            o.gstAmount,
+            o.total,
+            o.status
+        ]);
+    });
+
+    downloadCSV("Restaurant_Sales.csv",rows);
+}
+
+function exportExpensesCSV(){
+
+    const rows = [
+        ["Date","Expense Name","Category","Amount"]
+    ];
+
+    R().expenses.forEach(e=>{
+        rows.push([
+            e.date,
+            e.name,
+            e.category,
+            e.amount
+        ]);
+    });
+
+    downloadCSV("Restaurant_Expenses.csv",rows);
+}
+
+// ==========================================
+// EXCEL EXPORT
+// ==========================================
+
+function exportExcel(){
+
+    if(!window.XLSX){
+        notify("Excel library not loaded. Check internet connection.");
+        return;
+    }
+
+    const workbook = XLSX.utils.book_new();
+
+    const sales = R().orders.map(o=>({
+        Invoice:o.invoice,
+        Date:o.date,
+        Customer:o.customer,
+        Phone:o.phone,
+        Payment:o.payment,
+        Subtotal:o.subtotal,
+        Discount:o.discount,
+        GST:o.gstAmount,
+        Total:o.total,
+        Status:o.status
+    }));
+
+    const expenses = R().expenses.map(e=>({
+        Date:e.date,
+        Name:e.name,
+        Category:e.category,
+        Amount:e.amount
+    }));
+
+    const menu = R().menu.map(m=>({
+        Code:m.code,
+        Name:m.name,
+        Category:m.category,
+        Cost:m.cost,
+        Price:m.price,
+        Stock:m.stock,
+        GST:m.gst
+    }));
+
+    const customers = R().customers.map(c=>({
+        Name:c.name,
+        Phone:c.phone,
+        Visits:c.visits
+    }));
+
+    XLSX.utils.book_append_sheet(
+        workbook,
+        XLSX.utils.json_to_sheet(sales),
+        "Sales"
+    );
+
+    XLSX.utils.book_append_sheet(
+        workbook,
+        XLSX.utils.json_to_sheet(expenses),
+        "Expenses"
+    );
+
+    XLSX.utils.book_append_sheet(
+        workbook,
+        XLSX.utils.json_to_sheet(menu),
+        "Menu"
+    );
+
+    XLSX.utils.book_append_sheet(
+        workbook,
+        XLSX.utils.json_to_sheet(customers),
+        "Customers"
+    );
+
+    XLSX.writeFile(workbook,"Restaurant_Report.xlsx");
+}
+
+// ==========================================
+// FULL BACKUP — ALL RESTAURANTS
+// ==========================================
+
+function downloadBackup(){
+
+    const backup = {
+        app:"SMART RESTRO PRO",
+        version:2,
+        backupDate:new Date().toISOString(),
+        database:db
+    };
+
+    const blob = new Blob(
+        [JSON.stringify(backup,null,2)],
+        {type:"application/json"}
+    );
+
+    const url = URL.createObjectURL(blob);
+
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "SMART_RESTRO_FULL_BACKUP.json";
+    a.click();
+
+    URL.revokeObjectURL(url);
+
+    notify("Full backup downloaded!");
+}
+
+// ==========================================
+// RESTORE BACKUP
+// ==========================================
+
+document.getElementById("restoreFile").addEventListener(
+    "change",
+    function(){
+
+        const file = this.files[0];
+
+        if(!file) return;
+
+        const reader = new FileReader();
+
+        reader.onload = function(){
+
+            try{
+
+                const backup = JSON.parse(reader.result);
+
+                const restored = backup.database || backup;
+
+                if(
+                    !restored ||
+                    !restored.restaurants ||
+                    typeof restored.restaurants !== "object" ||
+                    Object.keys(restored.restaurants).length === 0
+                ){
+                    notify("Invalid backup file.");
+                    return;
+                }
+
+                if(!confirm(
+                    "Restore this backup? It will replace the currently saved restaurant records in this browser."
+                )){
+                    return;
+                }
+
+                const firstId = Object.keys(restored.restaurants)[0];
+
+                if(!restored.restaurants[restored.active]){
+                    restored.active = firstId;
+                }
+
+                const previous = db;
+
+                db = restored;
+
+                if(!saveDatabase()){
+                    db = previous;
+                    notify("Restore failed. Previous records were kept.");
+                    return;
+                }
+
+                renderAll();
+                notify("Backup restored successfully!");
+
+            }catch(error){
+
+                console.error(error);
+                notify("Could not read this backup file.");
+            }
+        };
+
+        reader.readAsText(file);
+
+        this.value = "";
+    }
+);
+
+// ==========================================
+// CLEAR CURRENT RESTAURANT DATA
+// ==========================================
+
+function clearCurrentRestaurant(){
+
+    if(!confirm(
+        "Delete all menu, order, customer, supplier, expense and staff records for this restaurant? This cannot be undone."
+    )){
+        return;
+    }
+
+    const s = R().settings;
+    const tables = R().tables;
+
+    db.restaurants[db.active] = {
+        settings:s,
+        menu:[],
+        orders:[],
+        expenses:[],
+        customers:[],
+        suppliers:[],
+        staff:[],
+        tables:tables
+    };
+
+    cart = [];
+
+    if(saveDatabase()){
+        renderAll();
+        notify("Current restaurant records cleared.");
+    }
+}
+
+// ==========================================
+// FINAL RENDER FUNCTION
+// ==========================================
+
+function renderAll(){
+
+    if(!db || !db.restaurants || !R()) return;
+
+    renderRestaurantSelect();
+    renderMenu();
+    renderDashboard();
+    renderKitchen();
     renderTables();
+    renderCustomers();
+    renderSuppliers();
+    renderExpenses();
+    renderStaff();
+    renderReports();
+    fillRestaurantSettings();
+    renderCart();
 }
 
-function addTablePrompt() {
-    let name = prompt("Enter Table Name (e.g. Table 6):");
-    if(name) {
-        state.tables.push({ id: state.tables.length + 1, name: name, status: "available" });
-        renderTables();
-    }
-}
+// ==========================================
+// INITIALIZE WEBSITE
+// ==========================================
 
-/* INVENTORY LOGIC */
-function renderInventory() {
-    const tbody = document.getElementById('inventoryTableBody');
-    tbody.innerHTML = "";
-    state.inventory.forEach(i => {
-        tbody.innerHTML += `
-            <tr>
-                <td>${i.name}</td>
-                <td>${i.category}</td>
-                <td>${i.stock}</td>
-                <td>${i.limit}</td>
-                <td><span style="color:${i.status === 'Low' ? 'var(--red)' : 'var(--green)'}; font-weight:bold;">${i.status}</span></td>
-            </tr>
-        `;
-    });
-}
+loadDatabase();
 
-function openInventoryModal() {
-    let name = prompt("Item Name:");
-    let stock = prompt("Current Stock (e.g. 10 Kg):");
-    if(name && stock) {
-        state.inventory.push({ name: name, category: "General", stock: stock, limit: "5 Kg", status: "OK" });
-        renderInventory();
-    }
-}
+renderAll();
 
-/* MULTI-BRANCH LOGIC */
-function addNewBranch() {
-    let name = document.getElementById('newBranchName').value;
-    if(name) {
-        state.branches.push(name);
-        let selector = document.getElementById('branchSelector');
-        let opt = document.createElement('option');
-        opt.value = name;
-        opt.innerText = name;
-        selector.appendChild(opt);
-        alert("Branch created successfully!");
-        document.getElementById('newBranchName').value = "";
-    }
-}
+// ==========================================
+// EXCEL BUTTON
+// ==========================================
 
-// Initial boot
-refreshDashboard();
+const excelButton = document.createElement("button");
+
+excelButton.textContent = "Export Full Excel Report";
+excelButton.onclick = exportExcel;
+
+document.getElementById("reports").appendChild(excelButton);
+
 </script>
 </body>
 </html>
