@@ -1,13 +1,11 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>SMART RESTRO PRO</title>
 
 <style>
-
 :root {
     --bg: #101010;
     --panel: #191919;
@@ -49,7 +47,6 @@ button {
 }
 
 /* SIDEBAR */
-
 .sidebar {
     width: 245px;
     background: #151515;
@@ -118,6 +115,9 @@ button {
     margin: 3px 0;
     font-size: 13px;
     transition: .2s;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 }
 
 .nav-btn:hover,
@@ -126,8 +126,17 @@ button {
     color: var(--gold2);
 }
 
-/* MAIN */
+.badge-pill {
+    background: var(--red);
+    color: white;
+    font-size: 10px;
+    padding: 2px 7px;
+    border-radius: 10px;
+    font-weight: bold;
+    display: none;
+}
 
+/* MAIN */
 .main {
     margin-left: 245px;
     width: calc(100% - 245px);
@@ -164,7 +173,6 @@ button {
 }
 
 /* CONTENT */
-
 .content {
     padding: 25px;
 }
@@ -179,6 +187,9 @@ button {
 
 .page-heading {
     margin-bottom: 22px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
 .page-heading h2 {
@@ -193,7 +204,6 @@ button {
 }
 
 /* CARDS */
-
 .grid {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
@@ -230,7 +240,6 @@ button {
 }
 
 /* FORMS */
-
 .form-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
@@ -267,7 +276,6 @@ button {
 }
 
 /* BUTTONS */
-
 .btn {
     padding: 11px 17px;
     border-radius: 8px;
@@ -297,7 +305,6 @@ button {
 }
 
 /* TABLE */
-
 .table-wrap {
     width: 100%;
     overflow-x: auto;
@@ -326,7 +333,6 @@ td {
 }
 
 /* IMAGE UPLOAD */
-
 .image-upload {
     border: 1px dashed #76623b;
     background: #171717;
@@ -364,16 +370,7 @@ td {
     margin: 10px 0;
 }
 
-.product-image {
-    width: 55px;
-    height: 55px;
-    object-fit: cover;
-    border-radius: 9px;
-    background: #292929;
-}
-
 /* PRODUCT CARDS */
-
 .product-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -410,84 +407,53 @@ td {
 }
 
 /* RESPONSIVE */
-
 @media(max-width: 900px) {
-    .grid {
-        grid-template-columns: repeat(2, 1fr);
-    }
-
-    .product-grid {
+    .grid, .product-grid {
         grid-template-columns: repeat(2, 1fr);
     }
 }
 
 @media(max-width: 650px) {
-
     .sidebar {
         width: 68px;
         padding: 12px 7px;
     }
-
     .brand {
         justify-content: center;
         padding: 5px 0 15px;
     }
-
-    .brand > div:last-child,
-    .nav-title {
+    .brand > div:last-child, .nav-title {
         display: none;
     }
-
     .nav-btn {
         font-size: 0;
         text-align: center;
         padding: 14px 4px;
     }
-
-    .nav-btn span {
+    .nav-btn span:first-child {
         font-size: 19px;
     }
-
     .main {
         margin-left: 68px;
         width: calc(100% - 68px);
     }
-
     .content {
         padding: 14px;
     }
-
     .topbar {
         padding: 12px;
     }
-
     .topbar h2 {
         font-size: 15px;
     }
-
-    .grid {
+    .grid, .product-grid {
         grid-template-columns: 1fr 1fr;
         gap: 8px;
     }
-
     .form-grid {
         grid-template-columns: 1fr;
     }
-
-    .product-grid {
-        grid-template-columns: 1fr 1fr;
-        gap: 8px;
-    }
-
-    .stat-card {
-        padding: 12px;
-    }
-
-    .stat-card h2 {
-        font-size: 19px;
-    }
 }
-
 </style>
 </head>
 
@@ -496,244 +462,168 @@ td {
 <div class="app">
 
 <!-- SIDEBAR -->
-
 <aside class="sidebar">
-
     <div class="brand">
-
-        <div class="brand-logo" id="sidebarLogo">
-            🍽️
-        </div>
-
+        <div class="brand-logo" id="sidebarLogo">🍽️</div>
         <div>
             <h2>SMART RESTRO</h2>
             <p>PRO RESTAURANT SYSTEM</p>
         </div>
-
     </div>
 
     <div class="nav-title">MAIN MENU</div>
-
     <button class="nav-btn active" onclick="showPage('dashboard',this)">
-        <span>📊</span> Dashboard
+        <div><span>📊</span> Dashboard</div>
     </button>
-
     <button class="nav-btn" onclick="showPage('restaurant',this)">
-        <span>🏪</span> Restaurant Profile
+        <div><span>🏪</span> Restaurant Profile</div>
     </button>
-
     <button class="nav-btn" onclick="showPage('menu',this)">
-        <span>🍔</span> Food Menu
+        <div><span>🍔</span> Food Menu</div>
     </button>
-
     <button class="nav-btn" onclick="showPage('tables',this)">
-        <span>🪑</span> Tables
+        <div><span>🪑</span> Tables</div>
     </button>
 
     <div class="nav-title">OPERATIONS</div>
-
     <button class="nav-btn" onclick="showPage('pos',this)">
-        <span>🛒</span> POS Billing
+        <div><span>🛒</span> POS Billing</div>
     </button>
-
     <button class="nav-btn" onclick="showPage('kitchen',this)">
-        <span>👨‍🍳</span> Kitchen KOT
+        <div><span>👨‍🍳</span> Kitchen KOT</div>
     </button>
-
     <button class="nav-btn" onclick="showPage('orders',this)">
-        <span>📋</span> Orders
+        <div><span>📋</span> Orders</div>
     </button>
-
     <button class="nav-btn" onclick="showPage('inventory',this)">
-        <span>📦</span> Inventory
+        <div><span>📦</span> Inventory</div>
+        <span id="lowStockBadge" class="badge-pill">0</span>
     </button>
-
     <button class="nav-btn" onclick="showPage('purchases',this)">
-        <span>🚚</span> Purchases
+        <div><span>🚚</span> Purchases</div>
     </button>
 
     <div class="nav-title">MANAGEMENT</div>
-
     <button class="nav-btn" onclick="showPage('customers',this)">
-        <span>👥</span> Customers
+        <div><span>👥</span> Customers</div>
     </button>
-
     <button class="nav-btn" onclick="showPage('suppliers',this)">
-        <span>🏭</span> Suppliers
+        <div><span>🏭</span> Suppliers</div>
     </button>
-
     <button class="nav-btn" onclick="showPage('staff',this)">
-        <span>👨‍💼</span> Staff
+        <div><span>👨‍💼</span> Staff</div>
     </button>
-
     <button class="nav-btn" onclick="showPage('expenses',this)">
-        <span>💸</span> Expenses
+        <div><span>💸</span> Expenses</div>
     </button>
 
     <div class="nav-title">BUSINESS</div>
-
     <button class="nav-btn" onclick="showPage('reports',this)">
-        <span>📈</span> Reports
+        <div><span>📈</span> Reports</div>
     </button>
-
     <button class="nav-btn" onclick="showPage('branches',this)">
-        <span>🏢</span> Branches
+        <div><span>🏢</span> Branches</div>
     </button>
-
     <button class="nav-btn" onclick="showPage('backup',this)">
-        <span>💾</span> Backup
+        <div><span>💾</span> Backup & Storage</div>
     </button>
-
 </aside>
 
-
 <!-- MAIN CONTENT -->
-
 <main class="main">
-
 <header class="topbar">
-
     <div>
         <h2 id="pageTitle">Dashboard</h2>
         <small id="restaurantHeader">Welcome to SMART RESTRO PRO</small>
     </div>
-
-    <div class="status">
-        ● SYSTEM ACTIVE
-    </div>
-
+    <div class="status">● SYSTEM ACTIVE</div>
 </header>
 
 <div class="content">
 
-
 <!-- DASHBOARD -->
-
 <section class="page active" id="page-dashboard">
-
     <div class="page-heading">
-        <h2>Restaurant Dashboard</h2>
-        <p>Manage your restaurant business from one place.</p>
+        <div>
+            <h2>Restaurant Dashboard</h2>
+            <p>Manage your restaurant business from one place.</p>
+        </div>
     </div>
-
     <div class="grid">
-
         <div class="card stat-card">
             <p>Today's Sales</p>
             <h2 id="dashSales">₹0.00</h2>
         </div>
-
         <div class="card stat-card">
             <p>Total Orders</p>
             <h2 id="dashOrders">0</h2>
         </div>
-
         <div class="card stat-card">
             <p>Menu Items</p>
             <h2 id="dashMenu">0</h2>
         </div>
-
         <div class="card stat-card">
             <p>Total Expenses</p>
             <h2 id="dashExpenses">₹0.00</h2>
         </div>
-
     </div>
 
     <div class="card">
         <h3 class="section-title">Welcome to SMART RESTRO PRO</h3>
         <p style="color:#aaa;line-height:1.8;font-size:13px;">
-            Your complete restaurant management solution.
-            Manage food items, product images, restaurant details,
-            billing, kitchen orders, inventory, expenses and reports.
+            Your complete restaurant management solution. Manage food items, product images, restaurant details, billing, kitchen orders, inventory, expenses, and reports.
         </p>
     </div>
 
     <div class="card">
         <h3 class="section-title">Quick Access</h3>
-
-        <button class="btn btn-gold"
-        onclick="showPage('pos')">＋ New Order</button>
-
-        <button class="btn btn-dark"
-        onclick="showPage('menu')">🍔 Manage Menu</button>
-
-        <button class="btn btn-dark"
-        onclick="showPage('restaurant')">🏪 Restaurant Profile</button>
-
+        <button class="btn btn-gold" onclick="showPage('pos')">＋ New Order</button>
+        <button class="btn btn-dark" onclick="showPage('menu')">🍔 Manage Menu</button>
+        <button class="btn btn-dark" onclick="showPage('restaurant')">🏪 Restaurant Profile</button>
     </div>
-
 </section>
 
-
 <!-- RESTAURANT PROFILE -->
-
 <section class="page" id="page-restaurant">
-
     <div class="page-heading">
-        <h2>Restaurant Profile</h2>
-        <p>Set up your restaurant information and upload its logo.</p>
-    </div>
-
-    <div class="card">
-
-        <h3 class="section-title">Restaurant Logo</h3>
-
-        <div class="image-upload">
-
-            <img id="restaurantLogoPreview"
-            class="logo-preview" alt="Restaurant logo preview">
-
-            <p style="color:#aaa;font-size:12px;">
-                Upload your restaurant logo
-            </p>
-
-            <input type="file"
-            id="restaurantLogoInput"
-            accept="image/png,image/jpeg,image/webp">
-
+        <div>
+            <h2>Restaurant Profile</h2>
+            <p>Set up your restaurant information and upload its logo.</p>
         </div>
-
     </div>
 
     <div class="card">
+        <h3 class="section-title">Restaurant Logo</h3>
+        <div class="image-upload">
+            <img id="restaurantLogoPreview" class="logo-preview" alt="Restaurant logo preview">
+            <p style="color:#aaa;font-size:12px;">Upload your restaurant logo</p>
+            <input type="file" id="restaurantLogoInput" accept="image/png,image/jpeg,image/webp">
+        </div>
+    </div>
 
+    <div class="card">
         <h3 class="section-title">Restaurant Information</h3>
-
         <div class="form-grid">
-
             <div class="form-group">
                 <label>Restaurant Name</label>
-                <input id="restaurantName"
-                placeholder="Enter restaurant name">
+                <input id="restaurantName" placeholder="Enter restaurant name">
             </div>
-
             <div class="form-group">
                 <label>Owner Name</label>
-                <input id="ownerName"
-                placeholder="Enter owner name">
+                <input id="ownerName" placeholder="Enter owner name">
             </div>
-
             <div class="form-group">
                 <label>Phone Number</label>
-                <input id="restaurantPhone"
-                type="tel"
-                placeholder="Enter phone number">
+                <input id="restaurantPhone" type="tel" placeholder="Enter phone number">
             </div>
-
             <div class="form-group">
                 <label>Email Address</label>
-                <input id="restaurantEmail"
-                type="email"
-                placeholder="Enter email">
+                <input id="restaurantEmail" type="email" placeholder="Enter email">
             </div>
-
             <div class="form-group">
                 <label>GSTIN</label>
-                <input id="restaurantGST"
-                placeholder="Enter GSTIN (if applicable)">
+                <input id="restaurantGST" placeholder="Enter GSTIN (if applicable)">
             </div>
-
             <div class="form-group">
                 <label>Business Type</label>
                 <select id="restaurantType">
@@ -746,73 +636,44 @@ td {
                     <option>Sweet Shop</option>
                 </select>
             </div>
-
         </div>
-
         <div class="form-group">
             <label>Restaurant Address</label>
-            <textarea id="restaurantAddress"
-            rows="3"
-            placeholder="Enter complete address"></textarea>
+            <textarea id="restaurantAddress" rows="3" placeholder="Enter complete address"></textarea>
         </div>
-
-        <button class="btn btn-gold"
-        onclick="saveRestaurant()">SAVE RESTAURANT DETAILS</button>
-
+        <button class="btn btn-gold" onclick="saveRestaurant()">SAVE RESTAURANT DETAILS</button>
     </div>
-
 </section>
 
-
 <!-- FOOD MENU -->
-
 <section class="page" id="page-menu">
-
     <div class="page-heading">
-        <h2>Food Menu Management</h2>
-        <p>Add food items with images, prices and GST rates.</p>
+        <div>
+            <h2>Food Menu Management</h2>
+            <p>Add food items with images, prices, and GST rates.</p>
+        </div>
     </div>
 
     <div class="card">
-
         <h3 class="section-title">Add New Food Item</h3>
-
         <div class="form-group">
-
             <label>Food Product Image</label>
-
             <div class="image-upload">
-
-                <img id="productImagePreview"
-                class="image-preview"
-                alt="Food image preview">
-
-                <p style="color:#aaa;font-size:12px;">
-                    Upload a food product photo
-                </p>
-
-                <input type="file"
-                id="productImageInput"
-                accept="image/png,image/jpeg,image/webp">
-
+                <img id="productImagePreview" class="image-preview" alt="Food image preview">
+                <p style="color:#aaa;font-size:12px;">Upload a food product photo</p>
+                <input type="file" id="productImageInput" accept="image/png,image/jpeg,image/webp">
             </div>
-
         </div>
 
         <div class="form-grid">
-
             <div class="form-group">
                 <label>Food Name</label>
-                <input id="foodName"
-                placeholder="Example: Paneer Butter Masala">
+                <input id="foodName" placeholder="Example: Paneer Butter Masala">
             </div>
-
             <div class="form-group">
                 <label>Food Code</label>
-                <input id="foodCode"
-                placeholder="Example: FD001">
+                <input id="foodCode" placeholder="Example: FD001">
             </div>
-
             <div class="form-group">
                 <label>Category</label>
                 <select id="foodCategory">
@@ -828,23 +689,14 @@ td {
                     <option>Snacks</option>
                 </select>
             </div>
-
             <div class="form-group">
                 <label>Food Price (₹)</label>
-                <input id="foodPrice"
-                type="number"
-                min="0"
-                placeholder="Enter selling price">
+                <input id="foodPrice" type="number" min="0" placeholder="Enter selling price">
             </div>
-
             <div class="form-group">
                 <label>Food Cost (₹)</label>
-                <input id="foodCost"
-                type="number"
-                min="0"
-                placeholder="Enter preparation cost">
+                <input id="foodCost" type="number" min="0" placeholder="Enter preparation cost">
             </div>
-
             <div class="form-group">
                 <label>GST Rate</label>
                 <select id="foodGST">
@@ -855,15 +707,10 @@ td {
                     <option value="28">28%</option>
                 </select>
             </div>
-
             <div class="form-group">
                 <label>Available Quantity</label>
-                <input id="foodStock"
-                type="number"
-                min="0"
-                placeholder="Enter quantity">
+                <input id="foodStock" type="number" min="0" placeholder="Enter quantity">
             </div>
-
             <div class="form-group">
                 <label>Food Availability</label>
                 <select id="foodAvailability">
@@ -871,124 +718,80 @@ td {
                     <option value="Unavailable">Unavailable</option>
                 </select>
             </div>
-
         </div>
-
         <div class="form-group">
             <label>Food Description</label>
-            <textarea id="foodDescription"
-            rows="3"
-            placeholder="Describe your food item"></textarea>
+            <textarea id="foodDescription" rows="3" placeholder="Describe your food item"></textarea>
         </div>
-
-        <button class="btn btn-gold"
-        onclick="addFood()">＋ ADD FOOD ITEM</button>
-
-        <button class="btn btn-dark"
-        onclick="clearFoodForm()">CLEAR FORM</button>
-
+        <button class="btn btn-gold" onclick="addFood()">＋ ADD FOOD ITEM</button>
+        <button class="btn btn-dark" onclick="clearFoodForm()">CLEAR FORM</button>
     </div>
 
     <div class="card">
-
         <h3 class="section-title">Your Food Products</h3>
-
         <div class="form-group">
-            <input id="menuSearch"
-            placeholder="🔍 Search food products..."
-            oninput="renderMenu()">
+            <input id="menuSearch" placeholder="🔍 Search food products..." oninput="renderMenu()">
         </div>
-
         <div class="product-grid" id="productGrid">
-
-            <p style="color:#aaa;">
-                No food items added yet.
-            </p>
-
+            <p style="color:#aaa;">No food items added yet.</p>
         </div>
-
     </div>
-
 </section>
-<!-- TABLE MANAGEMENT -->
 
+<!-- TABLES -->
 <section class="page" id="page-tables">
-
     <div class="page-heading">
-        <h2>Table Management</h2>
-        <p>Manage restaurant seating and table availability.</p>
+        <div>
+            <h2>Table Management</h2>
+            <p>Manage restaurant seating and table availability.</p>
+        </div>
     </div>
-
     <div class="card">
         <h3 class="section-title">Add Restaurant Table</h3>
-
         <div class="form-grid">
-
             <div class="form-group">
                 <label>Table Number</label>
                 <input id="tableNumber" placeholder="Example: T01">
             </div>
-
             <div class="form-group">
                 <label>Seating Capacity</label>
-                <input id="tableCapacity" type="number" min="1"
-                placeholder="Number of seats">
+                <input id="tableCapacity" type="number" min="1" placeholder="Number of seats">
             </div>
-
         </div>
-
-        <button class="btn btn-gold" onclick="addTable()">
-            ＋ ADD TABLE
-        </button>
+        <button class="btn btn-gold" onclick="addTable()">＋ ADD TABLE</button>
     </div>
-
     <div class="card">
         <h3 class="section-title">Restaurant Tables</h3>
-
         <div class="table-wrap">
             <table>
                 <thead>
-                    <tr>
-                        <th>Table</th>
-                        <th>Capacity</th>
-                        <th>Status</th>
-                        <th>Action</th>
-                    </tr>
+                    <tr><th>Table</th><th>Capacity</th><th>Status</th><th>Action</th></tr>
                 </thead>
                 <tbody id="tableList"></tbody>
             </table>
         </div>
     </div>
-
 </section>
 
-
 <!-- POS BILLING -->
-
 <section class="page" id="page-pos">
-
     <div class="page-heading">
-        <h2>POS Billing</h2>
-        <p>Create customer orders and generate restaurant bills.</p>
+        <div>
+            <h2>POS Billing</h2>
+            <p>Create customer orders and generate restaurant bills.</p>
+        </div>
     </div>
-
     <div class="card">
-
         <h3 class="section-title">Order Information</h3>
-
         <div class="form-grid">
-
             <div class="form-group">
                 <label>Customer Name</label>
                 <input id="posCustomer" placeholder="Customer name">
             </div>
-
             <div class="form-group">
                 <label>Customer Phone</label>
-                <input id="posPhone" type="tel"
-                placeholder="Phone number">
+                <input id="posPhone" type="tel" placeholder="Phone number">
             </div>
-
             <div class="form-group">
                 <label>Order Type</label>
                 <select id="posOrderType">
@@ -997,14 +800,10 @@ td {
                     <option>Delivery</option>
                 </select>
             </div>
-
             <div class="form-group">
                 <label>Table Number</label>
-                <select id="posTable">
-                    <option value="">Select table</option>
-                </select>
+                <select id="posTable"><option value="">Select table</option></select>
             </div>
-
             <div class="form-group">
                 <label>Payment Method</label>
                 <select id="posPayment">
@@ -1018,7 +817,6 @@ td {
                     <option>Credit</option>
                 </select>
             </div>
-
             <div class="form-group">
                 <label>GST Type</label>
                 <select id="posGSTType">
@@ -1026,45 +824,27 @@ td {
                     <option value="exclusive">Price Exclusive of GST</option>
                 </select>
             </div>
-
             <div class="form-group">
                 <label>Discount (₹)</label>
-                <input id="posDiscount" type="number"
-                min="0" value="0">
+                <input id="posDiscount" type="number" min="0" value="0">
             </div>
-
         </div>
-
     </div>
 
     <div class="card">
-
         <h3 class="section-title">Select Food Items</h3>
-
         <div class="form-group">
-            <input id="posSearch"
-            placeholder="🔍 Search food..."
-            oninput="renderPosMenu()">
+            <input id="posSearch" placeholder="🔍 Search food..." oninput="renderPosMenu()">
         </div>
-
         <div class="product-grid" id="posMenuGrid"></div>
-
     </div>
 
     <div class="card">
-
         <h3 class="section-title">Shopping Cart</h3>
-
         <div class="table-wrap">
             <table>
                 <thead>
-                    <tr>
-                        <th>Food</th>
-                        <th>Price</th>
-                        <th>Quantity</th>
-                        <th>Total</th>
-                        <th>Action</th>
-                    </tr>
+                    <tr><th>Food</th><th>Price</th><th>Quantity</th><th>Total</th><th>Action</th></tr>
                 </thead>
                 <tbody id="cartList"></tbody>
             </table>
@@ -1074,808 +854,391 @@ td {
             <p>Subtotal: <b id="cartSubtotal">₹0.00</b></p>
             <p>GST: <b id="cartGST">₹0.00</b></p>
             <p>Discount: <b id="cartDiscount">₹0.00</b></p>
-            <h2 style="color:var(--gold2);">
-                Grand Total: <span id="cartGrandTotal">₹0.00</span>
-            </h2>
+            <h2 style="color:var(--gold2);">Grand Total: <span id="cartGrandTotal">₹0.00</span></h2>
         </div>
 
-        <button class="btn btn-gold" onclick="generateBill()">
-            GENERATE BILL
-        </button>
-
-        <button class="btn btn-dark" onclick="clearCart()">
-            CLEAR CART
-        </button>
-
+        <button class="btn btn-gold" onclick="generateBill()">GENERATE BILL</button>
+        <button class="btn btn-dark" onclick="clearCart()">CLEAR CART</button>
     </div>
-
 </section>
 
-
 <!-- KITCHEN KOT -->
-
 <section class="page" id="page-kitchen">
-
     <div class="page-heading">
-        <h2>Kitchen Order Ticket</h2>
-        <p>Track food preparation and kitchen orders.</p>
+        <div>
+            <h2>Kitchen Order Ticket</h2>
+            <p>Track food preparation and kitchen orders.</p>
+        </div>
     </div>
-
     <div class="card">
-
         <h3 class="section-title">Kitchen Orders</h3>
-
         <div class="table-wrap">
             <table>
                 <thead>
-                    <tr>
-                        <th>Order ID</th>
-                        <th>Customer</th>
-                        <th>Items</th>
-                        <th>Order Time</th>
-                        <th>Status</th>
-                        <th>Update</th>
-                    </tr>
+                    <tr><th>Order ID</th><th>Customer</th><th>Items</th><th>Order Time</th><th>Status</th><th>Update</th></tr>
                 </thead>
                 <tbody id="kitchenList"></tbody>
             </table>
         </div>
-
     </div>
-
 </section>
 
-
-<!-- ORDER MANAGEMENT -->
-
+<!-- ORDERS -->
 <section class="page" id="page-orders">
-
     <div class="page-heading">
-        <h2>Order Management</h2>
-        <p>View, track and manage restaurant orders.</p>
-    </div>
-
-    <div class="card">
-
-        <h3 class="section-title">All Orders</h3>
-
-        <div class="form-group">
-            <input id="orderSearch"
-            placeholder="🔍 Search order or customer..."
-            oninput="renderOrders()">
+        <div>
+            <h2>Order Management</h2>
+            <p>View, track, and manage restaurant orders.</p>
         </div>
-
+    </div>
+    <div class="card">
+        <h3 class="section-title">All Orders</h3>
+        <div class="form-group">
+            <input id="orderSearch" placeholder="🔍 Search order or customer..." oninput="renderOrders()">
+        </div>
         <div class="table-wrap">
             <table>
                 <thead>
-                    <tr>
-                        <th>Order ID</th>
-                        <th>Date</th>
-                        <th>Customer</th>
-                        <th>Type</th>
-                        <th>Payment</th>
-                        <th>Total</th>
-                        <th>Status</th>
-                        <th>Action</th>
-                    </tr>
+                    <tr><th>Order ID</th><th>Date</th><th>Customer</th><th>Type</th><th>Payment</th><th>Total</th><th>Status</th><th>Action</th></tr>
                 </thead>
                 <tbody id="orderList"></tbody>
             </table>
         </div>
-
     </div>
-
 </section>
 
-
 <!-- INVENTORY -->
-
 <section class="page" id="page-inventory">
-
     <div class="page-heading">
-        <h2>Inventory Management</h2>
-        <p>Manage restaurant ingredients and stock.</p>
+        <div>
+            <h2>Inventory Management</h2>
+            <p>Manage restaurant ingredients and stock.</p>
+        </div>
+        <button class="btn btn-dark" id="inventoryFilterBtn" onclick="toggleLowStockFilter()">
+            Filter Low Stock: OFF
+        </button>
     </div>
-
     <div class="card">
-
         <h3 class="section-title">Add Inventory Item</h3>
-
         <div class="form-grid">
-
-            <div class="form-group">
-                <label>Ingredient Name</label>
-                <input id="inventoryName"
-                placeholder="Example: Rice">
-            </div>
-
-            <div class="form-group">
-                <label>Item Code</label>
-                <input id="inventoryCode"
-                placeholder="Example: INV001">
-            </div>
-
+            <div class="form-group"><label>Ingredient Name</label><input id="inventoryName" placeholder="Example: Rice"></div>
+            <div class="form-group"><label>Item Code</label><input id="inventoryCode" placeholder="Example: INV001"></div>
             <div class="form-group">
                 <label>Category</label>
                 <select id="inventoryCategory">
-                    <option>Vegetables</option>
-                    <option>Fruits</option>
-                    <option>Grains</option>
-                    <option>Dairy</option>
-                    <option>Spices</option>
-                    <option>Oil</option>
-                    <option>Beverages</option>
-                    <option>Packaging</option>
-                    <option>Other</option>
+                    <option>Vegetables</option><option>Fruits</option><option>Grains</option><option>Dairy</option><option>Spices</option><option>Oil</option><option>Beverages</option><option>Packaging</option><option>Other</option>
                 </select>
             </div>
-
             <div class="form-group">
                 <label>Unit</label>
                 <select id="inventoryUnit">
-                    <option>Kg</option>
-                    <option>Gram</option>
-                    <option>Litre</option>
-                    <option>ML</option>
-                    <option>Packet</option>
-                    <option>Piece</option>
-                    <option>Box</option>
+                    <option>Kg</option><option>Gram</option><option>Litre</option><option>ML</option><option>Packet</option><option>Piece</option><option>Box</option>
                 </select>
             </div>
-
-            <div class="form-group">
-                <label>Opening Stock</label>
-                <input id="inventoryStock" type="number"
-                min="0" placeholder="Quantity">
-            </div>
-
-            <div class="form-group">
-                <label>Cost Per Unit (₹)</label>
-                <input id="inventoryCost" type="number"
-                min="0" placeholder="Purchase cost">
-            </div>
-
-            <div class="form-group">
-                <label>Low Stock Alert</label>
-                <input id="inventoryLimit" type="number"
-                min="0" placeholder="Minimum quantity">
-            </div>
-
+            <div class="form-group"><label>Opening Stock</label><input id="inventoryStock" type="number" min="0" placeholder="Quantity"></div>
+            <div class="form-group"><label>Cost Per Unit (₹)</label><input id="inventoryCost" type="number" min="0" placeholder="Purchase cost"></div>
+            <div class="form-group"><label>Low Stock Alert</label><input id="inventoryLimit" type="number" min="0" placeholder="Minimum quantity"></div>
         </div>
-
-        <button class="btn btn-gold" onclick="addInventory()">
-            ＋ ADD INVENTORY
-        </button>
-
+        <button class="btn btn-gold" onclick="addInventory()">＋ ADD INVENTORY</button>
     </div>
 
     <div class="card">
-
         <h3 class="section-title">Available Stock</h3>
-
+        <div class="form-group">
+            <input id="inventorySearch" placeholder="🔍 Search ingredients or item codes..." oninput="renderInventory()">
+        </div>
         <div class="table-wrap">
             <table>
                 <thead>
-                    <tr>
-                        <th>Item</th>
-                        <th>Code</th>
-                        <th>Category</th>
-                        <th>Stock</th>
-                        <th>Unit</th>
-                        <th>Cost</th>
-                        <th>Status</th>
-                        <th>Action</th>
-                    </tr>
+                    <tr><th>Item</th><th>Code</th><th>Category</th><th>Stock</th><th>Unit</th><th>Cost</th><th>Status</th><th>Action</th></tr>
                 </thead>
                 <tbody id="inventoryList"></tbody>
             </table>
         </div>
-
     </div>
-
 </section>
 
-
 <!-- PURCHASES -->
-
 <section class="page" id="page-purchases">
-
     <div class="page-heading">
-        <h2>Purchase Management</h2>
-        <p>Record purchases from suppliers and update inventory.</p>
-    </div>
-
-    <div class="card">
-
-        <h3 class="section-title">New Purchase</h3>
-
-        <div class="form-grid">
-
-            <div class="form-group">
-                <label>Supplier Name</label>
-                <input id="purchaseSupplier"
-                placeholder="Supplier name">
-            </div>
-
-            <div class="form-group">
-                <label>Purchase Date</label>
-                <input id="purchaseDate" type="date">
-            </div>
-
-            <div class="form-group">
-                <label>Inventory Item</label>
-                <select id="purchaseItem">
-                    <option value="">Select item</option>
-                </select>
-            </div>
-
-            <div class="form-group">
-                <label>Quantity Purchased</label>
-                <input id="purchaseQuantity" type="number"
-                min="0" placeholder="Quantity">
-            </div>
-
-            <div class="form-group">
-                <label>Cost Per Unit (₹)</label>
-                <input id="purchaseCost" type="number"
-                min="0" placeholder="Cost">
-            </div>
-
-            <div class="form-group">
-                <label>Invoice Number</label>
-                <input id="purchaseInvoice"
-                placeholder="Invoice number">
-            </div>
-
+        <div>
+            <h2>Purchase Management</h2>
+            <p>Record purchases from suppliers and update inventory.</p>
         </div>
-
-        <button class="btn btn-gold" onclick="addPurchase()">
-            SAVE PURCHASE
-        </button>
-
     </div>
-
     <div class="card">
-
+        <h3 class="section-title">New Purchase</h3>
+        <div class="form-grid">
+            <div class="form-group"><label>Supplier Name</label><input id="purchaseSupplier" placeholder="Supplier name"></div>
+            <div class="form-group"><label>Purchase Date</label><input id="purchaseDate" type="date"></div>
+            <div class="form-group"><label>Inventory Item</label><select id="purchaseItem"><option value="">Select item</option></select></div>
+            <div class="form-group"><label>Quantity Purchased</label><input id="purchaseQuantity" type="number" min="0" placeholder="Quantity"></div>
+            <div class="form-group"><label>Cost Per Unit (₹)</label><input id="purchaseCost" type="number" min="0" placeholder="Cost"></div>
+            <div class="form-group"><label>Invoice Number</label><input id="purchaseInvoice" placeholder="Invoice number"></div>
+        </div>
+        <button class="btn btn-gold" onclick="addPurchase()">SAVE PURCHASE</button>
+    </div>
+    <div class="card">
         <h3 class="section-title">Purchase History</h3>
-
         <div class="table-wrap">
             <table>
                 <thead>
-                    <tr>
-                        <th>Date</th>
-                        <th>Supplier</th>
-                        <th>Item</th>
-                        <th>Quantity</th>
-                        <th>Unit Cost</th>
-                        <th>Total</th>
-                        <th>Invoice</th>
-                    </tr>
+                    <tr><th>Date</th><th>Supplier</th><th>Item</th><th>Quantity</th><th>Unit Cost</th><th>Total</th><th>Invoice</th></tr>
                 </thead>
                 <tbody id="purchaseList"></tbody>
             </table>
         </div>
-
     </div>
-
 </section>
 
-
 <!-- CUSTOMERS -->
-
 <section class="page" id="page-customers">
-
     <div class="page-heading">
-        <h2>Customer Management</h2>
-        <p>View your restaurant's customer records.</p>
-    </div>
-
-    <div class="card">
-
-        <h3 class="section-title">Customer Directory</h3>
-
-        <div class="form-group">
-            <input id="customerSearch"
-            placeholder="🔍 Search customer..."
-            oninput="renderCustomers()">
+        <div>
+            <h2>Customer Management</h2>
+            <p>View your restaurant's customer records.</p>
         </div>
-
+    </div>
+    <div class="card">
+        <h3 class="section-title">Customer Directory</h3>
+        <div class="form-group"><input id="customerSearch" placeholder="🔍 Search customer..." oninput="renderCustomers()"></div>
         <div class="table-wrap">
             <table>
                 <thead>
-                    <tr>
-                        <th>Customer</th>
-                        <th>Phone</th>
-                        <th>Total Orders</th>
-                        <th>Total Spending</th>
-                    </tr>
+                    <tr><th>Customer</th><th>Phone</th><th>Total Orders</th><th>Total Spending</th></tr>
                 </thead>
                 <tbody id="customerList"></tbody>
             </table>
         </div>
-
     </div>
-
 </section>
 
-
 <!-- SUPPLIERS -->
-
 <section class="page" id="page-suppliers">
-
     <div class="page-heading">
-        <h2>Supplier Management</h2>
-        <p>Maintain details of your restaurant suppliers.</p>
-    </div>
-
-    <div class="card">
-
-        <h3 class="section-title">Add Supplier</h3>
-
-        <div class="form-grid">
-
-            <div class="form-group">
-                <label>Supplier Name</label>
-                <input id="supplierName"
-                placeholder="Business name">
-            </div>
-
-            <div class="form-group">
-                <label>Contact Person</label>
-                <input id="supplierContact"
-                placeholder="Contact person">
-            </div>
-
-            <div class="form-group">
-                <label>Phone Number</label>
-                <input id="supplierPhone"
-                type="tel" placeholder="Phone number">
-            </div>
-
-            <div class="form-group">
-                <label>Email</label>
-                <input id="supplierEmail"
-                type="email" placeholder="Email address">
-            </div>
-
-            <div class="form-group">
-                <label>GSTIN</label>
-                <input id="supplierGST"
-                placeholder="GSTIN (optional)">
-            </div>
-
+        <div>
+            <h2>Supplier Management</h2>
+            <p>Maintain details of your restaurant suppliers.</p>
         </div>
-
-        <button class="btn btn-gold" onclick="addSupplier()">
-            ＋ ADD SUPPLIER
-        </button>
-
     </div>
-
     <div class="card">
-
+        <h3 class="section-title">Add Supplier</h3>
+        <div class="form-grid">
+            <div class="form-group"><label>Supplier Name</label><input id="supplierName" placeholder="Business name"></div>
+            <div class="form-group"><label>Contact Person</label><input id="supplierContact" placeholder="Contact person"></div>
+            <div class="form-group"><label>Phone Number</label><input id="supplierPhone" type="tel" placeholder="Phone number"></div>
+            <div class="form-group"><label>Email</label><input id="supplierEmail" type="email" placeholder="Email address"></div>
+            <div class="form-group"><label>GSTIN</label><input id="supplierGST" placeholder="GSTIN (optional)"></div>
+        </div>
+        <button class="btn btn-gold" onclick="addSupplier()">＋ ADD SUPPLIER</button>
+    </div>
+    <div class="card">
         <h3 class="section-title">Supplier List</h3>
-
         <div class="table-wrap">
             <table>
                 <thead>
-                    <tr>
-                        <th>Supplier</th>
-                        <th>Contact Person</th>
-                        <th>Phone</th>
-                        <th>Email</th>
-                        <th>GSTIN</th>
-                        <th>Action</th>
-                    </tr>
+                    <tr><th>Supplier</th><th>Contact Person</th><th>Phone</th><th>Email</th><th>GSTIN</th><th>Action</th></tr>
                 </thead>
                 <tbody id="supplierList"></tbody>
             </table>
         </div>
-
     </div>
-
 </section>
 
-
 <!-- STAFF -->
-
 <section class="page" id="page-staff">
-
     <div class="page-heading">
-        <h2>Staff Management</h2>
-        <p>Manage restaurant employees and their roles.</p>
+        <div>
+            <h2>Staff Management</h2>
+            <p>Manage restaurant employees and their roles.</p>
+        </div>
     </div>
-
     <div class="card">
-
         <h3 class="section-title">Add Staff Member</h3>
-
         <div class="form-grid">
-
-            <div class="form-group">
-                <label>Employee Name</label>
-                <input id="staffName"
-                placeholder="Employee name">
-            </div>
-
-            <div class="form-group">
-                <label>Phone Number</label>
-                <input id="staffPhone"
-                type="tel" placeholder="Phone number">
-            </div>
-
+            <div class="form-group"><label>Employee Name</label><input id="staffName" placeholder="Employee name"></div>
+            <div class="form-group"><label>Phone Number</label><input id="staffPhone" type="tel" placeholder="Phone number"></div>
             <div class="form-group">
                 <label>Job Role</label>
                 <select id="staffRole">
-                    <option>Manager</option>
-                    <option>Chef</option>
-                    <option>Assistant Chef</option>
-                    <option>Waiter</option>
-                    <option>Cashier</option>
-                    <option>Cleaner</option>
-                    <option>Delivery Staff</option>
-                    <option>Other</option>
+                    <option>Manager</option><option>Chef</option><option>Assistant Chef</option><option>Waiter</option><option>Cashier</option><option>Cleaner</option><option>Delivery Staff</option><option>Other</option>
                 </select>
             </div>
-
-            <div class="form-group">
-                <label>Monthly Salary (₹)</label>
-                <input id="staffSalary" type="number"
-                min="0" placeholder="Salary">
-            </div>
-
-            <div class="form-group">
-                <label>Joining Date</label>
-                <input id="staffJoining" type="date">
-            </div>
-
+            <div class="form-group"><label>Monthly Salary (₹)</label><input id="staffSalary" type="number" min="0" placeholder="Salary"></div>
+            <div class="form-group"><label>Joining Date</label><input id="staffJoining" type="date"></div>
         </div>
-
-        <button class="btn btn-gold" onclick="addStaff()">
-            ＋ ADD STAFF
-        </button>
-
+        <button class="btn btn-gold" onclick="addStaff()">＋ ADD STAFF</button>
     </div>
-
     <div class="card">
-
         <h3 class="section-title">Employee Records</h3>
-
         <div class="table-wrap">
             <table>
                 <thead>
-                    <tr>
-                        <th>Name</th>
-                        <th>Phone</th>
-                        <th>Role</th>
-                        <th>Salary</th>
-                        <th>Joining Date</th>
-                        <th>Action</th>
-                    </tr>
+                    <tr><th>Name</th><th>Phone</th><th>Role</th><th>Salary</th><th>Joining Date</th><th>Action</th></tr>
                 </thead>
                 <tbody id="staffList"></tbody>
             </table>
         </div>
-
     </div>
-
 </section>
 
-
 <!-- EXPENSES -->
-
 <section class="page" id="page-expenses">
-
     <div class="page-heading">
-        <h2>Expense Management</h2>
-        <p>Record and monitor restaurant business expenses.</p>
+        <div>
+            <h2>Expense Management</h2>
+            <p>Record and monitor restaurant business expenses.</p>
+        </div>
     </div>
-
     <div class="card">
-
         <h3 class="section-title">Add New Expense</h3>
-
         <div class="form-grid">
-
-            <div class="form-group">
-                <label>Expense Title</label>
-                <input id="expenseTitle"
-                placeholder="Example: Electricity Bill">
-            </div>
-
+            <div class="form-group"><label>Expense Title</label><input id="expenseTitle" placeholder="Example: Electricity Bill"></div>
             <div class="form-group">
                 <label>Expense Category</label>
                 <select id="expenseCategory">
-                    <option>Rent</option>
-                    <option>Electricity</option>
-                    <option>Water</option>
-                    <option>Salary</option>
-                    <option>Raw Materials</option>
-                    <option>Transportation</option>
-                    <option>Maintenance</option>
-                    <option>Marketing</option>
-                    <option>Packaging</option>
-                    <option>Other</option>
+                    <option>Rent</option><option>Electricity</option><option>Water</option><option>Salary</option><option>Raw Materials</option><option>Transportation</option><option>Maintenance</option><option>Marketing</option><option>Packaging</option><option>Other</option>
                 </select>
             </div>
-
-            <div class="form-group">
-                <label>Amount (₹)</label>
-                <input id="expenseAmount" type="number"
-                min="0" placeholder="Enter amount">
-            </div>
-
+            <div class="form-group"><label>Amount (₹)</label><input id="expenseAmount" type="number" min="0" placeholder="Enter amount"></div>
             <div class="form-group">
                 <label>Payment Method</label>
                 <select id="expensePayment">
-                    <option>Cash</option>
-                    <option>UPI</option>
-                    <option>Bank Transfer</option>
-                    <option>Card</option>
-                    <option>Other</option>
+                    <option>Cash</option><option>UPI</option><option>Bank Transfer</option><option>Card</option><option>Other</option>
                 </select>
             </div>
-
-            <div class="form-group">
-                <label>Expense Date</label>
-                <input id="expenseDate" type="date">
-            </div>
-
-            <div class="form-group">
-                <label>Reference Number</label>
-                <input id="expenseReference"
-                placeholder="Optional reference">
-            </div>
-
+            <div class="form-group"><label>Expense Date</label><input id="expenseDate" type="date"></div>
+            <div class="form-group"><label>Reference Number</label><input id="expenseReference" placeholder="Optional reference"></div>
         </div>
-
-        <button class="btn btn-gold" onclick="addExpense()">
-            SAVE EXPENSE
-        </button>
-
+        <button class="btn btn-gold" onclick="addExpense()">SAVE EXPENSE</button>
     </div>
-
     <div class="card">
-
         <h3 class="section-title">Expense History</h3>
-
         <div class="table-wrap">
             <table>
                 <thead>
-                    <tr>
-                        <th>Date</th>
-                        <th>Title</th>
-                        <th>Category</th>
-                        <th>Payment</th>
-                        <th>Amount</th>
-                        <th>Action</th>
-                    </tr>
+                    <tr><th>Date</th><th>Title</th><th>Category</th><th>Payment</th><th>Amount</th><th>Action</th></tr>
                 </thead>
                 <tbody id="expenseList"></tbody>
             </table>
         </div>
-
     </div>
-
 </section>
-
 
 <!-- REPORTS -->
-
 <section class="page" id="page-reports">
-
     <div class="page-heading">
-        <h2>Business Reports</h2>
-        <p>Understand your restaurant's business performance.</p>
+        <div>
+            <h2>Business Reports</h2>
+            <p>Understand your restaurant's business performance.</p>
+        </div>
     </div>
-
     <div class="grid">
-
-        <div class="card stat-card">
-            <p>Total Revenue</p>
-            <h2 id="reportRevenue">₹0</h2>
-        </div>
-
-        <div class="card stat-card">
-            <p>Total Expenses</p>
-            <h2 id="reportExpenses">₹0</h2>
-        </div>
-
-        <div class="card stat-card">
-            <p>Estimated Profit</p>
-            <h2 id="reportProfit">₹0</h2>
-        </div>
-
-        <div class="card stat-card">
-            <p>Total Orders</p>
-            <h2 id="reportOrders">0</h2>
-        </div>
-
+        <div class="card stat-card"><p>Total Revenue</p><h2 id="reportRevenue">₹0</h2></div>
+        <div class="card stat-card"><p>Total Expenses</p><h2 id="reportExpenses">₹0</h2></div>
+        <div class="card stat-card"><p>Estimated Profit</p><h2 id="reportProfit">₹0</h2></div>
+        <div class="card stat-card"><p>Total Orders</p><h2 id="reportOrders">0</h2></div>
     </div>
-
     <div class="card">
-
         <h3 class="section-title">Sales Report</h3>
-
-        <div class="form-group">
-            <label>From Date</label>
-            <input id="reportFrom" type="date">
-        </div>
-
-        <div class="form-group">
-            <label>To Date</label>
-            <input id="reportTo" type="date">
-        </div>
-
-        <button class="btn btn-gold" onclick="generateReport()">
-            GENERATE REPORT
-        </button>
-
-        <button class="btn btn-dark" onclick="exportReport()">
-            EXPORT CSV
-        </button>
-
-        <div id="reportResult"
-        style="margin-top:20px;color:#ccc;font-size:13px;">
-        </div>
-
+        <div class="form-group"><label>From Date</label><input id="reportFrom" type="date"></div>
+        <div class="form-group"><label>To Date</label><input id="reportTo" type="date"></div>
+        <button class="btn btn-gold" onclick="generateReport()">GENERATE REPORT</button>
+        <button class="btn btn-dark" onclick="exportReport()">EXPORT CSV</button>
+        <div id="reportResult" style="margin-top:20px;color:#ccc;font-size:13px;"></div>
     </div>
-
 </section>
 
-
 <!-- BRANCHES -->
-
 <section class="page" id="page-branches">
-
     <div class="page-heading">
-        <h2>Branch Management</h2>
-        <p>Maintain multiple restaurant branch records.</p>
-    </div>
-
-    <div class="card">
-
-        <h3 class="section-title">Add Branch</h3>
-
-        <div class="form-grid">
-
-            <div class="form-group">
-                <label>Branch Name</label>
-                <input id="branchName"
-                placeholder="Example: Chennai Main Branch">
-            </div>
-
-            <div class="form-group">
-                <label>Branch Phone</label>
-                <input id="branchPhone"
-                type="tel" placeholder="Phone number">
-            </div>
-
-            <div class="form-group">
-                <label>Branch Address</label>
-                <input id="branchAddress"
-                placeholder="Branch address">
-            </div>
-
-            <div class="form-group">
-                <label>Branch Manager</label>
-                <input id="branchManager"
-                placeholder="Manager name">
-            </div>
-
+        <div>
+            <h2>Branch Management</h2>
+            <p>Maintain multiple restaurant branch records.</p>
         </div>
-
-        <button class="btn btn-gold" onclick="addBranch()">
-            ＋ ADD BRANCH
-        </button>
-
     </div>
-
     <div class="card">
-
+        <h3 class="section-title">Add Branch</h3>
+        <div class="form-grid">
+            <div class="form-group"><label>Branch Name</label><input id="branchName" placeholder="Example: Chennai Main Branch"></div>
+            <div class="form-group"><label>Branch Phone</label><input id="branchPhone" type="tel" placeholder="Phone number"></div>
+            <div class="form-group"><label>Branch Address</label><input id="branchAddress" placeholder="Branch address"></div>
+            <div class="form-group"><label>Branch Manager</label><input id="branchManager" placeholder="Manager name"></div>
+        </div>
+        <button class="btn btn-gold" onclick="addBranch()">＋ ADD BRANCH</button>
+    </div>
+    <div class="card">
         <h3 class="section-title">Branch Directory</h3>
-
         <div class="table-wrap">
             <table>
                 <thead>
-                    <tr>
-                        <th>Branch</th>
-                        <th>Phone</th>
-                        <th>Address</th>
-                        <th>Manager</th>
-                        <th>Action</th>
-                    </tr>
+                    <tr><th>Branch</th><th>Phone</th><th>Address</th><th>Manager</th><th>Action</th></tr>
                 </thead>
                 <tbody id="branchList"></tbody>
             </table>
         </div>
-
     </div>
-
 </section>
-
 
 <!-- BACKUP & RESTORE -->
-
 <section class="page" id="page-backup">
-
     <div class="page-heading">
-        <h2>Backup & Restore</h2>
-        <p>Protect your restaurant business records.</p>
+        <div>
+            <h2>Backup & Storage</h2>
+            <p>Protect your restaurant records and monitor browser quota.</p>
+        </div>
     </div>
 
     <div class="card">
-
-        <h3 class="section-title">Data Backup</h3>
-
-        <p style="color:#aaa;font-size:13px;line-height:1.8;">
-            Download a backup of your restaurant information,
-            food menu, images, orders, inventory, expenses,
-            staff and other saved records.
+        <h3 class="section-title">Storage Usage Monitor</h3>
+        <p style="color:#aaa;font-size:13px;line-height:1.8;margin-bottom:12px;">
+            Browser local storage has a limit of ~5 MB. Monitor your saved database size and image capacity below:
         </p>
-
-        <button class="btn btn-gold"
-        onclick="backupData()">
-            DOWNLOAD BACKUP
-        </button>
-
+        <div style="background:#222;border-radius:8px;height:22px;width:100%;overflow:hidden;border:1px solid var(--border);margin-bottom:10px;">
+            <div id="storageBar" style="background:var(--green);height:100%;width:0%;transition:width 0.3s ease;"></div>
+        </div>
+        <p id="storageText" style="color:var(--muted);font-size:12px;">Calculating storage...</p>
     </div>
 
     <div class="card">
+        <h3 class="section-title">Data Backup</h3>
+        <p style="color:#aaa;font-size:13px;line-height:1.8;">
+            Download a backup of your restaurant information, food menu, images, orders, inventory, expenses, staff, and other saved records.
+        </p>
+        <button class="btn btn-gold" onclick="backupData()">DOWNLOAD BACKUP</button>
+    </div>
 
+    <div class="card">
         <h3 class="section-title">Restore Data</h3>
-
         <div class="form-group">
             <label>Select Backup JSON File</label>
-            <input type="file" id="restoreFile"
-            accept=".json,application/json">
+            <input type="file" id="restoreFile" accept=".json,application/json">
         </div>
-
-        <button class="btn btn-green"
-        onclick="restoreData()">
-            RESTORE BACKUP
-        </button>
-
+        <button class="btn btn-green" onclick="restoreData()">RESTORE BACKUP</button>
     </div>
 
     <div class="card">
-
         <h3 class="section-title">Danger Zone</h3>
-
         <p style="color:#aaa;font-size:13px;line-height:1.8;">
-            This action permanently clears the saved data
-            in this browser. Download a backup before proceeding.
+            This action permanently clears the saved data in this browser. Download a backup before proceeding.
         </p>
-
-        <button class="btn btn-red"
-        onclick="deleteAllData()">
-            DELETE ALL RESTAURANT DATA
-        </button>
-
+        <button class="btn btn-red" onclick="deleteAllData()">DELETE ALL RESTAURANT DATA</button>
     </div>
-
 </section>
-<!-- SMART RESTRO PRO JAVASCRIPT -->
 
+</div>
+</main>
+</div>
+
+<!-- JAVASCRIPT LOGIC -->
 <script>
-
 /* =====================================
-   DATABASE
+   DATABASE & STORAGE MANAGEMENT
 ===================================== */
-
 const DB_KEY = "SMART_RESTRO_PRO_DATABASE";
 
 const defaultDB = {
-    profile: {
-        name: "",
-        owner: "",
-        phone: "",
-        email: "",
-        gst: "",
-        type: "Restaurant",
-        address: "",
-        logo: ""
-    },
+    profile: { name: "", owner: "", phone: "", email: "", gst: "", type: "Restaurant", address: "", logo: "" },
     menu: [],
     tables: [],
     orders: [],
@@ -1893,27 +1256,74 @@ function loadDatabase() {
     try {
         const saved = localStorage.getItem(DB_KEY);
         db = saved ? JSON.parse(saved) : structuredClone(defaultDB);
-
         Object.keys(defaultDB).forEach(key => {
-            if (db[key] === undefined) {
-                db[key] = structuredClone(defaultDB[key]);
-            }
+            if (db[key] === undefined) db[key] = structuredClone(defaultDB[key]);
         });
-
         if (!db.profile) db.profile = structuredClone(defaultDB.profile);
-
     } catch (error) {
-        alert("Saved data could not be read. Please check your browser storage.");
+        alert("Saved data could not be read. Resetting database.");
         db = structuredClone(defaultDB);
+    }
+}
+
+function updateStorageMeter() {
+    const data = localStorage.getItem(DB_KEY) || "";
+    const bytes = data.length * 2; // UTF-16 estimation
+    const kb = bytes / 1024;
+    const mb = kb / 1024;
+    const maxMb = 5.0; 
+    const percentage = Math.min(100, (mb / maxMb) * 100);
+
+    const bar = document.getElementById("storageBar");
+    const text = document.getElementById("storageText");
+
+    if (!bar || !text) return;
+
+    bar.style.width = percentage.toFixed(1) + "%";
+
+    if (percentage > 85) {
+        bar.style.background = "var(--red)";
+    } else if (percentage > 60) {
+        bar.style.background = "var(--gold)";
+    } else {
+        bar.style.background = "var(--green)";
+    }
+
+    if (mb < 1) {
+        text.textContent = `Used: ${kb.toFixed(1)} KB of ~5 MB (${percentage.toFixed(1)}%)`;
+    } else {
+        text.textContent = `Used: ${mb.toFixed(2)} MB of ~5 MB (${percentage.toFixed(1)}%)`;
+    }
+}
+
+function updateLowStockBadge() {
+    const badge = document.getElementById("lowStockBadge");
+    if (!badge) return;
+
+    const lowStockCount = db.inventory.filter(item => 
+        Number(item.stock) <= Number(item.limit)
+    ).length;
+
+    if (lowStockCount > 0) {
+        badge.textContent = lowStockCount;
+        badge.style.display = "inline-block";
+    } else {
+        badge.style.display = "none";
     }
 }
 
 function saveDatabase() {
     try {
         localStorage.setItem(DB_KEY, JSON.stringify(db));
+        updateStorageMeter();
+        updateLowStockBadge();
         return true;
     } catch (error) {
-        alert("Storage is full. Export a backup and reduce the number or size of uploaded images.");
+        if (error.name === "QuotaExceededError" || error.code === 22 || error.number === -2147024882) {
+            alert("STORAGE FULL ERROR: Your browser local storage limit (~5MB) has been reached. Please download a backup and clear unused items/images.");
+        } else {
+            alert("Storage save error: " + error.message);
+        }
         return false;
     }
 }
@@ -1926,132 +1336,89 @@ function money(value) {
 }
 
 function uid(prefix = "ID") {
-    return prefix + Date.now().toString(36) +
-        Math.random().toString(36).slice(2, 6).toUpperCase();
+    return prefix + Date.now().toString(36) + Math.random().toString(36).slice(2, 6).toUpperCase();
 }
 
 function escapeHTML(value) {
     return String(value ?? "").replace(/[&<>"']/g, char => ({
-        "&": "&amp;",
-        "<": "&lt;",
-        ">": "&gt;",
-        '"': "&quot;",
-        "'": "&#39;"
+        "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"
     })[char]);
 }
 
 function today() {
     const d = new Date();
-    return d.getFullYear() + "-" +
-        String(d.getMonth() + 1).padStart(2, "0") + "-" +
-        String(d.getDate()).padStart(2, "0");
+    return d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0");
 }
 
 function getDate(date) {
     return String(date || "").slice(0, 10);
 }
 
-
 /* =====================================
    PAGE NAVIGATION
 ===================================== */
-
 const pageNames = {
-    dashboard: "Dashboard",
-    restaurant: "Restaurant Profile",
-    menu: "Food Menu",
-    tables: "Table Management",
-    pos: "POS Billing",
-    kitchen: "Kitchen KOT",
-    orders: "Order Management",
-    inventory: "Inventory",
-    purchases: "Purchases",
-    customers: "Customers",
-    suppliers: "Suppliers",
-    staff: "Staff Management",
-    expenses: "Expenses",
-    reports: "Business Reports",
-    branches: "Branches",
-    backup: "Backup & Restore"
+    dashboard: "Dashboard", restaurant: "Restaurant Profile", menu: "Food Menu",
+    tables: "Table Management", pos: "POS Billing", kitchen: "Kitchen KOT",
+    orders: "Order Management", inventory: "Inventory", purchases: "Purchases",
+    customers: "Customers", suppliers: "Suppliers", staff: "Staff Management",
+    expenses: "Expenses", reports: "Business Reports", branches: "Branches",
+    backup: "Backup & Storage"
 };
 
 function showPage(name, button) {
-    document.querySelectorAll(".page").forEach(page => {
-        page.classList.remove("active");
-    });
-
+    document.querySelectorAll(".page").forEach(page => page.classList.remove("active"));
     const page = document.getElementById("page-" + name);
-
     if (!page) return;
 
     page.classList.add("active");
-
-    document.querySelectorAll(".nav-btn").forEach(btn => {
-        btn.classList.remove("active");
-    });
+    document.querySelectorAll(".nav-btn").forEach(btn => btn.classList.remove("active"));
 
     if (button) {
         button.classList.add("active");
     } else {
         const matching = [...document.querySelectorAll(".nav-btn")]
             .find(btn => btn.getAttribute("onclick")?.includes("'" + name + "'"));
-
         if (matching) matching.classList.add("active");
     }
 
-    document.getElementById("pageTitle").textContent =
-        pageNames[name] || name;
+    document.getElementById("pageTitle").textContent = pageNames[name] || name;
 
     if (name === "dashboard") renderDashboard();
     if (name === "menu") renderMenu();
     if (name === "tables") renderTables();
-    if (name === "pos") {
-        renderPosMenu();
-        renderCart();
-        updateTableOptions();
-    }
+    if (name === "pos") { renderPosMenu(); renderCart(); updateTableOptions(); }
     if (name === "kitchen") renderKitchen();
     if (name === "orders") renderOrders();
     if (name === "inventory") renderInventory();
-    if (name === "purchases") {
-        renderPurchases();
-        updatePurchaseOptions();
-    }
+    if (name === "purchases") { renderPurchases(); updatePurchaseOptions(); }
     if (name === "customers") renderCustomers();
     if (name === "suppliers") renderSuppliers();
     if (name === "staff") renderStaff();
     if (name === "expenses") renderExpenses();
     if (name === "reports") renderReports();
     if (name === "branches") renderBranches();
+    if (name === "backup") updateStorageMeter();
 }
-
 
 /* =====================================
    IMAGE COMPRESSION
 ===================================== */
-
 function compressImage(file, callback) {
-
     if (!file || !file.type.startsWith("image/")) {
         alert("Please select a valid image.");
         return;
     }
-
     if (file.size > 8 * 1024 * 1024) {
         alert("Please select an image smaller than 8 MB.");
         return;
     }
 
     const reader = new FileReader();
-
     reader.onload = function(event) {
-
         const img = new Image();
-
         img.onload = function() {
-
-            const maxSize = 700;
-
+            const maxSize = 600;
             let width = img.width;
             let height = img.height;
 
@@ -2066,49 +1433,31 @@ function compressImage(file, callback) {
             const canvas = document.createElement("canvas");
             canvas.width = width;
             canvas.height = height;
-
             const ctx = canvas.getContext("2d");
-
             ctx.fillStyle = "#ffffff";
             ctx.fillRect(0, 0, width, height);
             ctx.drawImage(img, 0, 0, width, height);
 
-            const compressed = canvas.toDataURL("image/jpeg", 0.70);
-
+            const compressed = canvas.toDataURL("image/jpeg", 0.65);
             callback(compressed);
         };
-
-        img.onerror = function() {
-            alert("Unable to read this image.");
-        };
-
+        img.onerror = () => alert("Unable to read image.");
         img.src = event.target.result;
     };
-
-    reader.onerror = function() {
-        alert("Image upload failed.");
-    };
-
+    reader.onerror = () => alert("Image upload failed.");
     reader.readAsDataURL(file);
 }
-
 
 /* =====================================
    RESTAURANT PROFILE
 ===================================== */
-
 let restaurantLogoData = "";
 
-document.getElementById("restaurantLogoInput")
-.addEventListener("change", function() {
-
+document.getElementById("restaurantLogoInput").addEventListener("change", function() {
     const file = this.files[0];
     if (!file) return;
-
     compressImage(file, function(image) {
-
         restaurantLogoData = image;
-
         const preview = document.getElementById("restaurantLogoPreview");
         preview.src = image;
         preview.style.display = "block";
@@ -2116,9 +1465,7 @@ document.getElementById("restaurantLogoInput")
 });
 
 function loadRestaurant() {
-
     const p = db.profile;
-
     document.getElementById("restaurantName").value = p.name || "";
     document.getElementById("ownerName").value = p.owner || "";
     document.getElementById("restaurantPhone").value = p.phone || "";
@@ -2126,7 +1473,6 @@ function loadRestaurant() {
     document.getElementById("restaurantGST").value = p.gst || "";
     document.getElementById("restaurantType").value = p.type || "Restaurant";
     document.getElementById("restaurantAddress").value = p.address || "";
-
     restaurantLogoData = p.logo || "";
 
     if (p.logo) {
@@ -2134,12 +1480,10 @@ function loadRestaurant() {
         preview.src = p.logo;
         preview.style.display = "block";
     }
-
     updateBrand();
 }
 
 function saveRestaurant() {
-
     db.profile.name = document.getElementById("restaurantName").value.trim();
     db.profile.owner = document.getElementById("ownerName").value.trim();
     db.profile.phone = document.getElementById("restaurantPhone").value.trim();
@@ -2150,20 +1494,14 @@ function saveRestaurant() {
     db.profile.logo = restaurantLogoData;
 
     if (!saveDatabase()) return;
-
     updateBrand();
-
     alert("Restaurant details saved successfully!");
 }
 
 function updateBrand() {
-
     const name = db.profile.name || "SMART RESTRO PRO";
-
     document.getElementById("restaurantHeader").textContent = name;
-
     const logo = document.getElementById("sidebarLogo");
-
     if (db.profile.logo) {
         logo.innerHTML = `<img src="${db.profile.logo}" alt="Restaurant logo">`;
     } else {
@@ -2171,24 +1509,17 @@ function updateBrand() {
     }
 }
 
-
 /* =====================================
    FOOD MENU
 ===================================== */
-
 let productImageData = "";
 let editingFoodId = null;
 
-document.getElementById("productImageInput")
-.addEventListener("change", function() {
-
+document.getElementById("productImageInput").addEventListener("change", function() {
     const file = this.files[0];
     if (!file) return;
-
     compressImage(file, function(image) {
-
         productImageData = image;
-
         const preview = document.getElementById("productImagePreview");
         preview.src = image;
         preview.style.display = "block";
@@ -2196,36 +1527,21 @@ document.getElementById("productImageInput")
 });
 
 function clearFoodForm() {
-
     editingFoodId = null;
     productImageData = "";
-
-    [
-        "foodName",
-        "foodCode",
-        "foodPrice",
-        "foodCost",
-        "foodStock",
-        "foodDescription"
-    ].forEach(id => {
+    ["foodName", "foodCode", "foodPrice", "foodCost", "foodStock", "foodDescription"].forEach(id => {
         document.getElementById(id).value = "";
     });
-
     document.getElementById("foodGST").value = "5";
     document.getElementById("foodAvailability").value = "Available";
-
     document.getElementById("productImageInput").value = "";
-
     const preview = document.getElementById("productImagePreview");
     preview.src = "";
     preview.style.display = "none";
-
-    document.querySelector("#page-menu .btn-gold").textContent =
-        "＋ ADD FOOD ITEM";
+    document.querySelector("#page-menu .btn-gold").textContent = "＋ ADD FOOD ITEM";
 }
 
 function addFood() {
-
     const name = document.getElementById("foodName").value.trim();
     const code = document.getElementById("foodCode").value.trim();
     const price = Number(document.getElementById("foodPrice").value);
@@ -2242,11 +1558,7 @@ function addFood() {
         return;
     }
 
-    const duplicate = db.menu.find(item =>
-        item.code.toLowerCase() === code.toLowerCase() &&
-        item.id !== editingFoodId
-    );
-
+    const duplicate = db.menu.find(item => item.code.toLowerCase() === code.toLowerCase() && item.id !== editingFoodId);
     if (duplicate) {
         alert("This food code already exists.");
         return;
@@ -2254,11 +1566,9 @@ function addFood() {
 
     const item = {
         id: editingFoodId || uid("FOOD"),
-        name,
-        code,
+        name, code,
         category: document.getElementById("foodCategory").value,
-        price,
-        cost,
+        price, cost,
         gst: Number(document.getElementById("foodGST").value),
         stock,
         availability: document.getElementById("foodAvailability").value,
@@ -2278,15 +1588,12 @@ function addFood() {
     clearFoodForm();
     renderMenu();
     renderDashboard();
-
     alert("Food item saved successfully!");
 }
 
 function renderMenu() {
-
     const grid = document.getElementById("productGrid");
     const search = document.getElementById("menuSearch").value.toLowerCase();
-
     const list = db.menu.filter(item =>
         item.name.toLowerCase().includes(search) ||
         item.code.toLowerCase().includes(search) ||
@@ -2299,47 +1606,26 @@ function renderMenu() {
     }
 
     grid.innerHTML = list.map(item => `
-
         <div class="product-card">
-
-            ${item.image
-                ? `<img src="${item.image}" alt="${escapeHTML(item.name)}">`
-                : `<div style="height:145px;display:grid;place-items:center;font-size:45px;">🍽️</div>`
-            }
-
+            ${item.image ? `<img src="${item.image}" alt="${escapeHTML(item.name)}">` : `<div style="height:145px;display:grid;place-items:center;font-size:45px;">🍽️</div>`}
             <div class="product-info">
-
                 <h3>${escapeHTML(item.name)}</h3>
-
                 <p>${escapeHTML(item.category)} · ${escapeHTML(item.code)}</p>
-
                 <p>Price: <b>${money(item.price)}</b></p>
-
-                <p>GST: ${item.gst}%</p>
-
-                <p>Stock: ${item.stock}</p>
-
+                <p>GST: ${item.gst}% | Stock: ${item.stock}</p>
                 <p>Status: ${escapeHTML(item.availability)}</p>
-
-                <button class="btn btn-dark"
-                onclick="editFood('${item.id}')">EDIT</button>
-
-                <button class="btn btn-red"
-                onclick="deleteFood('${item.id}')">DELETE</button>
-
+                <button class="btn btn-dark" onclick="editFood('${item.id}')">EDIT</button>
+                <button class="btn btn-red" onclick="deleteFood('${item.id}')">DELETE</button>
             </div>
         </div>
-
     `).join("");
 }
 
 function editFood(id) {
-
     const item = db.menu.find(x => x.id === id);
     if (!item) return;
 
     editingFoodId = id;
-
     document.getElementById("foodName").value = item.name;
     document.getElementById("foodCode").value = item.code;
     document.getElementById("foodCategory").value = item.category;
@@ -2351,9 +1637,7 @@ function editFood(id) {
     document.getElementById("foodDescription").value = item.description || "";
 
     productImageData = item.image || "";
-
     const preview = document.getElementById("productImagePreview");
-
     if (productImageData) {
         preview.src = productImageData;
         preview.style.display = "block";
@@ -2362,157 +1646,104 @@ function editFood(id) {
     }
 
     document.querySelector("#page-menu .btn-gold").textContent = "UPDATE FOOD ITEM";
-
     document.getElementById("page-menu").scrollIntoView();
 }
 
 function deleteFood(id) {
-
     if (!confirm("Delete this food item?")) return;
-
     db.menu = db.menu.filter(item => item.id !== id);
-
     saveDatabase();
     renderMenu();
     renderDashboard();
 }
 
 function renderPosMenu() {
-
     const grid = document.getElementById("posMenuGrid");
     const search = document.getElementById("posSearch").value.toLowerCase();
-
-    const list = db.menu.filter(item =>
-        item.availability === "Available" &&
-        item.name.toLowerCase().includes(search)
-    );
+    const list = db.menu.filter(item => item.availability === "Available" && item.name.toLowerCase().includes(search));
 
     grid.innerHTML = list.length ? list.map(item => `
-
         <div class="product-card">
-
-            ${item.image
-                ? `<img src="${item.image}" alt="${escapeHTML(item.name)}">`
-                : `<div style="height:145px;display:grid;place-items:center;font-size:45px;">🍽️</div>`
-            }
-
+            ${item.image ? `<img src="${item.image}" alt="${escapeHTML(item.name)}">` : `<div style="height:145px;display:grid;place-items:center;font-size:45px;">🍽️</div>`}
             <div class="product-info">
                 <h3>${escapeHTML(item.name)}</h3>
-                <p>${money(item.price)}</p>
-                <p>Stock: ${item.stock}</p>
-
-                <button class="btn btn-gold"
-                onclick="addToCart('${item.id}')">
-                    ADD TO CART
-                </button>
+                <p>${money(item.price)} | Stock: ${item.stock}</p>
+                <button class="btn btn-gold" onclick="addToCart('${item.id}')">ADD TO CART</button>
             </div>
-
         </div>
-
     `).join("") : `<p style="color:#aaa;">No available food items.</p>`;
 }
-
 
 /* =====================================
    TABLE MANAGEMENT
 ===================================== */
-
 function addTable() {
-
     const number = document.getElementById("tableNumber").value.trim();
     const capacity = Number(document.getElementById("tableCapacity").value);
 
     if (!number || capacity <= 0) {
-        alert("Enter a table number and valid seating capacity.");
+        alert("Enter table number and valid seating capacity.");
         return;
     }
-
     if (db.tables.some(t => t.number.toLowerCase() === number.toLowerCase())) {
         alert("Table already exists.");
         return;
     }
 
-    db.tables.push({
-        id: uid("TABLE"),
-        number,
-        capacity,
-        status: "Available"
-    });
-
+    db.tables.push({ id: uid("TABLE"), number, capacity, status: "Available" });
     saveDatabase();
-
     document.getElementById("tableNumber").value = "";
     document.getElementById("tableCapacity").value = "";
-
     renderTables();
     updateTableOptions();
 }
 
 function renderTables() {
-
-    document.getElementById("tableList").innerHTML =
-        db.tables.map(t => `
-
+    document.getElementById("tableList").innerHTML = db.tables.map(t => `
         <tr>
             <td>${escapeHTML(t.number)}</td>
             <td>${t.capacity}</td>
             <td>${escapeHTML(t.status)}</td>
             <td>
-                <button class="btn btn-dark"
-                onclick="toggleTable('${t.id}')">CHANGE STATUS</button>
-
-                <button class="btn btn-red"
-                onclick="deleteTable('${t.id}')">DELETE</button>
+                <button class="btn btn-dark" onclick="toggleTable('${t.id}')">CHANGE STATUS</button>
+                <button class="btn btn-red" onclick="deleteTable('${t.id}')">DELETE</button>
             </td>
         </tr>
-
     `).join("");
 }
 
 function toggleTable(id) {
-
     const t = db.tables.find(x => x.id === id);
     if (!t) return;
-
     t.status = t.status === "Available" ? "Occupied" : "Available";
-
     saveDatabase();
     renderTables();
     updateTableOptions();
 }
 
 function deleteTable(id) {
-
     if (!confirm("Delete this table?")) return;
-
     db.tables = db.tables.filter(t => t.id !== id);
-
     saveDatabase();
     renderTables();
     updateTableOptions();
 }
 
 function updateTableOptions() {
-
     const select = document.getElementById("posTable");
-
     select.innerHTML = `<option value="">Select table</option>` +
         db.tables.filter(t => t.status === "Available").map(t =>
             `<option value="${escapeHTML(t.number)}">${escapeHTML(t.number)}</option>`
         ).join("");
 }
 
-
 /* =====================================
    POS CART
 ===================================== */
-
 let cart = [];
 
 function addToCart(id) {
-
     const item = db.menu.find(x => x.id === id);
-
     if (!item) return;
 
     const existing = cart.find(x => x.id === id);
@@ -2526,35 +1757,23 @@ function addToCart(id) {
     if (existing) {
         existing.quantity++;
     } else {
-        cart.push({
-            id: item.id,
-            name: item.name,
-            price: item.price,
-            cost: item.cost,
-            gst: item.gst,
-            quantity: 1
-        });
+        cart.push({ id: item.id, name: item.name, price: item.price, cost: item.cost, gst: item.gst, quantity: 1 });
     }
-
     renderCart();
 }
 
 function changeQuantity(id, amount) {
-
     const item = cart.find(x => x.id === id);
     if (!item) return;
-
     const menuItem = db.menu.find(x => x.id === id);
 
     item.quantity += amount;
-
     if (item.quantity <= 0) {
         cart = cart.filter(x => x.id !== id);
     } else if (!menuItem || item.quantity > menuItem.stock) {
         item.quantity -= amount;
         alert("Available stock limit reached.");
     }
-
     renderCart();
 }
 
@@ -2569,16 +1788,12 @@ function clearCart() {
 }
 
 function calculateCart() {
-
     const inclusive = document.getElementById("posGSTType").value === "inclusive";
-
     let subtotal = 0;
     let gstTotal = 0;
 
     cart.forEach(item => {
-
         const line = item.price * item.quantity;
-
         if (inclusive) {
             const base = line / (1 + item.gst / 100);
             subtotal += base;
@@ -2589,78 +1804,46 @@ function calculateCart() {
         }
     });
 
-    const discount = Math.max(0,
-        Number(document.getElementById("posDiscount").value || 0));
+    const discount = Math.max(0, Number(document.getElementById("posDiscount").value || 0));
+    const finalTotal = Math.max(0, subtotal + gstTotal - discount);
 
-    const totalBeforeDiscount = subtotal + gstTotal;
-    const finalTotal = Math.max(0, totalBeforeDiscount - discount);
-
-    return {
-        subtotal,
-        gstTotal,
-        discount,
-        finalTotal
-    };
+    return { subtotal, gstTotal, discount, finalTotal };
 }
 
 function renderCart() {
-
-    document.getElementById("cartList").innerHTML =
-        cart.map(item => `
-
+    document.getElementById("cartList").innerHTML = cart.map(item => `
         <tr>
             <td>${escapeHTML(item.name)}</td>
             <td>${money(item.price)}</td>
             <td>
-                <button class="btn btn-dark"
-                onclick="changeQuantity('${item.id}',-1)">−</button>
-
+                <button class="btn btn-dark" onclick="changeQuantity('${item.id}',-1)">−</button>
                 ${item.quantity}
-
-                <button class="btn btn-dark"
-                onclick="changeQuantity('${item.id}',1)">+</button>
+                <button class="btn btn-dark" onclick="changeQuantity('${item.id}',1)">+</button>
             </td>
             <td>${money(item.price * item.quantity)}</td>
-            <td>
-                <button class="btn btn-red"
-                onclick="removeCartItem('${item.id}')">REMOVE</button>
-            </td>
+            <td><button class="btn btn-red" onclick="removeCartItem('${item.id}')">REMOVE</button></td>
         </tr>
-
     `).join("");
 
     const totals = calculateCart();
-
     document.getElementById("cartSubtotal").textContent = money(totals.subtotal);
     document.getElementById("cartGST").textContent = money(totals.gstTotal);
     document.getElementById("cartDiscount").textContent = money(totals.discount);
     document.getElementById("cartGrandTotal").textContent = money(totals.finalTotal);
 }
 
-document.getElementById("posDiscount")
-.addEventListener("input", renderCart);
-
-document.getElementById("posGSTType")
-.addEventListener("change", renderCart);
-
+document.getElementById("posDiscount").addEventListener("input", renderCart);
+document.getElementById("posGSTType").addEventListener("change", renderCart);
 
 /* =====================================
    GENERATE BILL
 ===================================== */
-
 function generateBill() {
-
     if (!cart.length) {
         alert("Please add food items to the cart.");
         return;
     }
-
     const totals = calculateCart();
-
-    if (totals.discount > totals.subtotal + totals.gstTotal) {
-        alert("Discount cannot exceed the order total.");
-        return;
-    }
 
     const customer = document.getElementById("posCustomer").value.trim();
     const phone = document.getElementById("posPhone").value.trim();
@@ -2673,23 +1856,11 @@ function generateBill() {
         return;
     }
 
-    for (const item of cart) {
-        const menuItem = db.menu.find(x => x.id === item.id);
-
-        if (!menuItem || menuItem.stock < item.quantity) {
-            alert("Stock changed. Please check your cart.");
-            return;
-        }
-    }
-
     const order = {
         id: uid("ORD"),
         date: new Date().toISOString(),
         customer: customer || "Walk-in Customer",
-        phone,
-        type: orderType,
-        table,
-        payment,
+        phone, type: orderType, table, payment,
         gstType: document.getElementById("posGSTType").value,
         items: cart.map(item => ({ ...item })),
         subtotal: totals.subtotal,
@@ -2701,7 +1872,7 @@ function generateBill() {
 
     cart.forEach(item => {
         const menuItem = db.menu.find(x => x.id === item.id);
-        menuItem.stock -= item.quantity;
+        if (menuItem) menuItem.stock -= item.quantity;
     });
 
     if (orderType === "Dine In" && table) {
@@ -2710,34 +1881,19 @@ function generateBill() {
     }
 
     db.orders.push(order);
-
     if (!saveDatabase()) return;
 
     cart = [];
-
-    renderCart();
-    renderPosMenu();
-    renderTables();
-    renderOrders();
-    renderKitchen();
-    renderDashboard();
-    renderInventory();
+    renderCart(); renderPosMenu(); renderTables();
+    renderOrders(); renderKitchen(); renderDashboard(); renderInventory();
 
     printBill(order.id);
-
     alert("Order created successfully!");
 }
 
-
-/* =====================================
-   PRINT BILL
-===================================== */
-
 function printBill(id) {
-
     const order = db.orders.find(x => x.id === id);
     if (!order) return;
-
     const p = db.profile;
 
     const rows = order.items.map(item => `
@@ -2750,123 +1906,42 @@ function printBill(id) {
     `).join("");
 
     const html = `
-    <!DOCTYPE html>
-    <html>
-    <head>
-        <title>Restaurant Invoice</title>
-        <style>
-            body {
-                font-family: Arial;
-                padding: 25px;
-                color: #111;
-            }
-            .center { text-align: center; }
-            img { max-width: 100px; max-height: 90px; }
-            table {
-                width: 100%;
-                border-collapse: collapse;
-                margin-top: 20px;
-            }
-            th,td {
-                border-bottom: 1px solid #ccc;
-                padding: 9px;
-                text-align: left;
-            }
-            .total {
-                text-align: right;
-                margin-top: 20px;
-                line-height: 1.8;
-            }
-        </style>
-    </head>
-    <body>
-
+    <!DOCTYPE html><html><head><title>Invoice</title>
+    <style>body{font-family:Arial;padding:25px;color:#111;} .center{text-align:center;} table{width:100%;border-collapse:collapse;margin-top:20px;} th,td{border-bottom:1px solid #ccc;padding:8px;text-align:left;} .total{text-align:right;margin-top:20px;}</style>
+    </head><body>
         <div class="center">
-
-            ${p.logo ? `<img src="${p.logo}" alt="Restaurant logo">` : ""}
-
+            ${p.logo ? `<img src="${p.logo}" style="max-width:100px;">` : ""}
             <h2>${escapeHTML(p.name || "SMART RESTRO PRO")}</h2>
-
             <p>${escapeHTML(p.address || "")}</p>
-
-            <p>Phone: ${escapeHTML(p.phone || "")}</p>
-
-            <p>GSTIN: ${escapeHTML(p.gst || "Not provided")}</p>
-
-            <h3>RESTAURANT INVOICE</h3>
-
-        </div>
-
-        <hr>
-
-        <p>Invoice: ${escapeHTML(order.id)}</p>
-        <p>Date: ${new Date(order.date).toLocaleString("en-IN")}</p>
-        <p>Customer: ${escapeHTML(order.customer)}</p>
-        <p>Phone: ${escapeHTML(order.phone)}</p>
-        <p>Order Type: ${escapeHTML(order.type)}</p>
-        <p>Payment: ${escapeHTML(order.payment)}</p>
-
-        <table>
-            <thead>
-                <tr>
-                    <th>Food Item</th>
-                    <th>Qty</th>
-                    <th>Price</th>
-                    <th>Total</th>
-                </tr>
-            </thead>
-            <tbody>${rows}</tbody>
-        </table>
-
+            <p>Phone: ${escapeHTML(p.phone || "")} | GSTIN: ${escapeHTML(p.gst || "N/A")}</p>
+            <h3>INVOICE</h3>
+        </div><hr>
+        <p>Order: ${escapeHTML(order.id)} | Date: ${new Date(order.date).toLocaleString("en-IN")}</p>
+        <p>Customer: ${escapeHTML(order.customer)} (${escapeHTML(order.type)})</p>
+        <table><thead><tr><th>Food</th><th>Qty</th><th>Price</th><th>Total</th></tr></thead><tbody>${rows}</tbody></table>
         <div class="total">
             <p>Subtotal: ${money(order.subtotal)}</p>
             <p>GST: ${money(order.gst)}</p>
             <p>Discount: ${money(order.discount)}</p>
             <h2>Grand Total: ${money(order.total)}</h2>
-        </div>
-
-        <hr>
-        <div class="center">
-            <h3>Thank You! Visit Again.</h3>
-        </div>
-
-        <script>
-            window.onload = function() {
-                window.print();
-            };
-        <\/script>
-
-    </body>
-    </html>`;
+        </div><hr><div class="center"><h3>Thank You! Visit Again.</h3></div>
+        <script>window.onload = function() { window.print(); }<\/script>
+    </body></html>`;
 
     const win = window.open("", "_blank");
-
-    if (!win) {
-        alert("Please allow pop-ups to print invoices.");
-        return;
-    }
-
-    win.document.open();
-    win.document.write(html);
-    win.document.close();
+    if (!win) { alert("Please allow pop-ups to print invoices."); return; }
+    win.document.open(); win.document.write(html); win.document.close();
 }
-
 
 /* =====================================
    KITCHEN ORDERS
 ===================================== */
-
 function renderKitchen() {
-
-    document.getElementById("kitchenList").innerHTML =
-        db.orders.map(order => `
-
+    document.getElementById("kitchenList").innerHTML = db.orders.map(order => `
         <tr>
             <td>${escapeHTML(order.id)}</td>
             <td>${escapeHTML(order.customer)}</td>
-            <td>${order.items.map(i =>
-                escapeHTML(i.name) + " × " + i.quantity
-            ).join("<br>")}</td>
+            <td>${order.items.map(i => escapeHTML(i.name) + " × " + i.quantity).join("<br>")}</td>
             <td>${new Date(order.date).toLocaleString("en-IN")}</td>
             <td>${escapeHTML(order.status)}</td>
             <td>
@@ -2879,46 +1954,40 @@ function renderKitchen() {
                 </select>
             </td>
         </tr>
-
     `).join("");
 }
 
 function updateOrderStatus(id, status) {
-
     const order = db.orders.find(x => x.id === id);
     if (!order) return;
 
+    const previousStatus = order.status;
     order.status = status;
+
+    // Handle stock restoration on cancellation
+    if (status === "Cancelled" && previousStatus !== "Cancelled") {
+        order.items.forEach(cartItem => {
+            const menuItem = db.menu.find(x => x.id === cartItem.id);
+            if (menuItem) menuItem.stock += cartItem.quantity;
+        });
+    }
 
     if (status === "Completed" || status === "Cancelled") {
         const table = db.tables.find(t => t.number === order.table);
-
         if (table) table.status = "Available";
     }
 
-    saveDatabase();
-    renderKitchen();
-    renderOrders();
-    renderTables();
+    saveDatabase(); renderKitchen(); renderOrders(); renderTables(); renderInventory(); renderMenu();
 }
-
 
 /* =====================================
    ORDER HISTORY
 ===================================== */
-
 function renderOrders() {
-
     const search = document.getElementById("orderSearch").value.toLowerCase();
+    const list = db.orders.filter(order => order.id.toLowerCase().includes(search) || order.customer.toLowerCase().includes(search));
 
-    const list = db.orders.filter(order =>
-        order.id.toLowerCase().includes(search) ||
-        order.customer.toLowerCase().includes(search)
-    );
-
-    document.getElementById("orderList").innerHTML =
-        list.map(order => `
-
+    document.getElementById("orderList").innerHTML = list.map(order => `
         <tr>
             <td>${escapeHTML(order.id)}</td>
             <td>${getDate(order.date)}</td>
@@ -2927,22 +1996,31 @@ function renderOrders() {
             <td>${escapeHTML(order.payment)}</td>
             <td>${money(order.total)}</td>
             <td>${escapeHTML(order.status)}</td>
-            <td>
-                <button class="btn btn-dark"
-                onclick="printBill('${order.id}')">PRINT</button>
-            </td>
+            <td><button class="btn btn-dark" onclick="printBill('${order.id}')">PRINT</button></td>
         </tr>
-
     `).join("");
 }
 
-
 /* =====================================
-   INVENTORY
+   INVENTORY & LOW STOCK FILTER
 ===================================== */
+let showOnlyLowStock = false;
+
+function toggleLowStockFilter() {
+    showOnlyLowStock = !showOnlyLowStock;
+    const btn = document.getElementById("inventoryFilterBtn");
+
+    if (showOnlyLowStock) {
+        btn.textContent = "Filter Low Stock: ON";
+        btn.className = "btn btn-red";
+    } else {
+        btn.textContent = "Filter Low Stock: OFF";
+        btn.className = "btn btn-dark";
+    }
+    renderInventory();
+}
 
 function addInventory() {
-
     const name = document.getElementById("inventoryName").value.trim();
     const code = document.getElementById("inventoryCode").value.trim();
     const stock = Number(document.getElementById("inventoryStock").value);
@@ -2954,46 +2032,29 @@ function addInventory() {
         return;
     }
 
-    if (stock < 0 || cost < 0 || limit < 0) {
-        alert("Values cannot be negative.");
-        return;
-    }
-
-    if (db.inventory.some(x => x.code.toLowerCase() === code.toLowerCase())) {
-        alert("Inventory code already exists.");
-        return;
-    }
-
     db.inventory.push({
-        id: uid("INV"),
-        name,
-        code,
+        id: uid("INV"), name, code,
         category: document.getElementById("inventoryCategory").value,
         unit: document.getElementById("inventoryUnit").value,
-        stock,
-        cost,
-        limit
+        stock, cost, limit
     });
 
     saveDatabase();
-
-    [
-        "inventoryName",
-        "inventoryCode",
-        "inventoryStock",
-        "inventoryCost",
-        "inventoryLimit"
-    ].forEach(id => document.getElementById(id).value = "");
-
-    renderInventory();
-    updatePurchaseOptions();
+    ["inventoryName", "inventoryCode", "inventoryStock", "inventoryCost", "inventoryLimit"].forEach(id => document.getElementById(id).value = "");
+    renderInventory(); updatePurchaseOptions();
 }
 
 function renderInventory() {
+    const search = document.getElementById("inventorySearch") ? document.getElementById("inventorySearch").value.toLowerCase() : "";
+    const list = db.inventory.filter(item => {
+        const matchesSearch = item.name.toLowerCase().includes(search) || item.code.toLowerCase().includes(search);
+        if (showOnlyLowStock) {
+            return matchesSearch && Number(item.stock) <= Number(item.limit);
+        }
+        return matchesSearch;
+    });
 
-    document.getElementById("inventoryList").innerHTML =
-        db.inventory.map(item => `
-
+    document.getElementById("inventoryList").innerHTML = list.map(item => `
         <tr>
             <td>${escapeHTML(item.name)}</td>
             <td>${escapeHTML(item.code)}</td>
@@ -3001,96 +2062,57 @@ function renderInventory() {
             <td>${item.stock}</td>
             <td>${escapeHTML(item.unit)}</td>
             <td>${money(item.cost)}</td>
-            <td>
-                ${item.stock <= item.limit
-                    ? `<span style="color:#ff7777;">LOW STOCK</span>`
-                    : `<span style="color:#55d99a;">IN STOCK</span>`
-                }
-            </td>
-            <td>
-                <button class="btn btn-red"
-                onclick="deleteInventory('${item.id}')">DELETE</button>
-            </td>
+            <td>${item.stock <= item.limit ? `<span style="color:#ff7777;">LOW STOCK</span>` : `<span style="color:#55d99a;">IN STOCK</span>`}</td>
+            <td><button class="btn btn-red" onclick="deleteInventory('${item.id}')">DELETE</button></td>
         </tr>
-
     `).join("");
 }
 
 function deleteInventory(id) {
-
     if (!confirm("Delete this inventory item?")) return;
-
     db.inventory = db.inventory.filter(x => x.id !== id);
-
-    saveDatabase();
-    renderInventory();
-    updatePurchaseOptions();
+    saveDatabase(); renderInventory(); updatePurchaseOptions();
 }
 
 function updatePurchaseOptions() {
-
-    document.getElementById("purchaseItem").innerHTML =
-        `<option value="">Select item</option>` +
-        db.inventory.map(item => `
-            <option value="${item.id}">
-                ${escapeHTML(item.name)} (${escapeHTML(item.unit)})
-            </option>
-        `).join("");
+    document.getElementById("purchaseItem").innerHTML = `<option value="">Select item</option>` +
+        db.inventory.map(item => `<option value="${item.id}">${escapeHTML(item.name)} (${escapeHTML(item.unit)})</option>`).join("");
 }
-
 
 /* =====================================
    PURCHASES
 ===================================== */
-
 function addPurchase() {
-
     const itemId = document.getElementById("purchaseItem").value;
     const quantity = Number(document.getElementById("purchaseQuantity").value);
     const cost = Number(document.getElementById("purchaseCost").value);
-
     const item = db.inventory.find(x => x.id === itemId);
 
     if (!item || quantity <= 0 || cost < 0) {
-        alert("Enter a valid item, quantity and cost.");
+        alert("Enter valid item, quantity and cost.");
         return;
     }
 
-    const purchase = {
+    db.purchases.push({
         id: uid("PUR"),
         supplier: document.getElementById("purchaseSupplier").value.trim() || "Unknown",
         date: document.getElementById("purchaseDate").value || today(),
-        item: item.name,
-        itemId,
-        quantity,
-        cost,
-        total: quantity * cost,
+        item: item.name, itemId, quantity, cost, total: quantity * cost,
         invoice: document.getElementById("purchaseInvoice").value.trim()
-    };
+    });
 
     item.stock += quantity;
     item.cost = cost;
 
-    db.purchases.push(purchase);
-
     if (!saveDatabase()) return;
 
-    document.getElementById("purchaseSupplier").value = "";
-    document.getElementById("purchaseQuantity").value = "";
-    document.getElementById("purchaseCost").value = "";
-    document.getElementById("purchaseInvoice").value = "";
-
-    renderPurchases();
-    renderInventory();
-
+    ["purchaseSupplier", "purchaseQuantity", "purchaseCost", "purchaseInvoice"].forEach(id => document.getElementById(id).value = "");
+    renderPurchases(); renderInventory();
     alert("Purchase saved and stock updated!");
 }
 
 function renderPurchases() {
-
-    document.getElementById("purchaseList").innerHTML =
-        db.purchases.map(p => `
-
+    document.getElementById("purchaseList").innerHTML = db.purchases.map(p => `
         <tr>
             <td>${escapeHTML(p.date)}</td>
             <td>${escapeHTML(p.supplier)}</td>
@@ -3100,73 +2122,44 @@ function renderPurchases() {
             <td>${money(p.total)}</td>
             <td>${escapeHTML(p.invoice)}</td>
         </tr>
-
     `).join("");
 }
-
 
 /* =====================================
    CUSTOMERS
 ===================================== */
-
 function renderCustomers() {
-
     const search = document.getElementById("customerSearch").value.toLowerCase();
-
     const customers = {};
 
     db.orders.forEach(order => {
-
         const key = order.phone || order.customer;
-
-        if (!customers[key]) {
-            customers[key] = {
-                name: order.customer,
-                phone: order.phone,
-                count: 0,
-                spending: 0
-            };
-        }
-
+        if (!customers[key]) customers[key] = { name: order.customer, phone: order.phone, count: 0, spending: 0 };
         customers[key].count++;
         customers[key].spending += order.total;
     });
 
-    const list = Object.values(customers).filter(c =>
-        c.name.toLowerCase().includes(search) ||
-        c.phone.toLowerCase().includes(search)
-    );
+    const list = Object.values(customers).filter(c => c.name.toLowerCase().includes(search) || c.phone.toLowerCase().includes(search));
 
-    document.getElementById("customerList").innerHTML =
-        list.map(c => `
-
+    document.getElementById("customerList").innerHTML = list.map(c => `
         <tr>
             <td>${escapeHTML(c.name)}</td>
             <td>${escapeHTML(c.phone)}</td>
             <td>${c.count}</td>
             <td>${money(c.spending)}</td>
         </tr>
-
     `).join("");
 }
-
 
 /* =====================================
    SUPPLIERS
 ===================================== */
-
 function addSupplier() {
-
     const name = document.getElementById("supplierName").value.trim();
-
-    if (!name) {
-        alert("Enter supplier name.");
-        return;
-    }
+    if (!name) { alert("Enter supplier name."); return; }
 
     db.suppliers.push({
-        id: uid("SUP"),
-        name,
+        id: uid("SUP"), name,
         contact: document.getElementById("supplierContact").value.trim(),
         phone: document.getElementById("supplierPhone").value.trim(),
         email: document.getElementById("supplierEmail").value.trim(),
@@ -3174,202 +2167,117 @@ function addSupplier() {
     });
 
     saveDatabase();
-
-    [
-        "supplierName",
-        "supplierContact",
-        "supplierPhone",
-        "supplierEmail",
-        "supplierGST"
-    ].forEach(id => document.getElementById(id).value = "");
-
+    ["supplierName", "supplierContact", "supplierPhone", "supplierEmail", "supplierGST"].forEach(id => document.getElementById(id).value = "");
     renderSuppliers();
 }
 
 function renderSuppliers() {
-
-    document.getElementById("supplierList").innerHTML =
-        db.suppliers.map(s => `
-
+    document.getElementById("supplierList").innerHTML = db.suppliers.map(s => `
         <tr>
             <td>${escapeHTML(s.name)}</td>
             <td>${escapeHTML(s.contact)}</td>
             <td>${escapeHTML(s.phone)}</td>
             <td>${escapeHTML(s.email)}</td>
             <td>${escapeHTML(s.gst)}</td>
-            <td>
-                <button class="btn btn-red"
-                onclick="deleteSupplier('${s.id}')">DELETE</button>
-            </td>
+            <td><button class="btn btn-red" onclick="deleteSupplier('${s.id}')">DELETE</button></td>
         </tr>
-
     `).join("");
 }
 
 function deleteSupplier(id) {
-
     if (!confirm("Delete this supplier?")) return;
-
     db.suppliers = db.suppliers.filter(x => x.id !== id);
-
-    saveDatabase();
-    renderSuppliers();
+    saveDatabase(); renderSuppliers();
 }
-
 
 /* =====================================
    STAFF
 ===================================== */
-
 function addStaff() {
-
     const name = document.getElementById("staffName").value.trim();
     const salary = Number(document.getElementById("staffSalary").value);
 
-    if (!name || salary < 0) {
-        alert("Enter a valid staff name and salary.");
-        return;
-    }
+    if (!name || salary < 0) { alert("Enter valid staff name and salary."); return; }
 
     db.staff.push({
-        id: uid("STAFF"),
-        name,
+        id: uid("STAFF"), name,
         phone: document.getElementById("staffPhone").value.trim(),
         role: document.getElementById("staffRole").value,
-        salary,
-        joining: document.getElementById("staffJoining").value
+        salary, joining: document.getElementById("staffJoining").value
     });
 
     saveDatabase();
-
-    [
-        "staffName",
-        "staffPhone",
-        "staffSalary",
-        "staffJoining"
-    ].forEach(id => document.getElementById(id).value = "");
-
+    ["staffName", "staffPhone", "staffSalary", "staffJoining"].forEach(id => document.getElementById(id).value = "");
     renderStaff();
 }
 
 function renderStaff() {
-
-    document.getElementById("staffList").innerHTML =
-        db.staff.map(s => `
-
+    document.getElementById("staffList").innerHTML = db.staff.map(s => `
         <tr>
             <td>${escapeHTML(s.name)}</td>
             <td>${escapeHTML(s.phone)}</td>
             <td>${escapeHTML(s.role)}</td>
             <td>${money(s.salary)}</td>
             <td>${escapeHTML(s.joining)}</td>
-            <td>
-                <button class="btn btn-red"
-                onclick="deleteStaff('${s.id}')">DELETE</button>
-            </td>
+            <td><button class="btn btn-red" onclick="deleteStaff('${s.id}')">DELETE</button></td>
         </tr>
-
     `).join("");
 }
 
 function deleteStaff(id) {
-
-    if (!confirm("Delete this staff member?")) return;
-
+    if (!confirm("Delete staff member?")) return;
     db.staff = db.staff.filter(x => x.id !== id);
-
-    saveDatabase();
-    renderStaff();
+    saveDatabase(); renderStaff();
 }
-
 
 /* =====================================
    EXPENSES
 ===================================== */
-
 function addExpense() {
-
     const title = document.getElementById("expenseTitle").value.trim();
     const amount = Number(document.getElementById("expenseAmount").value);
 
-    if (!title || document.getElementById("expenseAmount").value === "" || amount <= 0) {
-        alert("Enter an expense title and a valid amount.");
-        return;
-    }
+    if (!title || amount <= 0) { alert("Enter title and valid amount."); return; }
 
     db.expenses.push({
-        id: uid("EXP"),
-        title,
+        id: uid("EXP"), title,
         category: document.getElementById("expenseCategory").value,
-        amount,
-        payment: document.getElementById("expensePayment").value,
+        amount, payment: document.getElementById("expensePayment").value,
         date: document.getElementById("expenseDate").value || today(),
         reference: document.getElementById("expenseReference").value.trim()
     });
 
     saveDatabase();
-
-    [
-        "expenseTitle",
-        "expenseAmount",
-        "expenseDate",
-        "expenseReference"
-    ].forEach(id => document.getElementById(id).value = "");
-
-    renderExpenses();
-    renderDashboard();
-    renderReports();
+    ["expenseTitle", "expenseAmount", "expenseDate", "expenseReference"].forEach(id => document.getElementById(id).value = "");
+    renderExpenses(); renderDashboard(); renderReports();
 }
 
 function renderExpenses() {
-
-    document.getElementById("expenseList").innerHTML =
-        db.expenses.map(e => `
-
+    document.getElementById("expenseList").innerHTML = db.expenses.map(e => `
         <tr>
             <td>${escapeHTML(e.date)}</td>
             <td>${escapeHTML(e.title)}</td>
             <td>${escapeHTML(e.category)}</td>
             <td>${escapeHTML(e.payment)}</td>
             <td>${money(e.amount)}</td>
-            <td>
-                <button class="btn btn-red"
-                onclick="deleteExpense('${e.id}')">DELETE</button>
-            </td>
+            <td><button class="btn btn-red" onclick="deleteExpense('${e.id}')">DELETE</button></td>
         </tr>
-
     `).join("");
 }
 
 function deleteExpense(id) {
-
-    if (!confirm("Delete this expense?")) return;
-
+    if (!confirm("Delete expense?")) return;
     db.expenses = db.expenses.filter(x => x.id !== id);
-
-    saveDatabase();
-    renderExpenses();
-    renderDashboard();
-    renderReports();
+    saveDatabase(); renderExpenses(); renderDashboard(); renderReports();
 }
 
-
 /* =====================================
-   DASHBOARD
+   DASHBOARD & REPORTS
 ===================================== */
-
 function renderDashboard() {
-
-    const todayOrders = db.orders.filter(order =>
-        getDate(order.date) === today() &&
-        order.status !== "Cancelled"
-    );
-
-    const todaySales = todayOrders.reduce((sum, order) =>
-        sum + order.total, 0);
-
-    const totalExpenses = db.expenses.reduce((sum, expense) =>
-        sum + expense.amount, 0);
+    const todayOrders = db.orders.filter(o => getDate(o.date) === today() && o.status !== "Cancelled");
+    const todaySales = todayOrders.reduce((sum, o) => sum + o.total, 0);
+    const totalExpenses = db.expenses.reduce((sum, e) => sum + e.amount, 0);
 
     document.getElementById("dashSales").textContent = money(todaySales);
     document.getElementById("dashOrders").textContent = todayOrders.length;
@@ -3377,296 +2285,142 @@ function renderDashboard() {
     document.getElementById("dashExpenses").textContent = money(totalExpenses);
 }
 
-
-/* =====================================
-   REPORTS
-===================================== */
-
 function renderReports() {
-
     const validOrders = db.orders.filter(x => x.status !== "Cancelled");
-
     const revenue = validOrders.reduce((sum, x) => sum + x.total, 0);
-
     const expenses = db.expenses.reduce((sum, x) => sum + x.amount, 0);
-
-    const profit = revenue - expenses;
 
     document.getElementById("reportRevenue").textContent = money(revenue);
     document.getElementById("reportExpenses").textContent = money(expenses);
-    document.getElementById("reportProfit").textContent = money(profit);
+    document.getElementById("reportProfit").textContent = money(revenue - expenses);
     document.getElementById("reportOrders").textContent = validOrders.length;
 }
 
 function generateReport() {
-
     const from = document.getElementById("reportFrom").value;
     const to = document.getElementById("reportTo").value;
+    if (from && to && from > to) { alert("Start date cannot be after end date."); return; }
 
-    if (from && to && from > to) {
-        alert("Start date cannot be after end date.");
-        return;
-    }
-
-    const orders = db.orders.filter(order => {
-
-        const date = getDate(order.date);
-
-        return order.status !== "Cancelled" &&
-            (!from || date >= from) &&
-            (!to || date <= to);
-    });
-
-    const expenses = db.expenses.filter(e =>
-        (!from || e.date >= from) &&
-        (!to || e.date <= to)
-    );
+    const orders = db.orders.filter(o => o.status !== "Cancelled" && (!from || getDate(o.date) >= from) && (!to || getDate(o.date) <= to));
+    const expenses = db.expenses.filter(e => (!from || e.date >= from) && (!to || e.date <= to));
 
     const revenue = orders.reduce((s, x) => s + x.total, 0);
     const expenseTotal = expenses.reduce((s, x) => s + x.amount, 0);
 
     document.getElementById("reportResult").innerHTML = `
-
         <h3>Report Summary</h3>
-
         <p>Orders: ${orders.length}</p>
-
         <p>Sales Revenue: ${money(revenue)}</p>
-
         <p>Expenses: ${money(expenseTotal)}</p>
-
-        <h3 style="color:var(--gold2);">
-            Difference: ${money(revenue - expenseTotal)}
-        </h3>
-
+        <h3 style="color:var(--gold2);">Difference: ${money(revenue - expenseTotal)}</h3>
     `;
 }
 
 function exportReport() {
-
     const rows = [
         ["Order ID", "Date", "Customer", "Payment", "Total", "Status"],
-        ...db.orders.map(o => [
-            o.id,
-            getDate(o.date),
-            o.customer,
-            o.payment,
-            o.total,
-            o.status
-        ])
+        ...db.orders.map(o => [o.id, getDate(o.date), o.customer, o.payment, o.total, o.status])
     ];
-
     downloadCSV("Restaurant_Report.csv", rows);
 }
 
-
 /* =====================================
-   BRANCH MANAGEMENT
+   BRANCHES & UTILITIES
 ===================================== */
-
 function addBranch() {
-
     const name = document.getElementById("branchName").value.trim();
-
-    if (!name) {
-        alert("Enter branch name.");
-        return;
-    }
+    if (!name) { alert("Enter branch name."); return; }
 
     db.branches.push({
-        id: uid("BRANCH"),
-        name,
+        id: uid("BRANCH"), name,
         phone: document.getElementById("branchPhone").value.trim(),
         address: document.getElementById("branchAddress").value.trim(),
         manager: document.getElementById("branchManager").value.trim()
     });
 
     saveDatabase();
-
-    [
-        "branchName",
-        "branchPhone",
-        "branchAddress",
-        "branchManager"
-    ].forEach(id => document.getElementById(id).value = "");
-
+    ["branchName", "branchPhone", "branchAddress", "branchManager"].forEach(id => document.getElementById(id).value = "");
     renderBranches();
 }
 
 function renderBranches() {
-
-    document.getElementById("branchList").innerHTML =
-        db.branches.map(b => `
-
+    document.getElementById("branchList").innerHTML = db.branches.map(b => `
         <tr>
             <td>${escapeHTML(b.name)}</td>
             <td>${escapeHTML(b.phone)}</td>
             <td>${escapeHTML(b.address)}</td>
             <td>${escapeHTML(b.manager)}</td>
-            <td>
-                <button class="btn btn-red"
-                onclick="deleteBranch('${b.id}')">DELETE</button>
-            </td>
+            <td><button class="btn btn-red" onclick="deleteBranch('${b.id}')">DELETE</button></td>
         </tr>
-
     `).join("");
 }
 
 function deleteBranch(id) {
-
-    if (!confirm("Delete this branch?")) return;
-
+    if (!confirm("Delete branch?")) return;
     db.branches = db.branches.filter(x => x.id !== id);
-
-    saveDatabase();
-    renderBranches();
+    saveDatabase(); renderBranches();
 }
-
-
-/* =====================================
-   CSV EXPORT
-===================================== */
 
 function downloadCSV(filename, rows) {
-
-    const csv = rows.map(row =>
-        row.map(value =>
-            '"' + String(value ?? "").replace(/"/g, '""') + '"'
-        ).join(",")
-    ).join("\n");
-
-    const blob = new Blob(["\uFEFF" + csv], {
-        type: "text/csv;charset=utf-8;"
-    });
-
+    const csv = rows.map(r => r.map(v => '"' + String(v ?? "").replace(/"/g, '""') + '"').join(",")).join("\n");
+    const blob = new Blob(["\uFEFF" + csv], { type: "text/csv;charset=utf-8;" });
     const url = URL.createObjectURL(blob);
-
     const link = document.createElement("a");
-    link.href = url;
-    link.download = filename;
-
-    document.body.appendChild(link);
-    link.click();
-    link.remove();
-
+    link.href = url; link.download = filename;
+    document.body.appendChild(link); link.click(); link.remove();
     URL.revokeObjectURL(url);
 }
 
-
 /* =====================================
-   BACKUP
+   BACKUP & INITIALIZATION
 ===================================== */
-
 function backupData() {
-
     const data = JSON.stringify(db, null, 2);
-
-    const blob = new Blob([data], {
-        type: "application/json"
-    });
-
+    const blob = new Blob([data], { type: "application/json" });
     const url = URL.createObjectURL(blob);
-
     const link = document.createElement("a");
-    link.href = url;
-    link.download = "SMART_RESTRO_BACKUP_" + today() + ".json";
-
-    document.body.appendChild(link);
-    link.click();
-    link.remove();
-
+    link.href = url; link.download = "SMART_RESTRO_BACKUP_" + today() + ".json";
+    document.body.appendChild(link); link.click(); link.remove();
     URL.revokeObjectURL(url);
-
     alert("Backup downloaded successfully!");
 }
 
 function restoreData() {
-
     const file = document.getElementById("restoreFile").files[0];
-
-    if (!file) {
-        alert("Please select a backup JSON file.");
-        return;
-    }
-
-    if (!confirm("Restore backup? Current saved data will be replaced.")) {
-        return;
-    }
+    if (!file) { alert("Please select a JSON backup file."); return; }
+    if (!confirm("Restore backup? Current saved data will be replaced.")) return;
 
     const reader = new FileReader();
-
     reader.onload = function(event) {
-
         try {
-
             const restored = JSON.parse(event.target.result);
-
-            const required = [
-                "profile",
-                "menu",
-                "tables",
-                "orders",
-                "inventory",
-                "purchases",
-                "suppliers",
-                "staff",
-                "expenses",
-                "branches"
-            ];
-
-            if (!required.every(key =>
-                Object.prototype.hasOwnProperty.call(restored, key)
-            )) {
-                throw new Error("Invalid backup structure");
+            const required = ["profile", "menu", "tables", "orders", "inventory", "purchases", "suppliers", "staff", "expenses", "branches"];
+            if (!required.every(key => Object.prototype.hasOwnProperty.call(restored, key))) {
+                throw new Error("Invalid structure");
             }
-
             db = restored;
-
             if (!saveDatabase()) return;
-
             initializeApp();
-
             alert("Backup restored successfully!");
-
         } catch (error) {
             alert("Invalid backup file. No data was restored.");
         }
     };
-
     reader.readAsText(file);
 }
 
 function deleteAllData() {
-
-    const answer = confirm(
-        "WARNING: This will permanently delete all restaurant records saved in this browser. Continue?"
-    );
-
-    if (!answer) return;
-
+    if (!confirm("WARNING: Delete all saved restaurant data?")) return;
     db = structuredClone(defaultDB);
-
     if (!saveDatabase()) return;
-
-    cart = [];
-    restaurantLogoData = "";
-    productImageData = "";
-    editingFoodId = null;
-
+    cart = []; restaurantLogoData = ""; productImageData = ""; editingFoodId = null;
     initializeApp();
-
-    alert("All restaurant data has been deleted.");
+    alert("All data cleared.");
 }
 
-
-/* =====================================
-   INITIALIZE APPLICATION
-===================================== */
-
 function initializeApp() {
-
+    loadDatabase();
     loadRestaurant();
-
     renderDashboard();
     renderMenu();
     renderTables();
@@ -3682,16 +2436,16 @@ function initializeApp() {
     renderExpenses();
     renderReports();
     renderBranches();
-
     updateTableOptions();
     updatePurchaseOptions();
+    updateStorageMeter();
+    updateLowStockBadge();
 
     document.getElementById("purchaseDate").value = today();
     document.getElementById("expenseDate").value = today();
 }
 
 initializeApp();
-
 </script>
 
 </body>
