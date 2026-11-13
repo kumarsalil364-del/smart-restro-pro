@@ -1,29 +1,23 @@
-
 {
-  "id": "/smart-restro-pro/",
+  "id": "./",
   "name": "SMART RESTRO PRO",
-  "short_name": "SMART RESTRO",
-  "description": "Complete Restaurant Management and Billing System",
-  "start_url": "/smart-restro-pro/",
-  "scope": "/smart-restro-pro/",
+  "short_name": "RESTRO PRO",
+  "description": "Premium Restaurant Management System",
+  "start_url": "./",
+  "scope": "./",
   "display": "standalone",
-  "orientation": "portrait",
   "background_color": "#ffffff",
   "theme_color": "#6c3ce9",
-  "categories": [
-    "business",
-    "food",
-    "productivity"
-  ],
+  "orientation": "portrait",
   "icons": [
     {
-      "src": "icons/icon-192.png",
+      "src": "./icons/icon-192.png",
       "sizes": "192x192",
       "type": "image/png",
       "purpose": "any"
     },
     {
-      "src": "icons/icon-512.png",
+      "src": "./icons/icon-512.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any"
