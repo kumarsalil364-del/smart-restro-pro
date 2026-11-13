@@ -172,5 +172,10 @@ function saveSettings(){db.settings.interval=Number(document.getElementById('ale
 function startAlertTimer(){clearInterval(alertTimer);alertTimer=setInterval(checkStockAlerts,(db.settings.interval||20)*1000)}
 startAlertTimer();renderAll();checkStockAlerts();
 </script>
+<script>
+navigator.serviceWorker.register(
+  '/smart-restro-pro/service-worker.js'
+);
+</script>
 </body>
 </html>
