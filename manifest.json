@@ -1,3 +1,4 @@
+
 {
   "name": "SMART RESTRO PRO",
   "short_name": "RESTRO PRO",
@@ -9,13 +10,13 @@
   "theme_color": "#6c3ce9",
   "icons": [
     {
-      "src": "/smart-restro-pro/icons/icon-192.png",
+      "src": "/smart-restro-pro/icon-192.png",
       "sizes": "192x192",
       "type": "image/png",
       "purpose": "any"
     },
     {
-      "src": "/smart-restro-pro/icons/icon-512.png",
+      "src": "/smart-restro-pro/icon-512.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any"
